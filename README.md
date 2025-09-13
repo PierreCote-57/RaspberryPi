@@ -1,1 +1,1 @@
-# RaspberryPi, by Pierres
+# RaspberryPi, by Pierre
