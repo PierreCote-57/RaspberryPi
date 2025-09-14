@@ -1,0 +1,4 @@
+1/10 RC Boat and Trailer by SILVERADORED on Thingiverse: https://www.thingiverse.com/thing:3539109
+
+Summary:
+A simple 1/10 scale boat and trailer to haul it about on. The hull is a scaled version of KAD370's simple boat hull plus a new bow cover (windshield not included) and the trailer is inspired greatly by Troyanderson's boat trailer but redesigned to be shorter and have the boat sit lower. The leaf springs, leaf spring mounts, and the axle mounts are from Goodsons_Hobbies GH Scaler Trailer.This is a work in progress, not all of the files are finished and it is possible not all files will fit. The trailer is still in the design phase and I'll be adding it's files as I finish them.The wheels which are almost finished are designed for tires off of rc vehicles like this one http://www.newbright.com/products/rc-truck-assortment-ram-rebel-4/
