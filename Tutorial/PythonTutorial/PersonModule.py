@@ -2,7 +2,7 @@
 # Definition of my class
 
 
-class ClassSample:
+class Person:
 
 	# def defines a method/function
 
@@ -15,6 +15,6 @@ class ClassSample:
 	def __str__(self):
 		return f"{self.name} is {self.age} years old"
 
-me = ClassSample("Pierre", 68)
+me = Person("Pierre", 68)
 print(me)
 
