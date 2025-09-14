@@ -1,5 +1,5 @@
 print("Hello, World!")
-print("Hello, JPierreoy!")
+print("Hello, Pierre!")
 print("Hello, World!")
 
 print("Done")
