@@ -2,7 +2,7 @@
 # Definition of my class
 
 
-class Person:
+class PersonClass:
 
 	# def defines a method/function
 
@@ -15,6 +15,7 @@ class Person:
 	def __str__(self):
 		return f"{self.name} is {self.age} years old"
 
-me = Person("Pierre", 68)
-print(me)
-
+# Inherit from PersonClass, more tbd
+# CAN define multiple classes in same source file
+class Student(PersonClass):
+	pass
