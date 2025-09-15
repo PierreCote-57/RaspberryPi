@@ -1,4 +1,0 @@
-Shipping container by Printed-Toys on Thingiverse: https://www.thingiverse.com/thing:4924617
-
-Summary:
-Easy to print shipping container with opening doors. No need any supports, brims or raft. Ready to print on nano 3D printers (min. required printing area 80*80*75mm).This toy fits all our ship and train models (see: https://www.printed-toys.com/).Needed parts or materials (suggested, you can use other matches parts)cyanoacrylate glue (needed to stick the pins).IntroductionWe recommend using PLA filament, nozzle 0.4 mm and layer height 0.2 mm, but you can test other settings.All files are in print-ready positions, you don't have to rotate it on your slicer.Print all elements with 100% filling.See Post-Printing video for full assembly instructionsIf you would like to support me you can:just buy something in my shop https://www.printed-toys.com (You pay what you want!)share or like my profile on Facebookshare or like my profile on XThank you! :)
