@@ -71,168 +71,336 @@ difference()
 	}
 	color(c=[0.000, 1.000, 0.000])
 	{
-		translate(v=[4.000, 0.000, 247.752])
+		translate(v=[4.000, 0.000, 141.573])
 		{
 			cylinder(h=20.000, r1=1.250, r2=1.250, center=true);
 		}
 	}
 	color(c=[0.000, 1.000, 0.000])
 	{
-		translate(v=[4.000, -0.000, 247.752])
+		translate(v=[4.000, -0.000, 141.573])
 		{
 			cylinder(h=20.000, r1=1.250, r2=1.250, center=true);
 		}
 	}
 	color(c=[0.000, 1.000, 0.000])
 	{
-		translate(v=[4.000, 48.500, 247.752])
+		translate(v=[4.000, 48.500, 141.573])
 		{
 			cylinder(h=20.000, r1=1.250, r2=1.250, center=true);
 		}
 	}
 	color(c=[0.000, 1.000, 0.000])
 	{
-		translate(v=[4.000, -48.500, 247.752])
+		translate(v=[4.000, -48.500, 141.573])
 		{
 			cylinder(h=20.000, r1=1.250, r2=1.250, center=true);
 		}
 	}
 	color(c=[0.000, 1.000, 0.000])
 	{
-		translate(v=[4.000, 87.300, 247.752])
+		translate(v=[4.000, 87.300, 141.573])
 		{
 			cylinder(h=20.000, r1=1.250, r2=1.250, center=true);
 		}
 	}
 	color(c=[0.000, 1.000, 0.000])
 	{
-		translate(v=[4.000, -87.300, 247.752])
+		translate(v=[4.000, -87.300, 141.573])
 		{
 			cylinder(h=20.000, r1=1.250, r2=1.250, center=true);
 		}
 	}
 	color(c=[0.000, 1.000, 0.000])
 	{
-		translate(v=[38.719, 94.000, 247.752])
+		translate(v=[38.719, 94.000, 141.573])
 		{
 			cylinder(h=20.000, r1=1.250, r2=1.250, center=true);
 		}
 	}
 	color(c=[0.000, 1.000, 0.000])
 	{
-		translate(v=[38.719, -94.000, 247.752])
+		translate(v=[38.719, -94.000, 141.573])
 		{
 			cylinder(h=20.000, r1=1.250, r2=1.250, center=true);
 		}
 	}
 	color(c=[0.000, 1.000, 0.000])
 	{
-		translate(v=[4.000, 0.000, 495.504])
+		translate(v=[4.000, 0.000, 283.145])
 		{
 			cylinder(h=20.000, r1=1.250, r2=1.250, center=true);
 		}
 	}
 	color(c=[0.000, 1.000, 0.000])
 	{
-		translate(v=[4.000, -0.000, 495.504])
+		translate(v=[4.000, -0.000, 283.145])
 		{
 			cylinder(h=20.000, r1=1.250, r2=1.250, center=true);
 		}
 	}
 	color(c=[0.000, 1.000, 0.000])
 	{
-		translate(v=[4.000, 48.500, 495.504])
+		translate(v=[4.000, 48.500, 283.145])
 		{
 			cylinder(h=20.000, r1=1.250, r2=1.250, center=true);
 		}
 	}
 	color(c=[0.000, 1.000, 0.000])
 	{
-		translate(v=[4.000, -48.500, 495.504])
+		translate(v=[4.000, -48.500, 283.145])
 		{
 			cylinder(h=20.000, r1=1.250, r2=1.250, center=true);
 		}
 	}
 	color(c=[0.000, 1.000, 0.000])
 	{
-		translate(v=[4.000, 87.300, 495.504])
+		translate(v=[4.000, 87.300, 283.145])
 		{
 			cylinder(h=20.000, r1=1.250, r2=1.250, center=true);
 		}
 	}
 	color(c=[0.000, 1.000, 0.000])
 	{
-		translate(v=[4.000, -87.300, 495.504])
+		translate(v=[4.000, -87.300, 283.145])
 		{
 			cylinder(h=20.000, r1=1.250, r2=1.250, center=true);
 		}
 	}
 	color(c=[0.000, 1.000, 0.000])
 	{
-		translate(v=[38.719, 94.000, 495.504])
+		translate(v=[38.719, 94.000, 283.145])
 		{
 			cylinder(h=20.000, r1=1.250, r2=1.250, center=true);
 		}
 	}
 	color(c=[0.000, 1.000, 0.000])
 	{
-		translate(v=[38.719, -94.000, 495.504])
+		translate(v=[38.719, -94.000, 283.145])
 		{
 			cylinder(h=20.000, r1=1.250, r2=1.250, center=true);
 		}
 	}
 	color(c=[0.000, 1.000, 0.000])
 	{
-		translate(v=[4.000, 0.000, 743.257])
+		translate(v=[4.000, 0.000, 424.718])
 		{
 			cylinder(h=20.000, r1=1.250, r2=1.250, center=true);
 		}
 	}
 	color(c=[0.000, 1.000, 0.000])
 	{
-		translate(v=[4.000, -0.000, 743.257])
+		translate(v=[4.000, -0.000, 424.718])
 		{
 			cylinder(h=20.000, r1=1.250, r2=1.250, center=true);
 		}
 	}
 	color(c=[0.000, 1.000, 0.000])
 	{
-		translate(v=[4.000, 48.500, 743.257])
+		translate(v=[4.000, 48.500, 424.718])
 		{
 			cylinder(h=20.000, r1=1.250, r2=1.250, center=true);
 		}
 	}
 	color(c=[0.000, 1.000, 0.000])
 	{
-		translate(v=[4.000, -48.500, 743.257])
+		translate(v=[4.000, -48.500, 424.718])
 		{
 			cylinder(h=20.000, r1=1.250, r2=1.250, center=true);
 		}
 	}
 	color(c=[0.000, 1.000, 0.000])
 	{
-		translate(v=[4.000, 87.300, 743.257])
+		translate(v=[4.000, 87.300, 424.718])
 		{
 			cylinder(h=20.000, r1=1.250, r2=1.250, center=true);
 		}
 	}
 	color(c=[0.000, 1.000, 0.000])
 	{
-		translate(v=[4.000, -87.300, 743.257])
+		translate(v=[4.000, -87.300, 424.718])
 		{
 			cylinder(h=20.000, r1=1.250, r2=1.250, center=true);
 		}
 	}
 	color(c=[0.000, 1.000, 0.000])
 	{
-		translate(v=[38.719, 94.000, 743.257])
+		translate(v=[38.719, 94.000, 424.718])
 		{
 			cylinder(h=20.000, r1=1.250, r2=1.250, center=true);
 		}
 	}
 	color(c=[0.000, 1.000, 0.000])
 	{
-		translate(v=[38.719, -94.000, 743.257])
+		translate(v=[38.719, -94.000, 424.718])
+		{
+			cylinder(h=20.000, r1=1.250, r2=1.250, center=true);
+		}
+	}
+	color(c=[0.000, 1.000, 0.000])
+	{
+		translate(v=[4.000, 0.000, 566.291])
+		{
+			cylinder(h=20.000, r1=1.250, r2=1.250, center=true);
+		}
+	}
+	color(c=[0.000, 1.000, 0.000])
+	{
+		translate(v=[4.000, -0.000, 566.291])
+		{
+			cylinder(h=20.000, r1=1.250, r2=1.250, center=true);
+		}
+	}
+	color(c=[0.000, 1.000, 0.000])
+	{
+		translate(v=[4.000, 48.500, 566.291])
+		{
+			cylinder(h=20.000, r1=1.250, r2=1.250, center=true);
+		}
+	}
+	color(c=[0.000, 1.000, 0.000])
+	{
+		translate(v=[4.000, -48.500, 566.291])
+		{
+			cylinder(h=20.000, r1=1.250, r2=1.250, center=true);
+		}
+	}
+	color(c=[0.000, 1.000, 0.000])
+	{
+		translate(v=[4.000, 87.300, 566.291])
+		{
+			cylinder(h=20.000, r1=1.250, r2=1.250, center=true);
+		}
+	}
+	color(c=[0.000, 1.000, 0.000])
+	{
+		translate(v=[4.000, -87.300, 566.291])
+		{
+			cylinder(h=20.000, r1=1.250, r2=1.250, center=true);
+		}
+	}
+	color(c=[0.000, 1.000, 0.000])
+	{
+		translate(v=[38.719, 94.000, 566.291])
+		{
+			cylinder(h=20.000, r1=1.250, r2=1.250, center=true);
+		}
+	}
+	color(c=[0.000, 1.000, 0.000])
+	{
+		translate(v=[38.719, -94.000, 566.291])
+		{
+			cylinder(h=20.000, r1=1.250, r2=1.250, center=true);
+		}
+	}
+	color(c=[0.000, 1.000, 0.000])
+	{
+		translate(v=[4.000, 0.000, 707.863])
+		{
+			cylinder(h=20.000, r1=1.250, r2=1.250, center=true);
+		}
+	}
+	color(c=[0.000, 1.000, 0.000])
+	{
+		translate(v=[4.000, -0.000, 707.863])
+		{
+			cylinder(h=20.000, r1=1.250, r2=1.250, center=true);
+		}
+	}
+	color(c=[0.000, 1.000, 0.000])
+	{
+		translate(v=[4.000, 48.500, 707.863])
+		{
+			cylinder(h=20.000, r1=1.250, r2=1.250, center=true);
+		}
+	}
+	color(c=[0.000, 1.000, 0.000])
+	{
+		translate(v=[4.000, -48.500, 707.863])
+		{
+			cylinder(h=20.000, r1=1.250, r2=1.250, center=true);
+		}
+	}
+	color(c=[0.000, 1.000, 0.000])
+	{
+		translate(v=[4.000, 87.300, 707.863])
+		{
+			cylinder(h=20.000, r1=1.250, r2=1.250, center=true);
+		}
+	}
+	color(c=[0.000, 1.000, 0.000])
+	{
+		translate(v=[4.000, -87.300, 707.863])
+		{
+			cylinder(h=20.000, r1=1.250, r2=1.250, center=true);
+		}
+	}
+	color(c=[0.000, 1.000, 0.000])
+	{
+		translate(v=[38.719, 94.000, 707.863])
+		{
+			cylinder(h=20.000, r1=1.250, r2=1.250, center=true);
+		}
+	}
+	color(c=[0.000, 1.000, 0.000])
+	{
+		translate(v=[38.719, -94.000, 707.863])
+		{
+			cylinder(h=20.000, r1=1.250, r2=1.250, center=true);
+		}
+	}
+	color(c=[0.000, 1.000, 0.000])
+	{
+		translate(v=[4.000, 0.000, 849.436])
+		{
+			cylinder(h=20.000, r1=1.250, r2=1.250, center=true);
+		}
+	}
+	color(c=[0.000, 1.000, 0.000])
+	{
+		translate(v=[4.000, -0.000, 849.436])
+		{
+			cylinder(h=20.000, r1=1.250, r2=1.250, center=true);
+		}
+	}
+	color(c=[0.000, 1.000, 0.000])
+	{
+		translate(v=[4.000, 48.500, 849.436])
+		{
+			cylinder(h=20.000, r1=1.250, r2=1.250, center=true);
+		}
+	}
+	color(c=[0.000, 1.000, 0.000])
+	{
+		translate(v=[4.000, -48.500, 849.436])
+		{
+			cylinder(h=20.000, r1=1.250, r2=1.250, center=true);
+		}
+	}
+	color(c=[0.000, 1.000, 0.000])
+	{
+		translate(v=[4.000, 87.300, 849.436])
+		{
+			cylinder(h=20.000, r1=1.250, r2=1.250, center=true);
+		}
+	}
+	color(c=[0.000, 1.000, 0.000])
+	{
+		translate(v=[4.000, -87.300, 849.436])
+		{
+			cylinder(h=20.000, r1=1.250, r2=1.250, center=true);
+		}
+	}
+	color(c=[0.000, 1.000, 0.000])
+	{
+		translate(v=[38.719, 94.000, 849.436])
+		{
+			cylinder(h=20.000, r1=1.250, r2=1.250, center=true);
+		}
+	}
+	color(c=[0.000, 1.000, 0.000])
+	{
+		translate(v=[38.719, -94.000, 849.436])
 		{
 			cylinder(h=20.000, r1=1.250, r2=1.250, center=true);
 		}
