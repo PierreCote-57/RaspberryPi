@@ -149,7 +149,6 @@ if __name__ == '__main__':
             line = readString()
             lines = line.split(",")
             if checksum(line):
-                print("========================================", lines[0], "========================================")
                 if lines[0] == "GPRMC":
                     printRMC(lines)
                     pass
