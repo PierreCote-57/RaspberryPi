@@ -9,7 +9,7 @@ intersection()
 // BargeShell-2x3
 	difference()
 	{
-		translate(v=[0.000, 0.000, 159.000])
+		translate(v=[0.000, 0.000, 155.000])
 		{
 			rotate(a=[0.000, 90.000, 0.000])
 			{
@@ -19,10 +19,10 @@ intersection()
 					{
 						union()
 						{
-							cube(size=[318.000, 194.000, 51.625], center=true);
+							cube(size=[310.000, 194.000, 51.625], center=true);
 							color(c=[0.000, 0.000, 1.000])
 							{
-								translate(v=[-159.000, 0.000, 47.196])
+								translate(v=[-155.000, 0.000, 47.196])
 								{
 									intersection()
 									{
@@ -41,16 +41,16 @@ intersection()
 					}
 					translate(v=[-4.000, 0.000, 8.000])
 					{
-						scale(v=[0.975, 0.938, 1.000])
+						scale(v=[0.974, 0.938, 1.000])
 						{
 							translate(v=[0.000, 0.000, 25.813])
 							{
 								union()
 								{
-									cube(size=[318.000, 194.000, 51.625], center=true);
+									cube(size=[310.000, 194.000, 51.625], center=true);
 									color(c=[0.000, 0.000, 1.000])
 									{
-										translate(v=[-159.000, 0.000, 47.196])
+										translate(v=[-155.000, 0.000, 47.196])
 										{
 											intersection()
 											{
@@ -74,176 +74,120 @@ intersection()
 		}
 		color(c=[0.000, 1.000, 0.000])
 		{
-			translate(v=[4.000, 0.000, 130.336])
+			translate(v=[4.000, 0.000, 160.000])
 			{
 				cylinder(h=20.000, r1=1.250, r2=1.250, center=true);
 			}
 		}
 		color(c=[0.000, 1.000, 0.000])
 		{
-			translate(v=[4.000, -0.000, 130.336])
+			translate(v=[4.000, -0.000, 160.000])
 			{
 				cylinder(h=20.000, r1=1.250, r2=1.250, center=true);
 			}
 		}
 		color(c=[0.000, 1.000, 0.000])
 		{
-			translate(v=[4.000, 48.500, 130.336])
+			translate(v=[4.000, 48.500, 160.000])
 			{
 				cylinder(h=20.000, r1=1.250, r2=1.250, center=true);
 			}
 		}
 		color(c=[0.000, 1.000, 0.000])
 		{
-			translate(v=[4.000, -48.500, 130.336])
+			translate(v=[4.000, -48.500, 160.000])
 			{
 				cylinder(h=20.000, r1=1.250, r2=1.250, center=true);
 			}
 		}
 		color(c=[0.000, 1.000, 0.000])
 		{
-			translate(v=[4.000, 87.300, 130.336])
+			translate(v=[4.000, 87.300, 160.000])
 			{
 				cylinder(h=20.000, r1=1.250, r2=1.250, center=true);
 			}
 		}
 		color(c=[0.000, 1.000, 0.000])
 		{
-			translate(v=[4.000, -87.300, 130.336])
+			translate(v=[4.000, -87.300, 160.000])
 			{
 				cylinder(h=20.000, r1=1.250, r2=1.250, center=true);
 			}
 		}
 		color(c=[0.000, 1.000, 0.000])
 		{
-			translate(v=[38.719, 94.000, 130.336])
+			translate(v=[38.719, 94.000, 160.000])
 			{
 				cylinder(h=20.000, r1=1.250, r2=1.250, center=true);
 			}
 		}
 		color(c=[0.000, 1.000, 0.000])
 		{
-			translate(v=[38.719, -94.000, 130.336])
+			translate(v=[38.719, -94.000, 160.000])
 			{
 				cylinder(h=20.000, r1=1.250, r2=1.250, center=true);
 			}
 		}
 		color(c=[0.000, 1.000, 0.000])
 		{
-			translate(v=[4.000, 0.000, 260.673])
+			translate(v=[4.000, 0.000, 310.000])
 			{
 				cylinder(h=20.000, r1=1.250, r2=1.250, center=true);
 			}
 		}
 		color(c=[0.000, 1.000, 0.000])
 		{
-			translate(v=[4.000, -0.000, 260.673])
+			translate(v=[4.000, -0.000, 310.000])
 			{
 				cylinder(h=20.000, r1=1.250, r2=1.250, center=true);
 			}
 		}
 		color(c=[0.000, 1.000, 0.000])
 		{
-			translate(v=[4.000, 48.500, 260.673])
+			translate(v=[4.000, 48.500, 310.000])
 			{
 				cylinder(h=20.000, r1=1.250, r2=1.250, center=true);
 			}
 		}
 		color(c=[0.000, 1.000, 0.000])
 		{
-			translate(v=[4.000, -48.500, 260.673])
+			translate(v=[4.000, -48.500, 310.000])
 			{
 				cylinder(h=20.000, r1=1.250, r2=1.250, center=true);
 			}
 		}
 		color(c=[0.000, 1.000, 0.000])
 		{
-			translate(v=[4.000, 87.300, 260.673])
+			translate(v=[4.000, 87.300, 310.000])
 			{
 				cylinder(h=20.000, r1=1.250, r2=1.250, center=true);
 			}
 		}
 		color(c=[0.000, 1.000, 0.000])
 		{
-			translate(v=[4.000, -87.300, 260.673])
+			translate(v=[4.000, -87.300, 310.000])
 			{
 				cylinder(h=20.000, r1=1.250, r2=1.250, center=true);
 			}
 		}
 		color(c=[0.000, 1.000, 0.000])
 		{
-			translate(v=[38.719, 94.000, 260.673])
+			translate(v=[38.719, 94.000, 310.000])
 			{
 				cylinder(h=20.000, r1=1.250, r2=1.250, center=true);
 			}
 		}
 		color(c=[0.000, 1.000, 0.000])
 		{
-			translate(v=[38.719, -94.000, 260.673])
-			{
-				cylinder(h=20.000, r1=1.250, r2=1.250, center=true);
-			}
-		}
-		color(c=[0.000, 1.000, 0.000])
-		{
-			translate(v=[4.000, 0.000, 391.009])
-			{
-				cylinder(h=20.000, r1=1.250, r2=1.250, center=true);
-			}
-		}
-		color(c=[0.000, 1.000, 0.000])
-		{
-			translate(v=[4.000, -0.000, 391.009])
-			{
-				cylinder(h=20.000, r1=1.250, r2=1.250, center=true);
-			}
-		}
-		color(c=[0.000, 1.000, 0.000])
-		{
-			translate(v=[4.000, 48.500, 391.009])
-			{
-				cylinder(h=20.000, r1=1.250, r2=1.250, center=true);
-			}
-		}
-		color(c=[0.000, 1.000, 0.000])
-		{
-			translate(v=[4.000, -48.500, 391.009])
-			{
-				cylinder(h=20.000, r1=1.250, r2=1.250, center=true);
-			}
-		}
-		color(c=[0.000, 1.000, 0.000])
-		{
-			translate(v=[4.000, 87.300, 391.009])
-			{
-				cylinder(h=20.000, r1=1.250, r2=1.250, center=true);
-			}
-		}
-		color(c=[0.000, 1.000, 0.000])
-		{
-			translate(v=[4.000, -87.300, 391.009])
-			{
-				cylinder(h=20.000, r1=1.250, r2=1.250, center=true);
-			}
-		}
-		color(c=[0.000, 1.000, 0.000])
-		{
-			translate(v=[38.719, 94.000, 391.009])
-			{
-				cylinder(h=20.000, r1=1.250, r2=1.250, center=true);
-			}
-		}
-		color(c=[0.000, 1.000, 0.000])
-		{
-			translate(v=[38.719, -94.000, 391.009])
+			translate(v=[38.719, -94.000, 310.000])
 			{
 				cylinder(h=20.000, r1=1.250, r2=1.250, center=true);
 			}
 		}
 	}
-	translate(v=[0.000, 0.000, 65.168])
+	translate(v=[0.000, 0.000, 80.000])
 	{
-		cube(size=[2000.000, 2000.000, 130.336], center=true);
+		cube(size=[2000.000, 2000.000, 160.000], center=true);
 	}
 }
 
@@ -253,8 +197,5 @@ use </Users/pierrecote/src/aws/LogicielCote.COM/RetiredServer/out/production/res
 
 // ***** Module resources.name
 use </Users/pierrecote/src/aws/LogicielCote.COM/RetiredServer/out/production/resources/scad/Screw_Library/Thread_Library.scad>
-
-// ***** Module resources.name
-use </Users/pierrecote/src/aws/LogicielCote.COM/RetiredServer/out/production/resources/scad/TugBoat.scad>
 
 

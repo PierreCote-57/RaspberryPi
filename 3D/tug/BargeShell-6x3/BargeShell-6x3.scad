@@ -6,7 +6,7 @@ $fn=36.000;
 // BargeShell-6x3
 difference()
 {
-	translate(v=[0.000, 0.000, 459.000])
+	translate(v=[0.000, 0.000, 455.000])
 	{
 		rotate(a=[0.000, 90.000, 0.000])
 		{
@@ -16,10 +16,10 @@ difference()
 				{
 					union()
 					{
-						cube(size=[918.000, 194.000, 51.625], center=true);
+						cube(size=[910.000, 194.000, 51.625], center=true);
 						color(c=[0.000, 0.000, 1.000])
 						{
-							translate(v=[-459.000, 0.000, 47.196])
+							translate(v=[-455.000, 0.000, 47.196])
 							{
 								intersection()
 								{
@@ -44,10 +44,10 @@ difference()
 						{
 							union()
 							{
-								cube(size=[918.000, 194.000, 51.625], center=true);
+								cube(size=[910.000, 194.000, 51.625], center=true);
 								color(c=[0.000, 0.000, 1.000])
 								{
-									translate(v=[-459.000, 0.000, 47.196])
+									translate(v=[-455.000, 0.000, 47.196])
 									{
 										intersection()
 										{
@@ -71,336 +71,336 @@ difference()
 	}
 	color(c=[0.000, 1.000, 0.000])
 	{
-		translate(v=[4.000, 0.000, 141.573])
+		translate(v=[4.000, 0.000, 160.000])
 		{
 			cylinder(h=20.000, r1=1.250, r2=1.250, center=true);
 		}
 	}
 	color(c=[0.000, 1.000, 0.000])
 	{
-		translate(v=[4.000, -0.000, 141.573])
+		translate(v=[4.000, -0.000, 160.000])
 		{
 			cylinder(h=20.000, r1=1.250, r2=1.250, center=true);
 		}
 	}
 	color(c=[0.000, 1.000, 0.000])
 	{
-		translate(v=[4.000, 48.500, 141.573])
+		translate(v=[4.000, 48.500, 160.000])
 		{
 			cylinder(h=20.000, r1=1.250, r2=1.250, center=true);
 		}
 	}
 	color(c=[0.000, 1.000, 0.000])
 	{
-		translate(v=[4.000, -48.500, 141.573])
+		translate(v=[4.000, -48.500, 160.000])
 		{
 			cylinder(h=20.000, r1=1.250, r2=1.250, center=true);
 		}
 	}
 	color(c=[0.000, 1.000, 0.000])
 	{
-		translate(v=[4.000, 87.300, 141.573])
+		translate(v=[4.000, 87.300, 160.000])
 		{
 			cylinder(h=20.000, r1=1.250, r2=1.250, center=true);
 		}
 	}
 	color(c=[0.000, 1.000, 0.000])
 	{
-		translate(v=[4.000, -87.300, 141.573])
+		translate(v=[4.000, -87.300, 160.000])
 		{
 			cylinder(h=20.000, r1=1.250, r2=1.250, center=true);
 		}
 	}
 	color(c=[0.000, 1.000, 0.000])
 	{
-		translate(v=[38.719, 94.000, 141.573])
+		translate(v=[38.719, 94.000, 160.000])
 		{
 			cylinder(h=20.000, r1=1.250, r2=1.250, center=true);
 		}
 	}
 	color(c=[0.000, 1.000, 0.000])
 	{
-		translate(v=[38.719, -94.000, 141.573])
+		translate(v=[38.719, -94.000, 160.000])
 		{
 			cylinder(h=20.000, r1=1.250, r2=1.250, center=true);
 		}
 	}
 	color(c=[0.000, 1.000, 0.000])
 	{
-		translate(v=[4.000, 0.000, 283.145])
+		translate(v=[4.000, 0.000, 310.000])
 		{
 			cylinder(h=20.000, r1=1.250, r2=1.250, center=true);
 		}
 	}
 	color(c=[0.000, 1.000, 0.000])
 	{
-		translate(v=[4.000, -0.000, 283.145])
+		translate(v=[4.000, -0.000, 310.000])
 		{
 			cylinder(h=20.000, r1=1.250, r2=1.250, center=true);
 		}
 	}
 	color(c=[0.000, 1.000, 0.000])
 	{
-		translate(v=[4.000, 48.500, 283.145])
+		translate(v=[4.000, 48.500, 310.000])
 		{
 			cylinder(h=20.000, r1=1.250, r2=1.250, center=true);
 		}
 	}
 	color(c=[0.000, 1.000, 0.000])
 	{
-		translate(v=[4.000, -48.500, 283.145])
+		translate(v=[4.000, -48.500, 310.000])
 		{
 			cylinder(h=20.000, r1=1.250, r2=1.250, center=true);
 		}
 	}
 	color(c=[0.000, 1.000, 0.000])
 	{
-		translate(v=[4.000, 87.300, 283.145])
+		translate(v=[4.000, 87.300, 310.000])
 		{
 			cylinder(h=20.000, r1=1.250, r2=1.250, center=true);
 		}
 	}
 	color(c=[0.000, 1.000, 0.000])
 	{
-		translate(v=[4.000, -87.300, 283.145])
+		translate(v=[4.000, -87.300, 310.000])
 		{
 			cylinder(h=20.000, r1=1.250, r2=1.250, center=true);
 		}
 	}
 	color(c=[0.000, 1.000, 0.000])
 	{
-		translate(v=[38.719, 94.000, 283.145])
+		translate(v=[38.719, 94.000, 310.000])
 		{
 			cylinder(h=20.000, r1=1.250, r2=1.250, center=true);
 		}
 	}
 	color(c=[0.000, 1.000, 0.000])
 	{
-		translate(v=[38.719, -94.000, 283.145])
+		translate(v=[38.719, -94.000, 310.000])
 		{
 			cylinder(h=20.000, r1=1.250, r2=1.250, center=true);
 		}
 	}
 	color(c=[0.000, 1.000, 0.000])
 	{
-		translate(v=[4.000, 0.000, 424.718])
+		translate(v=[4.000, 0.000, 460.000])
 		{
 			cylinder(h=20.000, r1=1.250, r2=1.250, center=true);
 		}
 	}
 	color(c=[0.000, 1.000, 0.000])
 	{
-		translate(v=[4.000, -0.000, 424.718])
+		translate(v=[4.000, -0.000, 460.000])
 		{
 			cylinder(h=20.000, r1=1.250, r2=1.250, center=true);
 		}
 	}
 	color(c=[0.000, 1.000, 0.000])
 	{
-		translate(v=[4.000, 48.500, 424.718])
+		translate(v=[4.000, 48.500, 460.000])
 		{
 			cylinder(h=20.000, r1=1.250, r2=1.250, center=true);
 		}
 	}
 	color(c=[0.000, 1.000, 0.000])
 	{
-		translate(v=[4.000, -48.500, 424.718])
+		translate(v=[4.000, -48.500, 460.000])
 		{
 			cylinder(h=20.000, r1=1.250, r2=1.250, center=true);
 		}
 	}
 	color(c=[0.000, 1.000, 0.000])
 	{
-		translate(v=[4.000, 87.300, 424.718])
+		translate(v=[4.000, 87.300, 460.000])
 		{
 			cylinder(h=20.000, r1=1.250, r2=1.250, center=true);
 		}
 	}
 	color(c=[0.000, 1.000, 0.000])
 	{
-		translate(v=[4.000, -87.300, 424.718])
+		translate(v=[4.000, -87.300, 460.000])
 		{
 			cylinder(h=20.000, r1=1.250, r2=1.250, center=true);
 		}
 	}
 	color(c=[0.000, 1.000, 0.000])
 	{
-		translate(v=[38.719, 94.000, 424.718])
+		translate(v=[38.719, 94.000, 460.000])
 		{
 			cylinder(h=20.000, r1=1.250, r2=1.250, center=true);
 		}
 	}
 	color(c=[0.000, 1.000, 0.000])
 	{
-		translate(v=[38.719, -94.000, 424.718])
+		translate(v=[38.719, -94.000, 460.000])
 		{
 			cylinder(h=20.000, r1=1.250, r2=1.250, center=true);
 		}
 	}
 	color(c=[0.000, 1.000, 0.000])
 	{
-		translate(v=[4.000, 0.000, 566.291])
+		translate(v=[4.000, 0.000, 610.000])
 		{
 			cylinder(h=20.000, r1=1.250, r2=1.250, center=true);
 		}
 	}
 	color(c=[0.000, 1.000, 0.000])
 	{
-		translate(v=[4.000, -0.000, 566.291])
+		translate(v=[4.000, -0.000, 610.000])
 		{
 			cylinder(h=20.000, r1=1.250, r2=1.250, center=true);
 		}
 	}
 	color(c=[0.000, 1.000, 0.000])
 	{
-		translate(v=[4.000, 48.500, 566.291])
+		translate(v=[4.000, 48.500, 610.000])
 		{
 			cylinder(h=20.000, r1=1.250, r2=1.250, center=true);
 		}
 	}
 	color(c=[0.000, 1.000, 0.000])
 	{
-		translate(v=[4.000, -48.500, 566.291])
+		translate(v=[4.000, -48.500, 610.000])
 		{
 			cylinder(h=20.000, r1=1.250, r2=1.250, center=true);
 		}
 	}
 	color(c=[0.000, 1.000, 0.000])
 	{
-		translate(v=[4.000, 87.300, 566.291])
+		translate(v=[4.000, 87.300, 610.000])
 		{
 			cylinder(h=20.000, r1=1.250, r2=1.250, center=true);
 		}
 	}
 	color(c=[0.000, 1.000, 0.000])
 	{
-		translate(v=[4.000, -87.300, 566.291])
+		translate(v=[4.000, -87.300, 610.000])
 		{
 			cylinder(h=20.000, r1=1.250, r2=1.250, center=true);
 		}
 	}
 	color(c=[0.000, 1.000, 0.000])
 	{
-		translate(v=[38.719, 94.000, 566.291])
+		translate(v=[38.719, 94.000, 610.000])
 		{
 			cylinder(h=20.000, r1=1.250, r2=1.250, center=true);
 		}
 	}
 	color(c=[0.000, 1.000, 0.000])
 	{
-		translate(v=[38.719, -94.000, 566.291])
+		translate(v=[38.719, -94.000, 610.000])
 		{
 			cylinder(h=20.000, r1=1.250, r2=1.250, center=true);
 		}
 	}
 	color(c=[0.000, 1.000, 0.000])
 	{
-		translate(v=[4.000, 0.000, 707.863])
+		translate(v=[4.000, 0.000, 760.000])
 		{
 			cylinder(h=20.000, r1=1.250, r2=1.250, center=true);
 		}
 	}
 	color(c=[0.000, 1.000, 0.000])
 	{
-		translate(v=[4.000, -0.000, 707.863])
+		translate(v=[4.000, -0.000, 760.000])
 		{
 			cylinder(h=20.000, r1=1.250, r2=1.250, center=true);
 		}
 	}
 	color(c=[0.000, 1.000, 0.000])
 	{
-		translate(v=[4.000, 48.500, 707.863])
+		translate(v=[4.000, 48.500, 760.000])
 		{
 			cylinder(h=20.000, r1=1.250, r2=1.250, center=true);
 		}
 	}
 	color(c=[0.000, 1.000, 0.000])
 	{
-		translate(v=[4.000, -48.500, 707.863])
+		translate(v=[4.000, -48.500, 760.000])
 		{
 			cylinder(h=20.000, r1=1.250, r2=1.250, center=true);
 		}
 	}
 	color(c=[0.000, 1.000, 0.000])
 	{
-		translate(v=[4.000, 87.300, 707.863])
+		translate(v=[4.000, 87.300, 760.000])
 		{
 			cylinder(h=20.000, r1=1.250, r2=1.250, center=true);
 		}
 	}
 	color(c=[0.000, 1.000, 0.000])
 	{
-		translate(v=[4.000, -87.300, 707.863])
+		translate(v=[4.000, -87.300, 760.000])
 		{
 			cylinder(h=20.000, r1=1.250, r2=1.250, center=true);
 		}
 	}
 	color(c=[0.000, 1.000, 0.000])
 	{
-		translate(v=[38.719, 94.000, 707.863])
+		translate(v=[38.719, 94.000, 760.000])
 		{
 			cylinder(h=20.000, r1=1.250, r2=1.250, center=true);
 		}
 	}
 	color(c=[0.000, 1.000, 0.000])
 	{
-		translate(v=[38.719, -94.000, 707.863])
+		translate(v=[38.719, -94.000, 760.000])
 		{
 			cylinder(h=20.000, r1=1.250, r2=1.250, center=true);
 		}
 	}
 	color(c=[0.000, 1.000, 0.000])
 	{
-		translate(v=[4.000, 0.000, 849.436])
+		translate(v=[4.000, 0.000, 910.000])
 		{
 			cylinder(h=20.000, r1=1.250, r2=1.250, center=true);
 		}
 	}
 	color(c=[0.000, 1.000, 0.000])
 	{
-		translate(v=[4.000, -0.000, 849.436])
+		translate(v=[4.000, -0.000, 910.000])
 		{
 			cylinder(h=20.000, r1=1.250, r2=1.250, center=true);
 		}
 	}
 	color(c=[0.000, 1.000, 0.000])
 	{
-		translate(v=[4.000, 48.500, 849.436])
+		translate(v=[4.000, 48.500, 910.000])
 		{
 			cylinder(h=20.000, r1=1.250, r2=1.250, center=true);
 		}
 	}
 	color(c=[0.000, 1.000, 0.000])
 	{
-		translate(v=[4.000, -48.500, 849.436])
+		translate(v=[4.000, -48.500, 910.000])
 		{
 			cylinder(h=20.000, r1=1.250, r2=1.250, center=true);
 		}
 	}
 	color(c=[0.000, 1.000, 0.000])
 	{
-		translate(v=[4.000, 87.300, 849.436])
+		translate(v=[4.000, 87.300, 910.000])
 		{
 			cylinder(h=20.000, r1=1.250, r2=1.250, center=true);
 		}
 	}
 	color(c=[0.000, 1.000, 0.000])
 	{
-		translate(v=[4.000, -87.300, 849.436])
+		translate(v=[4.000, -87.300, 910.000])
 		{
 			cylinder(h=20.000, r1=1.250, r2=1.250, center=true);
 		}
 	}
 	color(c=[0.000, 1.000, 0.000])
 	{
-		translate(v=[38.719, 94.000, 849.436])
+		translate(v=[38.719, 94.000, 910.000])
 		{
 			cylinder(h=20.000, r1=1.250, r2=1.250, center=true);
 		}
 	}
 	color(c=[0.000, 1.000, 0.000])
 	{
-		translate(v=[38.719, -94.000, 849.436])
+		translate(v=[38.719, -94.000, 910.000])
 		{
 			cylinder(h=20.000, r1=1.250, r2=1.250, center=true);
 		}
