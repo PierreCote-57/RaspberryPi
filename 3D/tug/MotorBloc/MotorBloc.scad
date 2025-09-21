@@ -1,0 +1,36 @@
+$fs = 1.000;
+$fa=1.000;
+$fn=36.000;
+
+
+// MotorBloc
+color(c=[0.000, 1.000, 0.000])
+{
+	intersection()
+	{
+		intersection()
+		{
+			cockpit_mask(8.000);
+			translate(v=[0.000, 0.000, 310.000])
+			{
+				cube(size=[2000.000, 2000.000, 180.000], center=true);
+			}
+		}
+		translate(v=[170.000, 0.000, 0.000])
+		{
+			cube(size=[40.000, 2000.000, 2000.000], center=true);
+		}
+	}
+}
+
+
+// ***** Module resources.name
+use </Users/pierrecote/src/aws/LogicielCote.COM/RetiredServer/out/production/resources/scad/MyModules.scad>
+
+// ***** Module resources.name
+use </Users/pierrecote/src/aws/LogicielCote.COM/RetiredServer/out/production/resources/scad/Screw_Library/Thread_Library.scad>
+
+// ***** Module resources.name
+use </Users/pierrecote/src/aws/LogicielCote.COM/RetiredServer/out/production/resources/scad/TugBoat.scad>
+
+
