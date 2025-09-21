@@ -1,0 +1,12 @@
+{
+	"editor.renderWhitespace": "all",
+	"black-formatter.args": [
+		"--line-length=132"
+	],
+	"editor.useTabStops": false,
+	"python.testing.pytestArgs": [
+		"pi"
+	],
+	"python.testing.unittestEnabled": false,
+	"python.testing.pytestEnabled": true
+}
