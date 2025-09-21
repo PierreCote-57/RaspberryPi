@@ -11,36 +11,26 @@ def readString():
         while ser.read().decode("utf-8") != "$":  # Wait for the begging of the string
             pass  # Do nothing
         line = ser.readline().decode("utf-8")  # Read the entire string
+        line = line.replace("\r", "")
+        line = line.replace("\n", "")
         return line
 
 
 def getTime(string, format, returnFormat):
-    return time.strftime(
-        returnFormat, time.strptime(string, format)
-    )  # Convert date and time to a nice printable format
+    return time.strftime(returnFormat, time.strptime(string, format))  # Convert date and time to a nice printable format
 
 
 def getLatLng(latString, lngString):
     try:
-        lat = (
-            latString[:2].lstrip("0")
-            + "."
-            + "%.7s" % str(float(latString[2:]) * 1.0 / 60.0).lstrip("0.")
-        )
-        lng = (
-            lngString[:3].lstrip("0")
-            + "."
-            + "%.7s" % str(float(lngString[3:]) * 1.0 / 60.0).lstrip("0.")
-        )
+        lat = latString[:2].lstrip("0") + "." + "%.7s" % str(float(latString[2:]) * 1.0 / 60.0).lstrip("0.")
+        lng = lngString[:3].lstrip("0") + "." + "%.7s" % str(float(lngString[3:]) * 1.0 / 60.0).lstrip("0.")
         return lat, lng
     except:
-        return "'" + latString + "'", "'" + lngString + "'"
+        return "NA", "NA"
 
 
 def printRMC(lines):
-    print(
-        "========================================RMC========================================"
-    )
+    print("========================================RMC========================================")
     # print(lines, '\n')
     print(
         "Fix taken at:",
@@ -53,9 +43,7 @@ def printRMC(lines):
     print("Speed (knots):", lines[7])
     print("Track angle (deg):", lines[8])
     print("Magnetic variation: ", lines[10], end="")
-    if (
-        len(lines) == 13
-    ):  # The returned string will be either 12 or 13 - it will return 13 if NMEA standard used is above 2.3
+    if len(lines) == 13:  # The returned string will be either 12 or 13 - it will return 13 if NMEA standard used is above 2.3
         print(lines[11])
         print(
             "Mode (A=Autonomous, D=Differential, E=Estimated, N=Data not valid):",
@@ -68,9 +56,7 @@ def printRMC(lines):
 
 
 def printGGA(lines):
-    print(
-        "========================================GGA========================================"
-    )
+    print("========================================GGA========================================")
     # print(lines, '\n')
     print("Fix taken at:", getTime(lines[1], "%H%M%S.%f", "%H:%M:%S"), "UTC")
     latlng = getLatLng(lines[2], lines[4])
@@ -86,9 +72,7 @@ def printGGA(lines):
 
 
 def printGSA(lines):
-    print(
-        "========================================GSA========================================"
-    )
+    print("========================================GSA========================================")
     # print(lines, '\n')
 
     print("Selection of 2D or 3D fix (A=Auto,M=Manual):", lines[1])
@@ -106,13 +90,9 @@ def printGSA(lines):
 
 def printGSV(lines):
     if lines[2] == "1":  # First sentence
-        print(
-            "========================================GSV========================================"
-        )
+        print("========================================GSV========================================")
     else:
-        print(
-            "==================================================================================="
-        )
+        print("===================================================================================")
     # print(lines, '\n')
 
     print("Number of sentences:", lines[1])
@@ -127,9 +107,7 @@ def printGSV(lines):
 
 
 def printGLL(lines):
-    print(
-        "========================================GLL========================================"
-    )
+    print("========================================GLL========================================")
     # print(lines, '\n')
 
     latlng = getLatLng(lines[1], lines[3])
@@ -145,9 +123,7 @@ def printGLL(lines):
 
 
 def printVTG(lines):
-    print(
-        "========================================VTG========================================"
-    )
+    print("========================================VTG========================================")
     # print(lines, '\n')
 
     print("True Track made good (deg):", lines[1], lines[2])
@@ -177,17 +153,38 @@ def checksum(line):
     if checksum == inputChecksum:
         return True
     else:
-        print(
-            "====================================================================================="
-        )
-        print(
-            "===================================Checksum error!==================================="
-        )
-        print(
-            "====================================================================================="
-        )
+        print("=====================================================================================")
+        print("===================================Checksum error!===================================")
+        print("=====================================================================================")
         print(hex(checksum), "!=", hex(inputChecksum))
         return False
+
+
+def showDetail(line):
+    lines = line.split(",")
+    if checksum(line):
+        if lines[0] == "GPRMC":
+            printRMC(lines)
+            pass
+        elif lines[0] == "GPGGA":
+            printGGA(lines)
+            pass
+        elif lines[0] == "GPGSA":
+            printGSA(lines)
+            pass
+        elif lines[0] == "GPGSV":
+            printGSV(lines)
+            pass
+        elif lines[0] == "GPGLL":
+            printGLL(lines)
+            pass
+        elif lines[0] == "GPVTG":
+            printVTG(lines)
+            pass
+        else:
+            print("\n\nUnknown type:", lines[0], "\n")
+    else:
+        print("Invalid checksum")
 
 
 if __name__ == "__main__":
@@ -195,29 +192,11 @@ if __name__ == "__main__":
     try:
         while True:
             line = readString()
-            lines = line.split(",")
-            if checksum(line):
-                if lines[0] == "GPRMC":
-                    printRMC(lines)
-                    pass
-                elif lines[0] == "GPGGA":
-                    printGGA(lines)
-                    pass
-                elif lines[0] == "GPGSA":
-                    # printGSA(lines)
-                    pass
-                elif lines[0] == "GPGSV":
-                    # printGSV(lines)
-                    pass
-                elif lines[0] == "GPGLL":
-                    printGLL(lines)
-                    pass
-                elif lines[0] == "GPVTG":
-                    printVTG(lines)
-                    pass
-                else:
-                    print("\n\nUnknown type:", lines[0], "\n\n")
-            else:
-                print("Invalid checksum")
+            if line.startswith("GPVTG"):
+                continue
+            print(line)
+            if line.startswith("GPGSV"):
+                showDetail(line)
+
     except KeyboardInterrupt:
         print("Exiting Script")
