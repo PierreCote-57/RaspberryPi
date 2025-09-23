@@ -75,6 +75,14 @@ union()
 			cube(size=[3.000, 4.200, 2.000], center=false);
 		}
 	}
+	color(c=[0.000, 1.000, 0.000])
+	{
+// H-1
+		translate(v=[16.850, 199.600, -2.500])
+		{
+			cylinder(h=65.500, r1=1.000, r2=1.000, center=false);
+		}
+	}
 }
 
 
