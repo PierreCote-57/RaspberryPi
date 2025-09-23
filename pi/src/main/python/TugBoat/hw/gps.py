@@ -2,6 +2,7 @@
 # Original Code: https://gist.github.com/Lauszus/5785023#file-gps-py
 # Created by: Kristian Sloth Lauszus
 
+from datetime import datetime
 import time
 import serial
 
@@ -74,21 +75,30 @@ def printGGA(lines):
 def printGSA(lines):
     print("========================================GSA========================================")
     # print(lines, '\n')
-
-    print("Selection of 2D or 3D fix (A=Auto,M=Manual):", lines[1])
-    print("3D fix (1=No fix,2=2D fix, 3=3D fix):", lines[2])
-    print("PRNs of satellites used for fix:", end="")
-    for i in range(0, 12):
-        prn = lines[3 + i].lstrip("0")
-        if prn:
-            print(" ", prn, end="")
-    print("\nPDOP", lines[15])
-    print("HDOP", lines[16])
-    print("VDOP", lines[17].partition("*")[0])
+    if (lines[2] == "10"):
+        quality = "No fix"
+    elif (lines[2] == "1"):
+        quality = "fix"
+    else:
+        quality = lines[2]
+    print(datetime.now(), "GSA Fix quality = ", quality)
+    if 1 == 2:
+        print("Selection of 2D or 3D fix (A=Auto,M=Manual):", lines[1])
+        print("3D fix (1=No fix,2=2D fix, 3=3D fix):", lines[2])
+        print("PRNs of satellites used for fix:", end="")
+        for i in range(0, 12):
+            prn = lines[3 + i].lstrip("0")
+            if prn:
+                print(" ", prn, end="")
+        print("\nPDOP", lines[15])
+        print("HDOP", lines[16])
+        print("VDOP", lines[17].partition("*")[0])
     return
 
 
 def printGSV(lines):
+    if 1 == 1:
+        return
     if lines[2] == "1":  # First sentence
         print("========================================GSV========================================")
     else:
@@ -97,12 +107,14 @@ def printGSV(lines):
 
     print("Number of sentences:", lines[1])
     print("Sentence:", lines[2])
-    print("Satellites in view:", lines[3].lstrip("0"))
-    for i in range(0, int(len(lines) / 4) - 1):
-        print("Satellite PRN:", lines[4 + i * 4].lstrip("0"))
-        print("Elevation (deg):", lines[5 + i * 4].lstrip("0"))
-        print("Azimuth (deg):", lines[6 + i * 4].lstrip("0"))
-        print("SNR (higher is better):", lines[7 + i * 4].partition("*")[0])
+    print("Satellites in view:", lines[3])
+    if 1 == 2:
+        for i in range(0, int(len(lines) / 4) - 1):
+            print("Satellite # ", i + 1)
+            print("\tSatellite PRN:", lines[4 + i * 4])
+            print("\tElevation (deg):", lines[5 + i * 4])
+            print("\tAzimuth (deg):", lines[6 + i * 4])
+            print("\tSNR (higher is better):", lines[7 + i * 4].partition("*")[0])
     return
 
 
@@ -111,14 +123,19 @@ def printGLL(lines):
     # print(lines, '\n')
 
     latlng = getLatLng(lines[1], lines[3])
-    print("Lat,Long: ", latlng[0], lines[2], ", ", latlng[1], lines[4], sep="")
-    print("Fix taken at:", getTime(lines[5], "%H%M%S.%f", "%H:%M:%S"), "UTC")
-    print("Status (A=OK,V=KO):", lines[6])
-    if lines[7].partition("*")[0]:  # Extra field since NMEA standard 2.3
-        print(
-            "Mode (A=Autonomous, D=Differential, E=Estimated, N=Data not valid):",
-            lines[7].partition("*")[0],
-        )
+    print(
+        datetime.now(),
+        " at ", getTime(lines[5], "%H%M%S.%f", "%H:%M:%S"), "UTC",
+        " Lat,Long: ", latlng[0], lines[2], ", ", latlng[1], lines[4]
+    )
+    if 1 == 2:
+        print("Fix taken at:", getTime(lines[5], "%H%M%S.%f", "%H:%M:%S"), "UTC")
+        print("Status (A=OK,V=KO):", lines[6])
+        if lines[7].partition("*")[0]:  # Extra field since NMEA standard 2.3
+            print(
+                "Mode (A=Autonomous, D=Differential, E=Estimated, N=Data not valid):",
+                lines[7].partition("*")[0],
+            )
     return
 
 
@@ -163,6 +180,7 @@ def checksum(line):
 def showDetail(line):
     lines = line.split(",")
     if checksum(line):
+        print(datetime.now(), " ", line)  #.strftime("%Y-%m-%d %H:%M:%S"))
         if lines[0] == "GPRMC":
             printRMC(lines)
             pass
@@ -182,7 +200,7 @@ def showDetail(line):
             printVTG(lines)
             pass
         else:
-            print("\n\nUnknown type:", lines[0], "\n")
+            print("Unknown type:", line)
     else:
         print("Invalid checksum")
 
@@ -192,11 +210,7 @@ if __name__ == "__main__":
     try:
         while True:
             line = readString()
-            if line.startswith("GPVTG"):
-                continue
-            print(line)
-            if line.startswith("GPGSV"):
-                showDetail(line)
+            showDetail(line)
 
     except KeyboardInterrupt:
         print("Exiting Script")
