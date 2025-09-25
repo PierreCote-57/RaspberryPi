@@ -3,7 +3,7 @@ $fa=1.000;
 $fn=36.000;
 
 
-// ShellComplete-2
+// ShellComplete-3
 intersection()
 {
 // ShellComplete
@@ -102,7 +102,7 @@ intersection()
 			}
 		}
 	}
-	translate(v=[0.000, 0.000, 375.000])
+	translate(v=[0.000, 0.000, 525.000])
 	{
 		cube(size=[2000.000, 2000.000, 150.000], center=true);
 	}

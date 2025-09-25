@@ -3,30 +3,38 @@ $fa=1.000;
 $fn=36.000;
 
 
-// Shell
-union()
+// Shell-3
+intersection()
 {
-	color(c=[1.000, 1.000, 1.000])
+// Shell
+	union()
 	{
-		translate(v=[-0.100, 0.000, 0.000])
+		color(c=[1.000, 1.000, 1.000])
 		{
-			cockpit_empty(5.000);
+			translate(v=[-0.100, 0.000, 0.000])
+			{
+				cockpit_empty(5.000);
+			}
+		}
+		color(c=[0.000, 1.000, 0.000])
+		{
+			intersection()
+			{
+				difference()
+				{
+					cockpit_rounded();
+					cockpit_mask(7.500);
+				}
+				translate(v=[27.500, 0.000, 0.000])
+				{
+					cube(size=[5.000, 2000.000, 2000.000], center=true);
+				}
+			}
 		}
 	}
-	color(c=[0.000, 1.000, 0.000])
+	translate(v=[0.000, 0.000, 525.000])
 	{
-		intersection()
-		{
-			difference()
-			{
-				cockpit_rounded();
-				cockpit_mask(7.500);
-			}
-			translate(v=[27.500, 0.000, 0.000])
-			{
-				cube(size=[5.000, 2000.000, 2000.000], center=true);
-			}
-		}
+		cube(size=[2000.000, 2000.000, 150.000], center=true);
 	}
 }
 
