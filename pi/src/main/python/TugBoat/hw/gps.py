@@ -6,19 +6,96 @@ from datetime import datetime
 import time
 import serial
 
+class SerialGPS:
 
-def readString():
-    while 1:
-        while ser.read().decode("utf-8") != "$":  # Wait for the begging of the string
-            pass  # Do nothing
-        line = ser.readline().decode("utf-8")  # Read the entire string
+    # def defines a method/function
+
+    # Constructor
+    def __init__(self, address):
+        self.address = address
+        self.ser = serial.Serial(address, 9600, timeout=1)  # Open Serial port
+
+    # toString
+    def __str__(self):
+        return f"SerialGPS on  {self.address}"
+
+
+    def readString(self):
+        if 1 == 2:
+            while 1:
+                while self.ser.read().decode("utf-8") != "$":  # Wait for the begging of the string
+                    pass  # Do nothing
+
+
+        # Wait for a $ that indicates beginning of sentence
+        ch = "na";
+        while (ch != "$"):
+            b = self.ser.read()
+            try:
+                ch = b.decode("utf-8")
+            except:
+                ch = "na";
+            pass
+        line = self.ser.readline().decode("utf-8")  # Read the entire string
         line = line.replace("\r", "")
         line = line.replace("\n", "")
         return line
 
 
+    def parseLine(self, line):
+        lines = line.split(",")
+        if checksum(line):
+    #        print(datetime.now(), "Line = ", line)  #.strftime("%Y-%m-%d %H:%M:%S"))
+            if lines[0] == "GPRMC":
+                printRMC(lines)
+                pass
+            elif lines[0] == "GPGGA":
+                printGGA(lines)
+                pass
+            elif lines[0] == "GPGSA":
+                printGSA(lines)
+                pass
+            elif lines[0] == "GPGSV":
+                printGSV(lines)
+                pass
+            elif lines[0] == "GPGLL":
+                printGLL(lines)
+                pass
+            elif lines[0] == "GPVTG":
+                printVTG(lines)
+                pass
+            else:
+                print("Unknown type:", line)
+        else:
+            print("Invalid checksum")
+
+
+class ReadingGPRMC:
+
+    # def defines a method/function
+
+    # Constructor
+    def __init__(self, status, lat, lon, speedMPS, track):
+        self.status = status
+        self.lat = lat
+        self.lon = lon
+        self.speedMPS = speedMPS
+        self.track = track
+
+    # toString
+    def __str__(self):
+        return f"GPSReading  {self.status}"
+
+
+
+
+
+
 def getTime(string, format, returnFormat):
-    return time.strftime(returnFormat, time.strptime(string, format))  # Convert date and time to a nice printable format
+    try:
+        return time.strftime(returnFormat, time.strptime(string, format))  # Convert date and time to a nice printable format
+    except:
+        return "unknown: " + string
 
 
 def getLatLng(latString, lngString):
@@ -33,18 +110,26 @@ def getLatLng(latString, lngString):
 def printRMC(lines):
     #print("========================================RMC========================================")
     # print(lines, '\n')
-    status = lines[2]
+    status = "OK" if "A" == lines[2] else "KO"
     timeUTC = getTime(lines[1] + lines[9], "%H%M%S.%f%d%m%y", "%a %b %d %H:%M:%S %Y")
     latlng = getLatLng(lines[3], lines[5])
+    try:
+        speedKNT = float(lines[7])
+    except:
+        speedKNT = 0.0
+    speedKMH = speedKNT * 1.85200428
+    speedMPS = speedKMH / 3.6
 
     print(
-        datetime.now(),
-        lines[0], " at ", timeUTC, "UTC",
+        datetime.now(), lines[0],
+#        " at ", timeUTC, "UTC",
         " status = ", status,
         " Lat,Long: ", latlng[0], lines[2], ", ", latlng[1], lines[4],
-        " speed (knots) = lines[7]",
-        " track (deg) = lines[8]",
-        " magvar = ", lines[10], " ", lines[11],
+#        " speed (knots) = ", speedKNT,
+        " speed (km/h)", "{:.2f}".format(speedKMH),
+        " speed (m/s)", "{:.2f}".format(speedMPS),
+        " track (deg) = ", lines[8],
+#        " magvar = ", lines[10], " ", lines[11],
     )
 
     if (1 == 2):
@@ -78,14 +163,16 @@ def printGGA(lines):
     quality = "Fix" if lines[6] == "1" else "No fix"
     satCount = lines[7]
     altitude = lines[9] + " " + lines[10]
-    print(
-        datetime.now(), lines[0],
-          " at ", timeUCT, "UTC",
-        " quality = ", quality,
-        " Lat,Long: ", latlng[0], lines[3], ", ", latlng[1], lines[5],
-        " Satellites: ", satCount.lstrip("0"),
-        " Altitude: ", altitude
-    )
+
+    if 1 == 2:
+        print(
+            datetime.now(), lines[0],
+    #          " at ", timeUCT, "UTC",
+            " quality = ", quality,
+            " Satellites: ", satCount,
+            " Lat,Long: ", latlng[0], lines[3], ", ", latlng[1], lines[5],
+            " Altitude: ", altitude
+        )
 
     if (1 == 2):
         print("Fix taken at:", getTime(lines[1], "%H%M%S.%f", "%H:%M:%S"), "UTC")
@@ -111,10 +198,10 @@ def printGSA(lines):
         quality = "3D fix"
     else:
         quality = lines[2]
-    print(datetime.now(), lines[0],
-           " GSA Fix quality = ", quality,
+#    print(datetime.now(), lines[0],
+#           " GSA Fix quality = ", quality,
 #           " using ", lines[3], " satellites"
-   )
+#   )
     if 1 == 2:
         print("Selection of 2D or 3D fix (A=Auto,M=Manual):", lines[1])
         print("3D fix (1=No fix,2=2D fix, 3=3D fix):", lines[2])
@@ -138,7 +225,7 @@ def printGSV(lines):
 
     # print("Number of sentences:", lines[1])
     # print("Sentence:", lines[2])
-    # print(datetime.now(), lines[0], " Satellites in view:", lines[3])
+#    print(datetime.now(), lines[0], " Satellites in view:", lines[3])
     if 1 == 2:
         for i in range(0, int(len(lines) / 4) - 1):
             print("Satellite # ", i + 1)
@@ -154,11 +241,14 @@ def printGLL(lines):
     # print(lines, '\n')
 
     latlng = getLatLng(lines[1], lines[3])
-    print(
-        datetime.now(), lines[0],
-        " at ", getTime(lines[5], "%H%M%S.%f", "%H:%M:%S"), "UTC",
-        " Lat,Long: ", latlng[0], lines[2], ", ", latlng[1], lines[4]
-    )
+
+    if 1 == 2:
+        print(
+            datetime.now(), lines[0],
+    #        " at ", getTime(lines[5], "%H%M%S.%f", "%H:%M:%S"), "UTC",
+            " Lat,Long: ", latlng[0], lines[2], ", ", latlng[1], lines[4]
+        )
+
     if 1 == 2:
         print("Fix taken at:", getTime(lines[5], "%H%M%S.%f", "%H:%M:%S"), "UTC")
         print("Status (A=OK,V=KO):", lines[6])
@@ -174,11 +264,12 @@ def printVTG(lines):
     # print("========================================VTG========================================")
     # print(lines, '\n')
 
-    print(
-        datetime.now(), lines[0],
-        " Speed (km/h):", lines[7],
-        "True track (deg):", lines[1],
-    )
+    if  1 == 2:
+        print(
+            datetime.now(), lines[0],
+            " Speed (km/h):", lines[7],
+            "True track (deg):", lines[1],
+        )
 
     if (1 == 2):
         print("True Track made good (deg):", lines[1], lines[2])
@@ -215,40 +306,12 @@ def checksum(line):
         return False
 
 
-def showDetail(line):
-    lines = line.split(",")
-    if checksum(line):
-#        print(datetime.now(), "Line = ", line)  #.strftime("%Y-%m-%d %H:%M:%S"))
-        if lines[0] == "GPRMC":
-            printRMC(lines)
-            pass
-        elif lines[0] == "GPGGA":
-            printGGA(lines)
-            pass
-        elif lines[0] == "GPGSA":
-            printGSA(lines)
-            pass
-        elif lines[0] == "GPGSV":
-            printGSV(lines)
-            pass
-        elif lines[0] == "GPGLL":
-            printGLL(lines)
-            pass
-        elif lines[0] == "GPVTG":
-            printVTG(lines)
-            pass
-        else:
-            print("Unknown type:", line)
-    else:
-        print("Invalid checksum")
-
-
 if __name__ == "__main__":
-    ser = serial.Serial("/dev/ttyACM0", 9600, timeout=1)  # Open Serial port
+    gps = SerialGPS("/dev/ttyACM0")
     try:
         while True:
-            line = readString()
-            showDetail(line)
+            line = gps.readString()
+            gps.parseLine(line)
 
     except KeyboardInterrupt:
         print("Exiting Script")
