@@ -9,7 +9,7 @@ union()
 	difference()
 	{
 		// ContainerBox
-		import("/Users/pierrecote/src/github/RaspberryPi/3D/External/Interlocking Shipping Container - 6528974/files/Interlocking_Shipping_Container.stl", 10);
+		import("/Users/pierrecote/src/github/RaspberryPi/Data/3D/External/Interlocking Shipping Container - 6528974/files/Interlocking_Shipping_Container.stl", 10);
 		color(c=[1.000, 0.000, 0.000])
 		{
 // BLF
