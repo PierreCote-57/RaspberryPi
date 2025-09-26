@@ -13,7 +13,7 @@ intersection()
 		{
 			translate(v=[-0.100, 0.000, 0.000])
 			{
-				cockpit_empty(8.000);
+				cockpit_empty(5.000);
 			}
 		}
 		color(c=[0.000, 1.000, 0.000])
@@ -23,18 +23,18 @@ intersection()
 				difference()
 				{
 					cockpit_rounded();
-					cockpit_mask(12.000);
+					cockpit_mask(7.500);
 				}
-				translate(v=[29.000, 0.000, 0.000])
+				translate(v=[27.500, 0.000, 0.000])
 				{
-					cube(size=[8.000, 2000.000, 2000.000], center=true);
+					cube(size=[5.000, 2000.000, 2000.000], center=true);
 				}
 			}
 		}
 	}
-	translate(v=[0.000, 0.000, 100.000])
+	translate(v=[0.000, 0.000, 75.000])
 	{
-		cube(size=[2000.000, 2000.000, 200.000], center=true);
+		cube(size=[2000.000, 2000.000, 150.000], center=true);
 	}
 }
 

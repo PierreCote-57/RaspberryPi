@@ -11,15 +11,7 @@ intersection()
 	{
 		intersection()
 		{
-			cockpit_mask(8.500);
-			translate(v=[27.500, 0.000, 0.000])
-			{
-				cube(size=[5.000, 2000.000, 2000.000], center=true);
-			}
-		}
-		intersection()
-		{
-			cockpit_mask(8.500);
+			cockpit_mask(5.500);
 			translate(v=[27.500, 0.000, 0.000])
 			{
 				cube(size=[5.000, 2000.000, 2000.000], center=true);
@@ -27,18 +19,14 @@ intersection()
 		}
 		translate(v=[0.000, 0.000, 225.000])
 		{
-			union()
+			translate(v=[0.000, 0.000, 0.000])
 			{
-				cube(size=[100.000, 100.000, 200.000], center=true);
-				translate(v=[50.000, 0.000, 0.000])
+				minkowski()
 				{
-					difference()
+					cube(size=[100.000, 80.000, 180.000], center=true);
+					rotate(a=[0.000, 90.000, 0.000])
 					{
-						cylinder(h=200.000, r1=50.000, r2=50.000, center=true);
-						translate(v=[-200.000, 0.000, 0.000])
-						{
-							cube(size=[400.000, 400.000, 400.000], center=true);
-						}
+						cylinder(h=0.010, r1=10.000, r2=10.000, center=false);
 					}
 				}
 			}

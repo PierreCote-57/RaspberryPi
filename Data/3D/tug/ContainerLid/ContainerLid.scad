@@ -9,7 +9,7 @@ union()
 	difference()
 	{
 		// ContainerLid
-		import("/Users/pierrecote/src/github/RaspberryPi/3D/External/Interlocking Shipping Container - 6528974/files/Interlocking_Shipping_Lid_Updated_better_tolerance.stl", 10);
+		import("/Users/pierrecote/src/github/RaspberryPi/Data/3D/External/Interlocking Shipping Container - 6528974/files/Interlocking_Shipping_Lid_Updated_better_tolerance.stl", 10);
 		color(c=[1.000, 0.000, 0.000])
 		{
 // TL

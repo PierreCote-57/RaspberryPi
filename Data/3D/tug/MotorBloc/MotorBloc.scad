@@ -10,7 +10,7 @@ color(c=[0.000, 1.000, 0.000])
 	{
 		intersection()
 		{
-			cockpit_mask(8.000);
+			cockpit_mask(5.000);
 			translate(v=[0.000, 0.000, 310.000])
 			{
 				cube(size=[2000.000, 2000.000, 180.000], center=true);
