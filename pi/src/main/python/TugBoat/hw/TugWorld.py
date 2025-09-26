@@ -9,7 +9,7 @@ from serial.tools import list_ports
 # 2040 boards by serial number
 #   'e661410403295833'
 #   'e6617c93e3514d2a'
-class TugWorld:
+class TugHardware:
 
     # def defines a method/function
 
@@ -42,12 +42,12 @@ class TugWorld:
 
 
 if __name__ == "__main__":
-    world = TugWorld()
-    print("Found platform: ", world.platform)
+    ttyList = TugHardware()
+    print("Found platform: ", ttyList.platform)
 
-    print("Devices found: ", world.ttyList)
-    print("SerialGPS is on ", world.findSerialGPS())
-    print("Motor2040 is on ", world.findMotor2040())
-    print("Servo2040 is on ", world.findServo2040())
+    print("Devices found: ", ttyList.ttyList)
+    print("SerialGPS is on ", ttyList.findSerialGPS())
+    print("Motor2040 is on ", ttyList.findMotor2040())
+    print("Servo2040 is on ", ttyList.findServo2040())
 
     print("Done")
