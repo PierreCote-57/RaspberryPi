@@ -1,5 +1,15 @@
-import TugWorld
 import serial
+from datetime import datetime
+import os
+import sys
+
+import TugWorld
+
+homePath = os.path.abspath(".") + "/pi/src/main/python"
+sys.path.append(homePath + "/TugBoat")
+
+from utility import TugUtil
+
 
 world = TugWorld.TugHardware()
 address = world.findServo2040()
@@ -9,15 +19,19 @@ dev = address.device
 print("Opening serial ", dev)
 ser = serial.Serial(dev, 9600, timeout=1)  # Open Serial port
 
-b = bytes("Hello\n", "utf-8")
-print("Writing ", b)
-ser.write(b)
+timer = TugUtil.TugTimer()
+timer.checkpoint("Writing ")
 
-print("Reading...")
-while 1 == 1:
-    cch = ser.in_waiting
-    if 0 != cch:
-        bin = ser.readline()
-        print(bin.decode("utf-8"))
+for i in range(5):
+    b = bytes("$Hello\n", "utf-8")
+    ser.write(b)
+    bin = ser.readline().strip()
+    back = bin.decode("utf-8")
+    if (back == "OK"):
+        print("Response was OK")
+    else:
+        print("Oops, bad KO respones")
+
+print(timer)
 
 print("done")

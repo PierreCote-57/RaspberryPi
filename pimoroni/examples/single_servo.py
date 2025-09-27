@@ -15,13 +15,13 @@ s.enable()
 time.sleep(2)
 
 # Go to min
-if 1 == 2:
+if 1 == 1:
     print("Moving to min")
     s.to_min()
     time.sleep(2)
 
 # Go to max
-if 1 == 2:
+if 1 == 1:
     print("Moving to max")
     s.to_max()
     time.sleep(2)
@@ -39,7 +39,7 @@ STEPS_INTERVAL = 0.5    # The time in seconds between each step of the sequence
 SWEEP_EXTENT = 90.0     # How far from zero to move the servo when sweeping
 
 # Do a sine sweep
-if 1 == 2:
+if 1 == 1:
     for _j in range(SWEEPS):
         for i in range(360):
             print("Moving to ", i)
