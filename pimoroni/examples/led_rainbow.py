@@ -33,7 +33,7 @@ time.sleep(5.0)
 offset = 0.0
 
 # Make rainbows until the user button is pressed
-while not user_sw.raw():
+while 1 == 2: #not user_sw.raw():
 
     offset += SPEED / 1000.0
 

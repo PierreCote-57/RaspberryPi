@@ -65,7 +65,7 @@ class ServoClient:
         return self.readSensor("Amp")
     
     def readSensor(self, channel):
-        command = f"$Analog,{channel}"
+        command = f"$Sensor,{channel}"
         response = self.processCommand(command)
         responseParts = response.split(",")
         isSuccess = "OK" == responseParts[0]

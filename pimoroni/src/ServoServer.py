@@ -47,6 +47,12 @@ class LightProcessor:
         self.led_bar.start()
         return
 
+    def shutdown(self):
+        self.led_bar.clear()
+
+    def __str__(self):
+        return f"LightProcessor for {servo2040.NUM_LEDS} lights"
+
     def processLine(self, lineParts):
         command = lineParts[1]
         command = command.strip()
@@ -67,7 +73,7 @@ class LightProcessor:
 #  Volt
 #  Amp
 #  0-5, for pins labelled 1-6
-class AnalogProcessor:
+class SensorProcessor:
     def __init__(self):
         # Set up the shared analog inputs
         self.sen_adc = Analog(servo2040.SHARED_ADC)
@@ -84,6 +90,13 @@ class AnalogProcessor:
         for addr in self.sensor_addrs:
 #            print("Setting up address ", addr)
             self.mux.configure_pull(addr, Pin.PULL_DOWN)
+
+    def shutdown(self):
+        # Nothing to do
+        return
+
+    def __str__(self):
+        return "SensorProcessor"
 
     def processLine(self, lineParts):
         command = lineParts[1]
@@ -114,9 +127,8 @@ class AnalogProcessor:
 
 
 processorMap = {}
-p1 = LightProcessor()
 processorMap["Light"] = LightProcessor()
-processorMap["Analog"] = AnalogProcessor()
+processorMap["Sensor"] = SensorProcessor()
 
 
 chDollar = "$"
@@ -164,5 +176,9 @@ while 1 == 1:
     except Exception as error:
         Reporter.reportFailure("Unknown error in processing: {}".format(error))
         continue
+
+for key, value in processorMap.items():
+    print("Processor ", key, " -> ", value)
+    value.shutdown()
 
 print("Exiting")

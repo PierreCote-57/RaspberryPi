@@ -7,7 +7,7 @@ Demonstrates how to create a Servo object and control it.
 """
 
 # Create a servo on pin 0
-s = Servo(servo2040.SERVO_1)
+s = Servo(servo2040.SERVO_2)
 
 # Enable the servo (this puts it at the middle)
 print("Enabling")
@@ -59,9 +59,9 @@ if 1 == 2:
 
 if 1 == 1:
     s.to_min()
-    time.sleep(2.0)
+    time.sleep(1.0)
     s.to_max()
-    time.sleep(2.0)
+    time.sleep(1.0)
     s.to_mid()
     targetList = [-45, -90, -45, 0, 45, 90, 45, 0]
     for j in range(SWEEPS):
@@ -70,6 +70,7 @@ if 1 == 1:
             print("Moving to ", i)
             s.value(i)
             time.sleep(2.0)
+    s.to_mid()
 
 # Disable the servo
 s.disable()
