@@ -15,19 +15,19 @@ s.enable()
 time.sleep(2)
 
 # Go to min
-if 1 == 1:
+if 1 == 2:
     print("Moving to min")
     s.to_min()
     time.sleep(2)
 
 # Go to max
-if 1 == 1:
+if 1 == 2:
     print("Moving to max")
     s.to_max()
     time.sleep(2)
 
 # Go back to mid
-if 1 == 1:
+if 1 == 2:
     print("Moving to mid")
     s.to_mid()
     time.sleep(2)
@@ -39,11 +39,12 @@ STEPS_INTERVAL = 0.5    # The time in seconds between each step of the sequence
 SWEEP_EXTENT = 90.0     # How far from zero to move the servo when sweeping
 
 # Do a sine sweep
-if 1 == 1:
+if 1 == 2:
     for _j in range(SWEEPS):
         for i in range(360):
-            print("Moving to ", i)
-            s.value(math.sin(math.radians(i)) * SWEEP_EXTENT)
+            target = math.sin(math.radians(i)) * SWEEP_EXTENT
+            print("Moving to ", i, " with value ", target)
+            s.value(target)
             time.sleep(0.02)
 
 # Do a stepped sweep
@@ -55,6 +56,20 @@ if 1 == 2:
         for i in range(STEPS):
             s.to_percent(i, STEPS, 0, 0.0 - SWEEP_EXTENT, SWEEP_EXTENT)
             time.sleep(STEPS_INTERVAL)
+
+if 1 == 1:
+    s.to_min()
+    time.sleep(2.0)
+    s.to_max()
+    time.sleep(2.0)
+    s.to_mid()
+    targetList = [-45, -90, -45, 0, 45, 90, 45, 0]
+    for j in range(SWEEPS):
+        print("Sweep", j)
+        for i in targetList:
+            print("Moving to ", i)
+            s.value(i)
+            time.sleep(2.0)
 
 # Disable the servo
 s.disable()
