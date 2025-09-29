@@ -53,8 +53,12 @@ class ServoClient:
 
 
     def setRGB(self, n, r, g, b):
-        hsv = colorsys.rgb_to_hsv(r, g, b)
-        command = "$Light,SetHSV,{0},{1},{2},{3}".format(n, hsv[0], hsv[1], hsv[2])
+        command = "$Light,SetRGB,{0},{1},{2},{3}".format(n, r, g, b)
+        answer = self.processCommand(command)
+        return answer
+    
+    def setHSV(self, n, h, s, b):
+        command = "$Light,SetHSV,{0},{1},{2},{3}".format(n, h, s, v)
         answer = self.processCommand(command)
         return answer
     

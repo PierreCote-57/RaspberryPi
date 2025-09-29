@@ -1,10 +1,11 @@
 
 import sys
+import time
 
 from machine import Pin
 from pimoroni import Analog, AnalogMux, Button
 from plasma import WS2812
-from servo import servo2040
+from servo import Servo, servo2040
 
 # Utility methods
 class Reporter:
@@ -55,7 +56,6 @@ class LightProcessor:
 
     def processLine(self, lineParts):
         command = lineParts[1]
-        command = command.strip()
         result = None
         if "Clear" == command:
             self.led_bar.clear()
@@ -65,9 +65,23 @@ class LightProcessor:
             s = float(lineParts[4])
             v = float(lineParts[5])
             self.led_bar.set_hsv(no, h, s, v)
+            result = self.led_bar.get(no)
+        elif "SetRGB" == command:
+            no = int(lineParts[2])
+            r = int(lineParts[3])
+            g = int(lineParts[4])
+            b = int(lineParts[5])
+            self.led_bar.set_rgb(no, r, g, b)
+            result = self.led_bar.get(no)
+        elif "Get" == command:
+            no = int(lineParts[2])
+            print(dir(self.led_bar))
+            print(self.led_bar)
+            print(self.led_bar.get(no))
+            result = self.led_bar.get(no)
         else:
-            result = "Unknown command '{}'".format(command)
-        Reporter.reportResult(result)
+            Reporter.reportError("Unknown command '{}'".format(command))
+        Reporter.reportSuccess(result)
 
 # Channels are:
 #  Volt
@@ -100,15 +114,21 @@ class SensorProcessor:
 
     def processLine(self, lineParts):
         command = lineParts[1]
-        command = command.strip()
         if ("Volt" == command):
             self.mux.select(servo2040.VOLTAGE_SENSE_ADDR)
             result = self.vol_adc.read_voltage()
         elif ("Amp" == command):
             self.mux.select(servo2040.CURRENT_SENSE_ADDR)
             result = self.cur_adc.read_current();
+        elif ("Prop" == command):
+            self.mux.select(0)
+            prop = {}
+            prop["Gain"] = self.cur_adc.gain
+            prop["Offset"] = self.cur_adc.offset
+            prop["Resistor"] = self.cur_adc.resistor
+            result = prop
         else:
-            channel = lineParts[1].strip()
+            channel = lineParts[1]
             try:
                 channel = int(channel)
             except:
@@ -119,16 +139,71 @@ class SensorProcessor:
                 Reporter.reportError("Channel must be [0-{0}] ; not {1}".format((len(self.sensor_addrs) - 1), channel))
                 return
 
-            self.mux.select(self.sensor_addrs[channel])
-            result = self.sen_adc.read_voltage()
+            self.mux.select(channel)
+            result = self.vol_adc.read_voltage()
 
+        # If made it here, result is the success answer
+        Reporter.reportSuccess(result)
+    
+
+# Servos are 0-17 for labels 1-18
+class ServoProcessor:
+    def __init__(self):
+        self.servoMap = {}
+        
+    def shutdown(self):
+        for key, servo in self.servoMap.items():
+            print("Shutting down servo", key, " -> ", servo)
+            servo.disable()
+
+
+    def __str__(self):
+        return f"ServoProcessor with {len(self.servoMap)} active servos"
+
+    def processLine(self, lineParts):
+        command = lineParts[1]
+        channel = int(lineParts[2])
+        servo = self.ensureServo(channel)
+
+        if ("Set" == command):
+            angle = float(lineParts[3])
+            servo.value(angle)
+            result = angle
+        elif ("Get" == command):
+            angle = servo.value()
+            result = angle
+        elif ("Prop" == command):
+            prop = {}
+            prop["Pin"] = servo.pin()
+            prop["Min"] = servo.min_value()
+            prop["Mid"] = servo.mid_value()
+            prop["Max"] = servo.max_value()
+            prop["Value"] = servo.value()
+            prop["Pulse"] = servo.pulse()
+            prop["Frequency"] = servo.frequency()
+            prop["Calibration"] = servo.calibration()
+            result = prop
+        else:
+            Reporter.reportError(f"Unknown ommand {command}")
         Reporter.reportSuccess(result)
 
+
+    def ensureServo(self, channel):
+        try:
+            servo = self.servoMap[channel]
+#            print(f"Channel {channel} has servo {servo}")
+        except:
+            # Servo not initialized
+            servo = Servo(channel)
+            servo.enable()
+            self.servoMap[channel] = servo
+        return servo
 
 
 processorMap = {}
 processorMap["Light"] = LightProcessor()
 processorMap["Sensor"] = SensorProcessor()
+processorMap["Servo"] = ServoProcessor()
 
 
 chDollar = "$"
@@ -151,11 +226,11 @@ while 1 == 1:
         #reportResult("Invalid line start")
         continue
         
-    lineParts = line.split(",")
+    lineParts = line.strip().split(",")
  
     # Find a processor
     try:
-        processorName = lineParts[0].replace("$", "").strip();
+        processorName = lineParts[0].replace("$", "");
         if ("Stop" == processorName):
             print("Exiting")
             break
@@ -163,22 +238,22 @@ while 1 == 1:
 #        print("Looking for processor '" + processorName + "'")
         processor = processorMap[processorName]
     except:
-        Reporter.reportFailure("Unknown processor {}".format(processorName));
+        Reporter.reportError("Unknown processor {}".format(processorName));
         continue
 
     if None == processor:
-        Reporter.reportFailure("Unknown processor")
+        Reporter.reportError("Unknown processor")
         continue;
 
     # Process the request
     try:
         result = processor.processLine(lineParts);
     except Exception as error:
-        Reporter.reportFailure("Unknown error in processing: {}".format(error))
+        Reporter.reportError("Unknown error in processing: {}".format(error))
         continue
 
 for key, value in processorMap.items():
-    print("Processor ", key, " -> ", value)
+    print("Shutting down processor ", key, " -> ", value)
     value.shutdown()
 
 print("Exiting")
