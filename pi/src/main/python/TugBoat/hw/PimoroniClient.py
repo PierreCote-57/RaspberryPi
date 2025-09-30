@@ -3,8 +3,6 @@ import time
 from datetime import datetime
 import os
 import sys
-import json
-import colorsys
 
 import TugWorld
 
@@ -58,7 +56,7 @@ class ServoClient:
         answer = self.processCommand(command)
         return AnswerRGB(answer)
     
-    def setHSV(self, n, h, s, b):
+    def setHSV(self, n, h, s, v):
         command = "$Light,SetHSV,{0},{1},{2},{3}".format(n, h, s, v)
         answer = self.processCommand(command)
         return AnswerRGB(answer)
