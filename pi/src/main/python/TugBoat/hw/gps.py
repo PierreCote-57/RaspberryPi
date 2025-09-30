@@ -104,6 +104,12 @@ def getTime(string, format, returnFormat):
 
 def getLatLng(latString, lngString):
     try:
+        latDeg = int(latString[:2])
+        latMin = float(latString[2:])   # todo leading 0
+        latitude = latDeg + (latMin / 60.0)
+        lonDeg = int(lngString[:3])
+        lonMin = float(lngString[3:])
+        longitude = lonDeg + (lonMin / 60.0)
         lat = latString[:2].lstrip("0") + "." + "%.7s" % str(float(latString[2:]) * 1.0 / 60.0).lstrip("0.")
         lng = lngString[:3].lstrip("0") + "." + "%.7s" % str(float(lngString[3:]) * 1.0 / 60.0).lstrip("0.")
         return lat, lng
@@ -128,7 +134,7 @@ def printRMC(lines):
         datetime.now(), lines[0],
 #        " at ", timeUTC, "UTC",
         " status = ", status,
-        " Lat,Long: ", latlng[0], lines[2], ", ", latlng[1], lines[4],
+        " Lat,Long: ", latlng[0], lines[4], ", ", latlng[1], lines[6],
 #        " speed (knots) = ", speedKNT,
         " speed (km/h)", "{:.2f}".format(speedKMH),
         " speed (m/s)", "{:.2f}".format(speedMPS),
