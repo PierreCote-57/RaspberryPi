@@ -6,9 +6,18 @@ import serial
 from serial.tools import list_ports
 
 
+# USB GPS:
+#   Description:    'u-blox 7 - GPS/GNSS Receiver'
+#   Manufacturer:   'u-blox AG - www.u-blox.com'
+#   Product:        'u-blox 7 - GPS/GNSS Receiver'
+#
 # 2040 boards by serial number
-#   'e661410403295833'
-#   'e6617c93e3514d2a'
+#   Motor2040:          'e661410403295833'
+#
+#   Servo2040:          'e6617c93e3514d2a'
+#       Description:    'Board in FS mode - Board CDC'
+#       Manufacturer:   'MicroPython'
+#       Product:        'Board in FS mode'
 class TugHardware:
 
     # def defines a method/function
@@ -32,7 +41,7 @@ class TugHardware:
         return None
     
     def findSerialGPS(self):
-        return self.findPort(self, "GPS")
+        return self.findPort(None, "u-blox 7 - GPS/GNSS")
     
     def findMotor2040(self):
         return self.findPort("e661410403295833", None);

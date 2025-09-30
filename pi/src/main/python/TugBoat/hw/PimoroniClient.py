@@ -3,6 +3,7 @@ import time
 from datetime import datetime
 import os
 import sys
+import json
 import colorsys
 
 import TugWorld
@@ -79,10 +80,36 @@ class ServoClient:
             answer = response
         return answer
 
+    def getSensorProp(self):
+        command = f"$Sensor,Prop"
+        response = self.processCommand(command)
+        return response
 
-class AnswerRGB:
+    def setServo(self, channel, angle):
+        command = f"$Servo,Set,{channel},{angle}"
+        response = self.processCommand(command)
+        return AnswerServo(response)
+
+    def getServo(self, channel):
+        command = f"$Servo,Get,{channel}"
+        response = self.processCommand(command)
+        return AnswerServo(response)
+
+    def getServoProp(self, channel):
+        command = f"$Servo,Prop,{channel}"
+        response = self.processCommand(command)
+        return response
+
+class GenericAnswer:
     def __init__(self, answer):
         self.answer = answer;
+
+    def isSuccess(self):
+        return self.answer.startswith("OK");
+
+class AnswerRGB(GenericAnswer):
+    def __init__(self, answer):
+        GenericAnswer.__init__(self, answer);
         self.result = answer[:2]
         rgbParts= answer[4:len(answer)-3].split(",")
         self.r = int(rgbParts[0].replace("'", ""))
@@ -92,6 +119,15 @@ class AnswerRGB:
 
     def __str__(self):
         return f"[{self.r:3}, {self.g:3}, {self.b:3}, {self.s:3}]"
+
+class AnswerServo(GenericAnswer):
+    def __init__(self, answer):
+        GenericAnswer.__init__(self, answer);
+        self.result = answer[:2]
+        self.angle = float(answer[3:].replace("'", ""))
+
+    def __str__(self):
+        return f"[{self.angle:5.1f}]"
 
 
 def testRGB(servo):
@@ -121,6 +157,8 @@ def calibrateRGB(servo):
 
 
 def testSensor(servo):
+    prop = servo.getSensorProp()
+    print("SensorProp:", prop.strip())
     voltage = servo.readVoltage()
     current = servo.readCurrent()
     print(datetime.fromtimestamp(time.time()).strftime('%Y-%m-%d %H:%M:%S.%f'), end=" ")
@@ -131,6 +169,23 @@ def testSensor(servo):
         print(f" Sensor-{i} = {sensor:.3f}", end = "")
     print("")
 
+def testServo(servo):
+    angleList =  [0, -45, -90, -45, 0, 45, 90, 45, 0]
+    channelList = [0, 1]
+
+    for channel in channelList:
+        prop = servo.getServoProp(channel)
+        print(f"Props(channel {channel}) = {prop.strip()}")
+
+    for angle in angleList:
+        print("Moving to ", angle)
+        for channel in channelList:
+            front = servo.setServo(channel, angle)
+            back = servo.getServo(channel);
+            if (angle != back.angle or angle != front.angle):
+                print("Error")
+            time.sleep(0.25)
+
 
 
 if __name__ == "__main__":
@@ -138,6 +193,7 @@ if __name__ == "__main__":
     timer.checkpoint("Writing ")
 
     servo = ServoClient()
-    testRGB(servo)
-    calibrateRGB(servo)
-    testSensor(servo)
+#    testRGB(servo)
+#    calibrateRGB(servo)
+#    testSensor(servo)
+    testServo(servo)

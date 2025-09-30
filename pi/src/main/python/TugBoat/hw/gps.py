@@ -6,14 +6,18 @@ from datetime import datetime
 import time
 import serial
 
+import TugWorld
+
 class SerialGPS:
 
     # def defines a method/function
 
     # Constructor
-    def __init__(self, address):
-        self.address = address
-        self.ser = serial.Serial(address, 9600, timeout=1)  # Open Serial port
+    def __init__(self):
+        world = TugWorld.TugHardware()
+        self.address = world.findSerialGPS()
+        print("SerialGPS is on ", self.address)
+        self.ser = serial.Serial(self.address.device, 9600, timeout=1)  # Open Serial port
 
     # toString
     def __str__(self):
@@ -307,7 +311,7 @@ def checksum(line):
 
 
 if __name__ == "__main__":
-    gps = SerialGPS("/dev/ttyACM0")
+    gps = SerialGPS()
     try:
         while True:
             line = gps.readString()
