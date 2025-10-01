@@ -6,7 +6,7 @@ from datetime import datetime
 import time
 import serial
 
-import TugWorld
+import LocalWorld as LocalWorld
 
 class SerialGPS:
 
@@ -14,10 +14,10 @@ class SerialGPS:
 
     # Constructor
     def __init__(self):
-        world = TugWorld.TugHardware()
-        self.address = world.findSerialGPS()
-        print("SerialGPS is on ", self.address)
-        self.ser = serial.Serial(self.address.device, 9600, timeout=1)  # Open Serial port
+        world = LocalWorld.LocalHardware()
+        self.port = world.findSerialGPS()
+        print("SerialGPS is on ", self.port)
+        self.ser = serial.Serial(self.port.device, 9600, timeout=1)  # Open Serial port
 
     # toString
     def __str__(self):
@@ -89,10 +89,6 @@ class ReadingGPRMC:
     # toString
     def __str__(self):
         return f"GPSReading  {self.status}"
-
-
-
-
 
 
 def getTime(string, format, returnFormat):

@@ -21,6 +21,7 @@ class TugTimer:
         self.checkpoint("Start")
         return
 
+
     # toString
     def __str__(self):
         text = "TugTimer\n"
@@ -42,6 +43,7 @@ class TugTimer:
                 timePrev = timestamp
         text += "Done\n"
         return text
+
 
     def checkpoint(self, name):
         self.checkpointList.append(TimerCheckpoint(name))

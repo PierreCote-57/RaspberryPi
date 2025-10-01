@@ -75,9 +75,6 @@ class LightProcessor:
             result = self.led_bar.get(no)
         elif "Get" == command:
             no = int(lineParts[2])
-            print(dir(self.led_bar))
-            print(self.led_bar)
-            print(self.led_bar.get(no))
             result = self.led_bar.get(no)
         else:
             Reporter.reportError("Unknown command '{}'".format(command))

@@ -6,6 +6,8 @@ import serial
 import psutil
 from serial.tools import list_ports
 
+# See bluetoothctl/scan on /list /devices
+#   May need sudo "rfcomm connect GarminGPS 0C:7E:24:39:EA:8E"
 
 # USB GPS (Typically /dev/ttyACM0):
 #   Description:    'u-blox 7 - GPS/GNSS Receiver'
@@ -29,7 +31,7 @@ from serial.tools import list_ports
 #   ttyAMA10 appeart to be the keyboard (both)
 #   ttyUSB0 also keyboard (both)
 
-class TugHardware:
+class LocalHardware:
 
     # def defines a method/function
 
@@ -41,7 +43,21 @@ class TugHardware:
 
     # toString
     def __str__(self):
-        return f"TugSerial on "
+        return f"Running on {self.platform}, {len(self.ttyList)} tty ports"
+
+    def showPortList(self):
+        for port in self.ttyList:
+            LocalHardware.showPort(port);
+
+    @staticmethod
+    def showPort(port):
+        print("Name: ", port.name)
+        print("\tProduct:", port.product)
+        print("\tDescription:", port.description)
+        print("\tManufacturer: ", port.manufacturer)
+        print("\tSerial number: ", port.serial_number)
+        print("\tSubsystem:", port.subsystem)
+        
 
     def findPort(self, text):
         for dev in self.ttyList:
@@ -102,13 +118,14 @@ class TugSoftware:
 
 
 if __name__ == "__main__":
-    hw = TugHardware()
-    print("Found platform: ", hw.platform)
+    hw = LocalHardware()
+    print("Found platform: ", hw)
 
-    print("Devices found: ", hw.ttyList)
     print("SerialGPS is on ", hw.findSerialGPS())
     print("Motor2040 is on ", hw.findMotor2040())
     print("Servo2040 is on ", hw.findServo2040())
+
+    hw.showPortList()
 
 #    print("Processes ", TugSoftware.listProcesses("rfcomm"))
     p_rfcomm = TugSoftware.findProcesses("rfcomm");

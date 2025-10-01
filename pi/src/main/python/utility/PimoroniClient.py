@@ -4,12 +4,8 @@ from datetime import datetime
 import os
 import sys
 
-import TugWorld
-
-homePath = os.path.abspath(".") + "/pi/src/main/python"
-sys.path.append(homePath + "/TugBoat")
-
-from utility import TugUtil
+import LocalWorld
+import RandomUtil
 
 
 class ServoClient:
@@ -20,12 +16,11 @@ class ServoClient:
     def __init__(self):
         self.platform = sys.platform
         self.ttyList = list(serial.tools.list_ports.comports())
-        world = TugWorld.TugHardware()
-        self.address = world.findServo2040()
-        print("Servo2040 is on ", self.address)
+        world = LocalWorld.LocalHardware()
+        self.port = world.findServo2040()
+        print("Servo2040 is on ", self.port)
 
-        self.dev = self.address.device
-        print("Opening serial ", self.dev)
+        self.dev = self.port.device
         self.remote = serial.Serial(self.dev, 9600, timeout=1)  # Open Serial port
 
         return
@@ -52,15 +47,20 @@ class ServoClient:
 
 
     def setRGB(self, n, r, g, b):
-        command = "$Light,SetRGB,{0},{1},{2},{3}".format(n, r, g, b)
+        command = f"$Light,SetRGB,{n},{r},{g},{b}"
         answer = self.processCommand(command)
         return AnswerRGB(answer)
     
     def setHSV(self, n, h, s, v):
-        command = "$Light,SetHSV,{0},{1},{2},{3}".format(n, h, s, v)
+        command = f"$Light,SetHSV,{n},{h},{s},{v}"
         answer = self.processCommand(command)
         return AnswerRGB(answer)
     
+    def getRGB(self, n):
+        command = f"$Light,Get,{n}"
+        answer = self.processCommand(command)
+        return AnswerRGB(answer)
+
     def readVoltage(self):
         return self.readSensor("Volt")
 
@@ -82,6 +82,7 @@ class ServoClient:
         command = f"$Sensor,Prop"
         response = self.processCommand(command)
         return response
+
 
     def setServo(self, channel, angle):
         command = f"$Servo,Set,{channel},{angle}"
@@ -140,6 +141,7 @@ def testRGB(servo):
     time.sleep(pause)
     servo.clearLight()
 
+
 def calibrateRGB(servo):
     values = range(0, 256, 8)
     pauseSec = 0.1
@@ -167,13 +169,15 @@ def testSensor(servo):
         print(f" Sensor-{i} = {sensor:.3f}", end = "")
     print("")
 
+
 def testServo(servo):
     angleList =  [0, -45, -90, -45, 0, 45, 90, 45, 0]
-    channelList = [0, 1]
+    channelList = [0, 17]
 
     for channel in channelList:
         prop = servo.getServoProp(channel)
         print(f"Props(channel {channel}) = {prop.strip()}")
+    print("")
 
     for angle in angleList:
         print("Moving to ", angle)
@@ -187,7 +191,7 @@ def testServo(servo):
 
 
 if __name__ == "__main__":
-    timer = TugUtil.TugTimer()
+    timer = RandomUtil.TugTimer()
     timer.checkpoint("Writing ")
 
     servo = ServoClient()
@@ -195,3 +199,4 @@ if __name__ == "__main__":
 #    calibrateRGB(servo)
 #    testSensor(servo)
     testServo(servo)
+    print("Done")
