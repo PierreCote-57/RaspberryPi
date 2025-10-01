@@ -9,5 +9,7 @@
 	],
 	"python.testing.unittestEnabled": false,
 	"python.testing.pytestEnabled": true,
-    "python.analysis.extraPaths": ["/home/pierre/src/git/RaspberryPi/pi/src/python/TugBoat/utility"],
+    "python.analysis.extraPaths": [
+        "./pi/src/main/python/utility"
+    ],
 }
