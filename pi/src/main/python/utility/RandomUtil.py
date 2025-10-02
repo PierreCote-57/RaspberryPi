@@ -12,7 +12,7 @@ class TimerCheckpoint:
          return
 
 
-class TugTimer:
+class SimpleTimer:
 
     checkpointList = []
 
@@ -55,7 +55,7 @@ if __name__ == "__main__":
     print("Green", colorsys.rgb_to_hsv(0.0, 0.5, 0.0))
     print("Blue", colorsys.rgb_to_hsv(0.0, 0.0, 0.5))
 
-    timer = TugTimer()
+    timer = SimpleTimer()
     timer.checkpoint("CP1")
     time.sleep(0.5)
     timer.checkpoint("CP2")

@@ -6,6 +6,7 @@ import sys
 
 import LocalWorld
 import RandomUtil
+from RandomUtil import SimpleTimer
 
 
 class ServoClient:
@@ -188,15 +189,31 @@ def testServo(servo):
                 print("Error")
             time.sleep(0.25)
 
-
+def testPerformance(servo):
+    timer = SimpleTimer()
+    for n in range(5):
+        servo.setRGB(n, 128, 128, 0)
+    for n in range(5):
+        servo.setRGB(n, 0, 0, 0)
+    timer.checkpoint("Done with 10 setLight")
+    for n in [0, 17]:
+        servo.setServo(n, 45)
+    for n in [0, 17]:
+        servo.setServo(n, 0)
+    timer.checkpoint("Done with 4 setServo calls")
+    for n in range(10):
+        servo.readVoltage()
+    timer.checkpoint("Done reading 10 voltage")
+    print(timer)
 
 if __name__ == "__main__":
-    timer = RandomUtil.TugTimer()
+    timer = RandomUtil.SimpleTimer()
     timer.checkpoint("Writing ")
 
     servo = ServoClient()
-#    testRGB(servo)
-#    calibrateRGB(servo)
-#    testSensor(servo)
+    testRGB(servo)
+    calibrateRGB(servo)
+    testSensor(servo)
     testServo(servo)
+#    testPerformance(servo)
     print("Done")

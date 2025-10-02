@@ -10,24 +10,19 @@ from servo import Servo, servo2040
 # Utility methods
 class Reporter:
     @staticmethod
-    def reportResult(result):
-        if None == result:
-            Reporter.reportSuccess(None)
-        else:
-            Reporter.reportError(result)
-
-    @staticmethod
     def reportSuccess(result):
-        if (None == result):
-            message ="OK\n"
-        else:
-            message = "OK,{}\n".format(result)
-        sys.stdout.write(bytes(message, "utf-8"))
-        return
+        Reporter.reportResult("OK", result)
 
     @staticmethod
     def reportError(result):
-        message = "KO,{}\n".format(result)
+        Reporter.reportResult("KO", result)
+
+    @staticmethod
+    def reportResult(status, result):
+        if (None == result):
+            message =f"{status}\n"
+        else:
+            message = f"{status},{result}\n"
         sys.stdout.write(bytes(message, "utf-8"))
         return
 
@@ -59,25 +54,28 @@ class LightProcessor:
         result = None
         if "Clear" == command:
             self.led_bar.clear()
-        elif "SetHSV" == command:
-            no = int(lineParts[2])
-            h = float(lineParts[3])
-            s = float(lineParts[4])
-            v = float(lineParts[5])
-            self.led_bar.set_hsv(no, h, s, v)
-            result = self.led_bar.get(no)
-        elif "SetRGB" == command:
-            no = int(lineParts[2])
-            r = int(lineParts[3])
-            g = int(lineParts[4])
-            b = int(lineParts[5])
-            self.led_bar.set_rgb(no, r, g, b)
-            result = self.led_bar.get(no)
-        elif "Get" == command:
-            no = int(lineParts[2])
-            result = self.led_bar.get(no)
         else:
-            Reporter.reportError("Unknown command '{}'".format(command))
+            no = int(lineParts[2])
+            if (0 > no or servo2040.NUM_LEDS <= no):
+                Reporter.reportError(f"Light number is limited to [0, {servo2040.NUM_LEDS - 1}]")
+                return
+            if "SetHSV" == command:
+                h = float(lineParts[3])
+                s = float(lineParts[4])
+                v = float(lineParts[5])
+                self.led_bar.set_hsv(no, h, s, v)
+                result = self.led_bar.get(no)
+            elif "SetRGB" == command:
+                r = int(lineParts[3])
+                g = int(lineParts[4])
+                b = int(lineParts[5])
+                self.led_bar.set_rgb(no, r, g, b)
+                result = self.led_bar.get(no)
+            elif "Get" == command:
+                result = self.led_bar.get(no)
+            else:
+                Reporter.reportError("Unknown command '{}'".format(command))
+
         Reporter.reportSuccess(result)
 
 # Channels are:
@@ -220,7 +218,6 @@ while 1 == 1:
     # Basic validation
     if (not line.startswith(chDollar)):
         # Ignore these lines
-        #reportResult("Invalid line start")
         continue
         
     lineParts = line.strip().split(",")
