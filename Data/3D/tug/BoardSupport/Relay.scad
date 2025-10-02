@@ -10,7 +10,7 @@ difference()
 	{
 		translate(v=[0.000, 0.000, -3.000])
 		{
-			cube(size=[154.000, 72.000, 10.000], center=true);
+			cube(size=[144.000, 62.000, 10.000], center=true);
 		}
 		color(c=[1.000, 0.000, 0.000])
 		{
