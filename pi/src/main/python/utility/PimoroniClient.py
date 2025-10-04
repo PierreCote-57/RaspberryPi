@@ -187,6 +187,19 @@ def testServo(servo):
             if (angle != back.angle or angle != front.angle):
                 print("Error")
             time.sleep(0.25)
+   
+    for channel in [17]:
+        servo.setServo(channel, 10)
+        time.sleep(2)
+        servo.setServo(channel, -10)
+        time.sleep(2)
+        servo.setServo(channel, 0)
+
+def calibrateServo360(servo):
+    for angle in [-10, -5, 0, 5, 10]:
+        servo.setServo(17, angle)
+        time.sleep(5.0)
+    servo.setServo(17, 0)
 
 def testPerformance(servo):
     timer = SimpleTimer()
@@ -212,7 +225,8 @@ if __name__ == "__main__":
     servo = ServoClient()
     testRGB(servo)
 #    calibrateRGB(servo)
-    testSensor(servo)
-    testServo(servo)
+#    testSensor(servo)
+#    testServo(servo)
+    calibrateServo360(servo)
 #    testPerformance(servo)
     print("Done")

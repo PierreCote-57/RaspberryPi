@@ -14,7 +14,7 @@ ZONE_LOCAL = pytz.timezone("America/Vancouver")
 
 EARTH_RADIUS_KM = 6371
 
-class ReadingGPRMC:
+class ReadingRMC:
 
     # Precision: 1e-5 = 0.00001 ~ 1.1 meter
     # Constructor
@@ -50,7 +50,39 @@ class ReadingGPRMC:
 
     # toString
     def __str__(self):
-        return f"GPSReading {self.timeText()} {self.statusText()} ({self.latText()}, {self.lonText()}), @{self.speedText()} mps to {self.courseText()} True"
+        return f"{self.timeText()} {self.statusText()} ({self.latText()}, {self.lonText()}), @{self.speedText()} mps to {self.courseText()} True"
+
+class ReadingGGA:
+    # Constructor
+    def __init__(self, timeOfDay, lat, lon, quality, countInUse, altitude, units):
+        self.timeOfDay = timeOfDay
+        self.lat = lat
+        self.lon = lon
+        self.quality = quality
+        self.countInUse = countInUse
+        self.altitude = altitude
+        self.units = units
+
+    def isGood(self):
+        return "1" == self.quality
+
+class ReadingGSA:
+    def __init__(self, mode, quality, satelliteList):
+        self.mode = mode
+        self.quality = quality
+        self.satelliteList = satelliteList
+    
+    def getCount(self):
+        count = 0
+        for n in self.satelliteList:
+            if n:
+                count = count + 1
+        return count
+
+class ReadingGSV:
+        def __init__(self, messageCount, messageNo, satInView):
+            self.satInView = satInView
+
 
 
 # Sentences of interest for GPS:
@@ -66,14 +98,28 @@ class SerialGPS:
     # Constructor
     def __init__(self, port):
         self.port = port
-        self.ser = serial.Serial(self.port.device, 9600, timeout=1)  # Open Serial port
+        device = port.device
+        self.ser = serial.Serial(device, 9600, timeout=1)  # Open Serial port
 
-        self.lastReadingGood = None
-        self.lastReading = None
+        self.lastRMCGood = None
+        self.lastRMC = None
+        self.lastGGA = None
+        self.lastGSA = None
+        self.lastGSV = None
 
     # toString
     def __str__(self):
-        return f"SerialGPS on  {self.port}"
+        message = f"SerialGPS on  {self.port}"
+        if None != self.lastRMC and self.lastRMC.isGood():
+            message = str(self.lastRMC)
+        if None != self.lastGGA and self.lastGGA.isGood():
+            message = f"{message} using {self.lastGGA.countInUse}"
+#            if None != self.lastGSA:
+#                message = f"{message}(={self.lastGSA.getCount()})"
+            if None != self.lastGSV:
+                message = f"{message} of {self.lastGSV.satInView}"
+            message = f"{message} at {self.lastGGA.altitude} {self.lastGGA.units}"
+        return message
 
 
     def readString(self):
@@ -81,7 +127,6 @@ class SerialGPS:
             while 1:
                 while self.ser.read().decode("utf-8") != "$":  # Wait for the begging of the string
                     pass  # Do nothing
-
 
         # Wait for a $ that indicates beginning of sentence
         ch = "na";
@@ -103,17 +148,16 @@ class SerialGPS:
         if checksum(line):
 #            print(datetime.now(), "Line = ", line)  #.strftime("%Y-%m-%d %H:%M:%S"))
             if lineParts[0] == "GPRMC":
-#                printRMC(lineParts)
                 self.parseRMC(lineParts)
                 pass
             elif lineParts[0] == "GPGGA":
-                printGGA(lineParts)
+                self.parseGGA(lineParts)
                 pass
             elif lineParts[0] == "GPGSA":
-                printGSA(lineParts)
+                self.parseGSA(lineParts)
                 pass
             elif lineParts[0] == "GPGSV":
-                printGSV(lineParts)
+                self.parseGSV(lineParts)
                 pass
             elif lineParts[0] == "GPGLL":
                 printGLL(lineParts)
@@ -170,11 +214,52 @@ class SerialGPS:
             courseTrue = float(lineParts[8]) if lineParts[8] else None
         else:
             lat = lon = speedMPS = courseTrue = None
-        reading = ReadingGPRMC(dateTime, status, lat, lon, speedMPS, courseTrue)
-        self.lastReading = reading
+        reading = ReadingRMC(dateTime, status, lat, lon, speedMPS, courseTrue)
+        self.lastRMC = reading
         if (reading.isGood()):
-            self.lastReadingGood = reading
+            self.lastRMCGood = reading
 
+    def parseGGA(self, lineParts):
+#        dateTime = getTime(lineParts[1], "%H%M%S.%f", "%H:%M:%S")
+        timeOfDay = time.strptime(lineParts[1][:6], "%H%M%S")
+        lat = SerialGPS.parseLat(lineParts, 2)
+        lon = SerialGPS.parseLon(lineParts, 4)
+        quality = lineParts[6]
+        satCount = int(lineParts[7]) if lineParts[7] else None
+        altitude = float(lineParts[9]) if lineParts[9] else None
+        units = lineParts[10]
+        self.lastGGA = ReadingGGA(time, lat, lon, quality, satCount, altitude, units)
+
+    def parseGSA(self, lineParts):
+        mode = lineParts[1]
+        if (lineParts[2] == "1"):
+            quality = "No fix"
+        elif (lineParts[2] == "2"):
+            quality = "2D fix"
+        elif (lineParts[2] == "3"):
+            quality = "3D fix"
+        else:
+            quality = lineParts[2]
+        satelliteList = lineParts[3:15]
+        self.lastGSA = ReadingGSA(mode, quality, satelliteList)
+
+    def parseGSV(self, lineParts):
+        messageCount = int(lineParts[1])
+        messageNo = int(lineParts[2])
+        satInView = int(lineParts[3])
+
+        for offset in [4, 8, 12, 16]:
+            if offset >= len(lineParts):
+                break
+            prn = lineParts[offset]
+            elevation = int(lineParts[offset + 1])
+            azimuth = int(lineParts[offset + 2])
+            snrText = lineParts[offset + 3]
+            if "*" in snrText:
+                snrText = snrText[:snrText.index("*")]
+            snr = int(snrText) if snrText else None
+
+        self.lastGSV = ReadingGSV(messageCount, messageNo, satInView)
 
 def getTime(string, format, returnFormat):
     try:
@@ -255,7 +340,7 @@ def printGGA(lines):
     satCount = lines[7]
     altitude = lines[9] + " " + lines[10]
 
-    if 1 == 2:
+    if 1 == 1:
         print(
             datetime.now(), lines[0],
     #          " at ", timeUCT, "UTC",
@@ -404,7 +489,7 @@ def waitForReading(gps):
     while True:
         line = gps.readString()
         gps.parseLine(line)
-        if None != gps.lastReading and gps.lastReading.isGood():
+        if None != gps.lastRMC and gps.lastRMC.isGood():
             break
         elif line.startswith("GPRMC"):
             print("Still waiting at", datetime.now(), "after", datetime.now() - timeStart)
@@ -423,7 +508,7 @@ def measureStartup(getPortFunction):
     print("Waiting for first reading")
     gps = SerialGPS(port)
     duration = waitForReading(gps)
-    print(gps.lastReading)
+    print(gps.lastRMC)
     print("Time to first reading = ", duration)
 
 def doReading(gps):
@@ -432,6 +517,8 @@ def doReading(gps):
         while True:
             line = gps.readString()
             gps.parseLine(line)
+            if (line.startswith("GPRMC")):
+                print(gps)
 
     except KeyboardInterrupt:
         print("Exiting Script")
@@ -439,4 +526,5 @@ def doReading(gps):
 if __name__ == "__main__":
     measureStartup(LocalWorld.LocalHardware.findGPS_USB)
 #    measureStartup(LocalWorld.LocalHardware.findGPS_Garmin)
+    doReading(SerialGPS(LocalWorld.LocalHardware.findGPS_USB()))
 
