@@ -3,14 +3,65 @@
 # Created by: Kristian Sloth Lauszus
 
 from datetime import datetime
+import pytz
 import time
 import serial
 
 import LocalWorld as LocalWorld
 
+ZONE_UTC = pytz.timezone("UTC")
+ZONE_LOCAL = pytz.timezone("America/Vancouver")
+
+EARTH_RADIUS_KM = 6371
+
+class ReadingGPRMC:
+
+    # Precision: 1e-5 = 0.00001 ~ 1.1 meter
+    # Constructor
+    def __init__(self, dateTime, status, lat, lon, speedMPS, courseTrue):
+        self.dateTimeUTC = dateTime
+        self.dateTime = dateTime.astimezone(ZONE_LOCAL)
+        self.status = status
+        self.lat = lat
+        self.lon = lon
+        self.speedMPS = speedMPS
+        self.courseTrue = courseTrue
+
+    def isGood(self):
+        return "A" == self.status
+    
+    def statusText(self):
+        return u'\N{check mark}' if self.isGood() else u'\{cross mark}'
+    
+    def timeText(self):
+        return self.dateTime.strftime("%Y-%m-%d %H:%M:%S %Z")
+
+    def latText(self):
+        return f"{self.lat:+9.5f}" if self.isGood() else "None"
+
+    def lonText(self):
+        return f"{self.lon:+9.5f}" if self.isGood() else "None"
+
+    def speedText(self):
+        return f"{self.speedMPS:4.1f}" if self.isGood() else "None"
+
+    def courseText(self):
+        return f"{self.courseTrue:3.0f}\xB0" if None != self.courseTrue else "None"
+
+    # toString
+    def __str__(self):
+        return f"GPSReading {self.timeText()} {self.statusText()} ({self.latText()}, {self.lonText()}), @{self.speedText()} mps to {self.courseText()} True"
+
+
+# Sentences of interest for GPS:
+# RMC Recommended minimum specific GPS/Transit data
+# GGA Global Positioning System Fix Data
+# GLL Geographic position, latitude / longitude
+# GSA GPS DOP and active satellites
+# GSV GPS Satellites in view
 class SerialGPS:
 
-    # def defines a method/function
+    KMH_PER_KNOT = 1.852
 
     # Constructor
     def __init__(self):
@@ -18,6 +69,9 @@ class SerialGPS:
         self.port = world.findSerialGPS()
         print("SerialGPS is on ", self.port)
         self.ser = serial.Serial(self.port.device, 9600, timeout=1)  # Open Serial port
+
+        self.lastReadingGood = None
+        self.lastReading = None
 
     # toString
     def __str__(self):
@@ -47,48 +101,78 @@ class SerialGPS:
 
 
     def parseLine(self, line):
-        lines = line.split(",")
+        lineParts = line.split(",")
         if checksum(line):
-    #        print(datetime.now(), "Line = ", line)  #.strftime("%Y-%m-%d %H:%M:%S"))
-            if lines[0] == "GPRMC":
-                printRMC(lines)
+#            print(datetime.now(), "Line = ", line)  #.strftime("%Y-%m-%d %H:%M:%S"))
+            if lineParts[0] == "GPRMC":
+#                printRMC(lineParts)
+                self.parseRMC(lineParts)
+                print(self.lastReading)
                 pass
-            elif lines[0] == "GPGGA":
-                printGGA(lines)
+            elif lineParts[0] == "GPGGA":
+                printGGA(lineParts)
                 pass
-            elif lines[0] == "GPGSA":
-                printGSA(lines)
+            elif lineParts[0] == "GPGSA":
+                printGSA(lineParts)
                 pass
-            elif lines[0] == "GPGSV":
-                printGSV(lines)
+            elif lineParts[0] == "GPGSV":
+                printGSV(lineParts)
                 pass
-            elif lines[0] == "GPGLL":
-                printGLL(lines)
+            elif lineParts[0] == "GPGLL":
+                printGLL(lineParts)
                 pass
-            elif lines[0] == "GPVTG":
-                printVTG(lines)
+            elif lineParts[0] == "GPVTG":
+                printVTG(lineParts)
                 pass
             else:
                 print("Unknown type:", line)
         else:
             print("Invalid checksum")
 
+    @staticmethod
+    def parseDateTime(dateText, timeText):
+        # Cleanup the time, as needed
+        index = timeText.index('.')
+        if (0 <= index):
+            timeText = timeText[0:6]
+        date = time.strptime(dateText, "%d%m%y")
+        timeOfDay = time.strptime(timeText, "%H%M%S")
+        fullTime = datetime.strptime(dateText + timeText, "%d%m%y%H%M%S")
+        return fullTime
 
-class ReadingGPRMC:
+    @staticmethod
+    def parseLat(lineParts, index):
+        return SerialGPS.parseLatOrLon(lineParts, index, 2)
+        
+    @staticmethod
+    def parseLon(lineParts, index):
+        return SerialGPS.parseLatOrLon(lineParts, index, 3)
+        
+    @staticmethod
+    def parseLatOrLon(lineParts, index, count):
+        deg = int(lineParts[index][0:count])
+        min = float(lineParts[index][count:])
+        lol = deg + (min / 60)
+        if ("S" == lineParts[index + 1] or "W" == lineParts[index + 1]):
+            lol = -lol
+        return lol
 
-    # def defines a method/function
 
-    # Constructor
-    def __init__(self, status, lat, lon, speedMPS, track):
-        self.status = status
-        self.lat = lat
-        self.lon = lon
-        self.speedMPS = speedMPS
-        self.track = track
-
-    # toString
-    def __str__(self):
-        return f"GPSReading  {self.status}"
+    def parseRMC(self, lineParts):
+        print("RMC ", end="")
+        dateTime = SerialGPS.parseDateTime(lineParts[9], lineParts[1])
+        dateTime = ZONE_UTC.localize(dateTime)
+        status = lineParts[2]
+        lat = SerialGPS.parseLat(lineParts, 3)
+        lon = SerialGPS.parseLon(lineParts, 5)
+        speedKnot = float(lineParts[7])
+        speedKMH = speedKnot * SerialGPS.KMH_PER_KNOT
+        speedMPS = speedKMH / 3.600
+        courseTrue = float(lineParts[8]) if lineParts[8] else None
+        reading = ReadingGPRMC(dateTime, status, lat, lon, speedMPS, courseTrue)
+        self.lastReading = reading
+        if (reading.isGood()):
+            self.lastReadingGood = reading
 
 
 def getTime(string, format, returnFormat):
@@ -112,12 +196,12 @@ def getLatLng(latString, lngString):
     except:
         return "NA", "NA"
 
-
+# Recommended minimum specific GPS == Minimum complete set of GPS data
 def printRMC(lines):
     #print("========================================RMC========================================")
     # print(lines, '\n')
     status = "OK" if "A" == lines[2] else "KO"
-    timeUTC = getTime(lines[1] + lines[9], "%H%M%S.%f%d%m%y", "%a %b %d %H:%M:%S %Y")
+    timeUTC = getTime(lines[1] + lines[9], "", "%a %b %d %H:%M:%S %Y")
     latlng = getLatLng(lines[3], lines[5])
     try:
         speedKNT = float(lines[7])
@@ -160,7 +244,7 @@ def printRMC(lines):
 
     return
 
-
+# Fix data (Subset of RMC)
 def printGGA(lines):
 #    print("========================================GGA========================================")
     # print(lines, '\n')
@@ -193,6 +277,7 @@ def printGGA(lines):
     return
 
 
+# GPS DOP and active satellites
 def printGSA(lines):
     # print("========================================GSA========================================")
     # print(lines, '\n')
@@ -222,6 +307,7 @@ def printGSA(lines):
     return
 
 
+# GPS Satellites in view
 def printGSV(lines):
     if (1 == 2):
         if lines[2] == "1":  # First sentence
@@ -242,6 +328,7 @@ def printGSV(lines):
     return
 
 
+# Geographic position Lat/Long (Subset of RMC)
 def printGLL(lines):
     # print("========================================GLL========================================")
     # print(lines, '\n')
