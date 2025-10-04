@@ -173,12 +173,11 @@ def testSensor(servo):
 
 def testServo(servo):
     angleList =  [0, -45, -90, -45, 0, 45, 90, 45, 0]
-    channelList = [0, 17]
+    channelList = [0, 5]
 
     for channel in channelList:
         prop = servo.getServoProp(channel)
         print(f"Props(channel {channel}) = {prop.strip()}")
-    print("")
 
     for angle in angleList:
         print("Moving to ", angle)
@@ -196,7 +195,7 @@ def testPerformance(servo):
     for n in range(5):
         servo.setRGB(n, 0, 0, 0)
     timer.checkpoint("Done with 10 setLight")
-    for n in [0, 17]:
+    for n in [0, 5]:
         servo.setServo(n, 45)
     for n in [0, 17]:
         servo.setServo(n, 0)
@@ -212,7 +211,7 @@ if __name__ == "__main__":
 
     servo = ServoClient()
     testRGB(servo)
-    calibrateRGB(servo)
+#    calibrateRGB(servo)
     testSensor(servo)
     testServo(servo)
 #    testPerformance(servo)
