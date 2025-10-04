@@ -7,7 +7,7 @@ import psutil
 from serial.tools import list_ports
 
 # See bluetoothctl/scan on /list /devices
-#   May need sudo "rfcomm connect GarminGPS 0C:7E:24:39:EA:8E"
+#   May need "sudo rfcomm connect GarminGPS 0C:7E:24:39:EA:8E"
 
 # USB GPS (Typically /dev/ttyACM0):
 #   Description:    'u-blox 7 - GPS/GNSS Receiver'
@@ -35,18 +35,14 @@ class LocalHardware:
 
     # def defines a method/function
 
-    # Constructor
-    def __init__(self):
-        self.platform = sys.platform
-        self.ttyList = list(serial.tools.list_ports.comports())
-        return
+    @staticmethod
+    def getPlatform():
+        return sys.platform
 
-    # toString
-    def __str__(self):
-        return f"Running on {self.platform}, {len(self.ttyList)} tty ports"
-
-    def showPortList(self):
-        for port in self.ttyList:
+    @staticmethod
+    def showPortList():
+        ttyList = list(serial.tools.list_ports.comports())
+        for port in ttyList:
             LocalHardware.showPort(port);
 
     @staticmethod
@@ -59,8 +55,10 @@ class LocalHardware:
         print("\tSubsystem:", port.subsystem)
         
 
-    def findPort(self, text):
-        for dev in self.ttyList:
+    @staticmethod
+    def findPort(text):
+        ttyList = list(serial.tools.list_ports.comports())
+        for dev in ttyList:
             if None != dev.serial_number and dev.serial_number == text:
                 return dev
             elif None != dev.name and text in dev.name:
@@ -71,27 +69,31 @@ class LocalHardware:
                 return dev
         return None
     
-    def findSerialGPS(self):
-        return self.findPort("u-blox 7 - GPS/GNSS")
+    @staticmethod
+    def findGPS_USB():
+        return LocalHardware.findPort("u-blox 7 - GPS/GNSS")
     
-    def findGarminGPS(self):
-        return self.findPort("rfcomm")
+    @staticmethod
+    def findGPS_Garmin():
+        return LocalHardware.findPort("rfcomm")
 
-    def findMotor2040(self):
-        return self.findPort("e661410403295833");
+    @staticmethod
+    def findMotor2040():
+        return LocalHardware.findPort("e661410403295833");
 
-    def findServo2040(self):
-        return self.findPort("e6617c93e3514d2a");
+    @staticmethod
+    def findServo2040():
+        return LocalHardware.findPort("e6617c93e3514d2a");
 
 
-class TugSoftware:
+class LocalSoftware:
     @staticmethod
     def listProcesses(text):
         pids = psutil.pids()
         for pid in pids:
             p = psutil.Process(pid)
             if len(p.cmdline()) > 0 and text in p.cmdline()[0]:
-                TugSoftware.showProcess(p)
+                LocalSoftware.showProcess(p)
 
     @staticmethod
     def showProcess(p):
@@ -118,18 +120,17 @@ class TugSoftware:
 
 
 if __name__ == "__main__":
-    hw = LocalHardware()
-    print("Found platform: ", hw)
+    print("Found platform: ", LocalHardware.getPlatform())
 
-    print("SerialGPS is on ", hw.findSerialGPS())
-    print("Motor2040 is on ", hw.findMotor2040())
-    print("Servo2040 is on ", hw.findServo2040())
+    print("SerialGPS is on ", LocalHardware.findGPS_USB())
+    print("Motor2040 is on ", LocalHardware.findMotor2040())
+    print("Servo2040 is on ", LocalHardware.findServo2040())
 
-    hw.showPortList()
+    LocalHardware.showPortList()
 
 #    print("Processes ", TugSoftware.listProcesses("rfcomm"))
-    p_rfcomm = TugSoftware.findProcesses("rfcomm");
+    p_rfcomm = LocalSoftware.findProcesses("rfcomm");
     if None != p_rfcomm:
-        TugSoftware.showProcess(p_rfcomm)
+        LocalSoftware.showProcess(p_rfcomm)
 
     print("Done")

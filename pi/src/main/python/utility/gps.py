@@ -31,7 +31,7 @@ class ReadingGPRMC:
         return "A" == self.status
     
     def statusText(self):
-        return u'\N{check mark}' if self.isGood() else u'\{cross mark}'
+        return u'\N{check mark}' if self.isGood() else u'\N{cross mark}'
     
     def timeText(self):
         return self.dateTime.strftime("%Y-%m-%d %H:%M:%S %Z")
@@ -64,10 +64,8 @@ class SerialGPS:
     KMH_PER_KNOT = 1.852
 
     # Constructor
-    def __init__(self):
-        world = LocalWorld.LocalHardware()
-        self.port = world.findSerialGPS()
-        print("SerialGPS is on ", self.port)
+    def __init__(self, port):
+        self.port = port
         self.ser = serial.Serial(self.port.device, 9600, timeout=1)  # Open Serial port
 
         self.lastReadingGood = None
@@ -75,7 +73,7 @@ class SerialGPS:
 
     # toString
     def __str__(self):
-        return f"SerialGPS on  {self.address}"
+        return f"SerialGPS on  {self.port}"
 
 
     def readString(self):
@@ -107,7 +105,6 @@ class SerialGPS:
             if lineParts[0] == "GPRMC":
 #                printRMC(lineParts)
                 self.parseRMC(lineParts)
-                print(self.lastReading)
                 pass
             elif lineParts[0] == "GPGGA":
                 printGGA(lineParts)
@@ -124,6 +121,8 @@ class SerialGPS:
             elif lineParts[0] == "GPVTG":
                 printVTG(lineParts)
                 pass
+            elif lineParts[0] == "GPTXT":
+                pass
             else:
                 print("Unknown type:", line)
         else:
@@ -132,7 +131,7 @@ class SerialGPS:
     @staticmethod
     def parseDateTime(dateText, timeText):
         # Cleanup the time, as needed
-        index = timeText.index('.')
+        index = timeText.index('.') if timeText else -1
         if (0 <= index):
             timeText = timeText[0:6]
         date = time.strptime(dateText, "%d%m%y")
@@ -159,16 +158,18 @@ class SerialGPS:
 
 
     def parseRMC(self, lineParts):
-        print("RMC ", end="")
         dateTime = SerialGPS.parseDateTime(lineParts[9], lineParts[1])
         dateTime = ZONE_UTC.localize(dateTime)
         status = lineParts[2]
-        lat = SerialGPS.parseLat(lineParts, 3)
-        lon = SerialGPS.parseLon(lineParts, 5)
-        speedKnot = float(lineParts[7])
-        speedKMH = speedKnot * SerialGPS.KMH_PER_KNOT
-        speedMPS = speedKMH / 3.600
-        courseTrue = float(lineParts[8]) if lineParts[8] else None
+        if ("A" == status):
+            lat = SerialGPS.parseLat(lineParts, 3)
+            lon = SerialGPS.parseLon(lineParts, 5)
+            speedKnot = float(lineParts[7])
+            speedKMH = speedKnot * SerialGPS.KMH_PER_KNOT
+            speedMPS = speedKMH / 3.600
+            courseTrue = float(lineParts[8]) if lineParts[8] else None
+        else:
+            lat = lon = speedMPS = courseTrue = None
         reading = ReadingGPRMC(dateTime, status, lat, lon, speedMPS, courseTrue)
         self.lastReading = reading
         if (reading.isGood()):
@@ -398,9 +399,35 @@ def checksum(line):
         print(hex(checksum), "!=", hex(inputChecksum))
         return False
 
+def waitForReading(gps):
+    timeStart = datetime.now()
+    while True:
+        line = gps.readString()
+        gps.parseLine(line)
+        if None != gps.lastReading and gps.lastReading.isGood():
+            break
+        elif line.startswith("GPRMC"):
+            print("Still waiting at", datetime.now(), "after", datetime.now() - timeStart)
+    return datetime.now() - timeStart
 
-if __name__ == "__main__":
-    gps = SerialGPS()
+def measureStartup(getPortFunction):
+    functionName = getPortFunction.__name__
+    device = functionName[8:]
+    print(f"Please start GPS on {device}",)
+    print("Waiting for GPS to come online")
+    while True:
+        port = getPortFunction()
+        if None != port:
+            break
+    print(f"Found GPS on {port}")
+    print("Waiting for first reading")
+    gps = SerialGPS(port)
+    duration = waitForReading(gps)
+    print(gps.lastReading)
+    print("Time to first reading = ", duration)
+
+def doReading(gps):
+    waitForReading(gps)
     try:
         while True:
             line = gps.readString()
@@ -408,3 +435,8 @@ if __name__ == "__main__":
 
     except KeyboardInterrupt:
         print("Exiting Script")
+
+if __name__ == "__main__":
+    measureStartup(LocalWorld.LocalHardware.findGPS_USB)
+#    measureStartup(LocalWorld.LocalHardware.findGPS_Garmin)
+
