@@ -10,14 +10,14 @@ difference()
 	{
 		minkowski()
 		{
-			cube(size=[69.000, 89.000, 10.000], center=true);
+			cube(size=[54.000, 74.000, 10.000], center=true);
 			rotate(a=[0.000, 0.000, 90.000])
 			{
 				cylinder(h=0.010, r1=3.000, r2=3.000, center=false);
 			}
 		}
 	}
-	translate(v=[-10.000, 21.000, 0.000])
+	translate(v=[-18.800, 21.000, 0.000])
 	{
 		union()
 		{
@@ -27,11 +27,11 @@ difference()
 			}
 			translate(v=[16.000, 0.000, 0.000])
 			{
-				cube(size=[6.000, 17.000, 15.000], center=true);
+				cube(size=[6.000, 17.000, 7.500], center=true);
 			}
 		}
 	}
-	translate(v=[5.000, -21.000, 0.000])
+	translate(v=[-18.800, -21.000, 0.000])
 	{
 		union()
 		{
@@ -41,8 +41,22 @@ difference()
 			}
 			translate(v=[16.000, 0.000, 0.000])
 			{
-				cube(size=[6.000, 17.000, 15.000], center=true);
+				cube(size=[6.000, 17.000, 7.500], center=true);
 			}
+		}
+	}
+	translate(v=[19.000, 21.000, 0.000])
+	{
+		translate(v=[0.000, 0.000, 5.000])
+		{
+			cube(size=[32.000, 36.000, 8.000], center=true);
+		}
+	}
+	translate(v=[19.000, -21.000, 0.000])
+	{
+		translate(v=[0.000, 0.000, 5.000])
+		{
+			cube(size=[32.000, 36.000, 8.000], center=true);
 		}
 	}
 }

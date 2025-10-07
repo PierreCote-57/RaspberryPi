@@ -10,7 +10,7 @@ difference()
 	{
 		minkowski()
 		{
-			cube(size=[69.000, 89.000, 10.000], center=true);
+			cube(size=[54.000, 74.000, 10.000], center=true);
 			rotate(a=[0.000, 0.000, 90.000])
 			{
 				cylinder(h=0.010, r1=3.000, r2=3.000, center=false);
