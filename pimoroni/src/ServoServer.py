@@ -167,7 +167,12 @@ class ServoProcessor:
         elif ("Get" == command):
             angle = servo.value()
             result = angle
-        elif ("Prop" == command):
+        elif "Close" == command:
+            servo.value(0.0)
+            servo.disable()
+            self.servoMap.pop(channel, None)
+            result = None
+        elif "Prop" == command:
             prop = {}
             prop["Pin"] = servo.pin()
             prop["Min"] = servo.min_value()

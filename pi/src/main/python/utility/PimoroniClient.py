@@ -39,27 +39,22 @@ class ServoClient:
             bIn = self.remote.readline()
         back = bIn.decode("utf-8")
         return back
-        
+
 
     def clearLight(self):
-        command = "$Light,Clear"
-        answer = self.processCommand(command)
+        answer = self.processCommand("$Light,Clear")
         return answer
 
-
     def setRGB(self, n, r, g, b):
-        command = f"$Light,SetRGB,{n},{r},{g},{b}"
-        answer = self.processCommand(command)
+        answer = self.processCommand(f"$Light,SetRGB,{n},{r},{g},{b}")
         return AnswerRGB(answer)
     
     def setHSV(self, n, h, s, v):
-        command = f"$Light,SetHSV,{n},{h},{s},{v}"
-        answer = self.processCommand(command)
+        answer = self.processCommand(f"$Light,SetHSV,{n},{h},{s},{v}")
         return AnswerRGB(answer)
     
     def getRGB(self, n):
-        command = f"$Light,Get,{n}"
-        answer = self.processCommand(command)
+        answer = self.processCommand(f"$Light,Get,{n}")
         return AnswerRGB(answer)
 
     def readVoltage(self):
@@ -69,8 +64,7 @@ class ServoClient:
         return self.readSensor("Amp")
     
     def readSensor(self, channel):
-        command = f"$Sensor,{channel}"
-        response = self.processCommand(command)
+        response = self.processCommand(f"$Sensor,{channel}")
         responseParts = response.split(",")
         isSuccess = "OK" == responseParts[0]
         if isSuccess:
@@ -80,25 +74,23 @@ class ServoClient:
         return answer
 
     def getSensorProp(self):
-        command = f"$Sensor,Prop"
-        response = self.processCommand(command)
-        return response
+        return  self.processCommand(f"$Sensor,Prop")
 
 
     def setServo(self, channel, angle):
-        command = f"$Servo,Set,{channel},{angle}"
-        response = self.processCommand(command)
+        response = self.processCommand(f"$Servo,Set,{channel},{angle}")
         return AnswerServo(response)
 
     def getServo(self, channel):
-        command = f"$Servo,Get,{channel}"
-        response = self.processCommand(command)
+        response = self.processCommand(f"$Servo,Get,{channel}")
         return AnswerServo(response)
 
     def getServoProp(self, channel):
-        command = f"$Servo,Prop,{channel}"
-        response = self.processCommand(command)
+        response = self.processCommand(f"$Servo,Prop,{channel}")
         return response
+
+    def closeServo(self, channel):
+        return self.processCommand(f"$Servo,Close,{channel}")
 
 class GenericAnswer:
     def __init__(self, answer):
@@ -193,13 +185,23 @@ def testServo(servo):
         time.sleep(2)
         servo.setServo(channel, -10)
         time.sleep(2)
-        servo.setServo(channel, 0)
+#        servo.setServo(channel, 0)
+        servo.closeServo(channel)
 
 def calibrateServo360(servo):
-    for angle in [-10, -5, 0, 5, 10]:
-        servo.setServo(17, angle)
+    noList = [12, 17]
+    for no in noList:
+        servo.setServo(no, 0)
+    time.sleep(5)
+
+    for angle in [ 5, 7, 10, 15, 20 ]:
+        print("Spinning at ", angle)
+        for no in noList:
+            servo.setServo(no, angle)
         time.sleep(5.0)
-    servo.setServo(17, 0)
+        for no in noList:
+            servo.closeServo(no)
+        time.sleep(2)
 
 def testPerformance(servo):
     timer = SimpleTimer()
@@ -223,7 +225,7 @@ if __name__ == "__main__":
     timer.checkpoint("Writing ")
 
     servo = ServoClient()
-    testRGB(servo)
+#    testRGB(servo)
 #    calibrateRGB(servo)
 #    testSensor(servo)
 #    testServo(servo)
