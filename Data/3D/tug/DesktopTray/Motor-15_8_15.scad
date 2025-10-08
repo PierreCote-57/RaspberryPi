@@ -17,7 +17,7 @@ difference()
 			}
 		}
 	}
-	translate(v=[0.000, 30.000, 0.000])
+	translate(v=[0.000, 25.000, 0.000])
 	{
 		union()
 		{
@@ -53,7 +53,7 @@ difference()
 			}
 		}
 	}
-	translate(v=[0.000, -30.000, 0.000])
+	translate(v=[0.000, -25.000, 0.000])
 	{
 		union()
 		{

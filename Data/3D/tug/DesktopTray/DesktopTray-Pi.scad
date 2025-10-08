@@ -18,13 +18,13 @@ difference()
 		}
 	}
 	cube(size=[100.000, 70.000, 11.000], center=true);
-	translate(v=[-50.000, -5.000, 3.000])
+	translate(v=[-50.000, -17.500, 3.000])
 	{
-		cube(size=[7.500, 40.000, 10.000], center=true);
+		cube(size=[7.500, 35.000, 10.000], center=true);
 	}
-	translate(v=[30.000, 36.250, 3.000])
+	translate(v=[33.333, 36.250, 3.000])
 	{
-		cube(size=[40.000, 5.000, 10.000], center=true);
+		cube(size=[50.000, 5.000, 10.000], center=true);
 	}
 }
 
