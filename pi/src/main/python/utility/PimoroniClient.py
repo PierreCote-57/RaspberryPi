@@ -180,7 +180,7 @@ def testServo(servo):
                 print("Error")
             time.sleep(0.25)
    
-    for channel in [17]:
+    for channel in [12, 17]:
         servo.setServo(channel, 10)
         time.sleep(2)
         servo.setServo(channel, -10)
@@ -194,7 +194,7 @@ def calibrateServo360(servo):
         servo.setServo(no, 0)
     time.sleep(5)
 
-    for angle in [ 5, 7, 10, 15, 20 ]:
+    for angle in [ 5, 10, 15 ]:
         print("Spinning at ", angle)
         for no in noList:
             servo.setServo(no, angle)
@@ -225,10 +225,10 @@ if __name__ == "__main__":
     timer.checkpoint("Writing ")
 
     servo = ServoClient()
-#    testRGB(servo)
+    testRGB(servo)
 #    calibrateRGB(servo)
-#    testSensor(servo)
-#    testServo(servo)
-    calibrateServo360(servo)
+    testSensor(servo)
+    testServo(servo)
+#    calibrateServo360(servo)
 #    testPerformance(servo)
     print("Done")
