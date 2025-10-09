@@ -1,5 +1,6 @@
 import gc
 import time
+import utime
 import math
 from motor import Motor, motor2040
 from pimoroni import Button  # , REVERSED_DIR
@@ -22,8 +23,7 @@ m.enable()
 time.sleep(2)
 
 print(m)
-m.duty(0.1)
-m.speed(0.5)
+m.speed(0.25)
 
 #m.disable()
 GEAR_RATIO = 50                         # The gear ratio of the motor
@@ -47,25 +47,29 @@ encoders = [Encoder(0, i, ENCODER_PINS[i], counts_per_rev=COUNTS_PER_REV, count_
 # encoders[3].direction(REVERSED_DIR)
 
 # Create the user button
-user_sw = Button(motor2040.USER_SW)
-
-# Read the encoders until the user button is pressed
 encoderNo = 0
-degPrev = 0
-timePrev = time.time()
-while not user_sw.raw():
 
-    timeNow = time.time()
-    timeDelta = timeNow - timePrev
+speedList = [0.05, 0.06, 0.07, 0.08, 0.09, 0.1, 0.15, 0.25, 0.5, 0.75, 1.0]#, 0.25, 0.5, 0.75, 1.0]
+for s in speedList:
+    m.speed(s)
+    time.sleep(2.0)
+
+    degPrev = encoders[encoderNo].degrees()
+    timeStart = utime.ticks_us()
+    
+    utime.sleep_ms(15_000)
+
+    timeNow = utime.ticks_us()
+    timeDelta = utime.ticks_diff(timeNow, timeStart)  / (1000_000.0)
 
     degCurrent = encoders[encoderNo].degrees()
     degInterval = degCurrent - degPrev
-    revInterval = degInterval / 360
-    rpmInterval = revInterval * 60
+    revInterval = (degInterval / 360)
+    rpsInterval = revInterval / timeDelta
+    rpmInterval = rpsInterval * 60
 #    print(f"{degPrev} + {degInterval} = {degCurrent}")
-    print(f"{timeDelta:7,.3f} {degInterval:7,.0f} deg / sec = {revInterval:5,.1f} RPS = {rpmInterval:5,.0f} RPM")
+    print(f"S={s:5.2f} T={timeDelta:7,.4f} -> {degInterval:7,.2f} deg = {rpsInterval:7,.3f} RPS = {rpmInterval:7,.3f} RPM")
 
-    degPrev = degCurrent
-    timePrev = timeNow
-    time.sleep(1)
 
+m.disable()
+print("Done")
