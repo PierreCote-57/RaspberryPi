@@ -3,7 +3,7 @@ $fa=1.000;
 $fn=36.000;
 
 
-// DesktopTray-FS90R
+// DesktopTray-Winch
 difference()
 {
 	translate(v=[0.000, 0.000, 0.000])
@@ -17,35 +17,21 @@ difference()
 			}
 		}
 	}
-	translate(v=[0.000, 22.000, 0.000])
+	translate(v=[0.000, 0.000, 8.000])
 	{
-		union()
+		translate(v=[0.000, 0.000, 0.000])
 		{
-			translate(v=[-5.000, 0.000, 0.000])
+			minkowski()
 			{
-				cube(size=[23.000, 12.500, 11.000], center=true);
-			}
-			translate(v=[11.500, 0.000, 0.000])
-			{
-				cube(size=[10.100, 10.000, 30.000], center=true);
+				cube(size=[16.000, 57.000, 10.000], center=true);
+				rotate(a=[0.000, 0.000, 90.000])
+				{
+					cylinder(h=0.010, r1=3.000, r2=3.000, center=false);
+				}
 			}
 		}
 	}
-	translate(v=[0.000, -22.000, 0.000])
-	{
-		union()
-		{
-			translate(v=[-5.000, 0.000, 0.000])
-			{
-				cube(size=[23.000, 12.500, 11.000], center=true);
-			}
-			translate(v=[11.500, 0.000, 0.000])
-			{
-				cube(size=[10.100, 10.000, 30.000], center=true);
-			}
-		}
-	}
-	translate(v=[-23.000, 0.000, 1.500])
+	translate(v=[-22.500, 0.000, 3.500])
 	{
 		rotate(a=[0.000, 0.000, 90.000])
 		{
@@ -53,7 +39,7 @@ difference()
 			{
 				linear_extrude(height=2.000, center="false", scale=[1.000, 1.000])
 				{
-					text(text="FS90R", size=9.000, , font="LiberationSans:style=Regular", , halign="center", , valign="center");
+					text(text="Winch", size=9.000, , font="LiberationSans:style=Regular", , halign="center", , valign="center");
 				}
 			}
 		}

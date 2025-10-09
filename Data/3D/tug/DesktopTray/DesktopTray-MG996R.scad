@@ -17,7 +17,7 @@ difference()
 			}
 		}
 	}
-	translate(v=[0.000, 20.000, 0.000])
+	translate(v=[0.000, 22.000, 0.000])
 	{
 		union()
 		{
@@ -27,11 +27,11 @@ difference()
 			}
 			translate(v=[21.000, 0.000, 0.000])
 			{
-				cube(size=[10.100, 10.000, 7.500], center=true);
+				cube(size=[10.100, 10.000, 30.000], center=true);
 			}
 		}
 	}
-	translate(v=[0.000, -20.000, 0.000])
+	translate(v=[0.000, -22.000, 0.000])
 	{
 		union()
 		{
@@ -41,7 +41,7 @@ difference()
 			}
 			translate(v=[21.000, 0.000, 0.000])
 			{
-				cube(size=[10.100, 10.000, 7.500], center=true);
+				cube(size=[10.100, 10.000, 30.000], center=true);
 			}
 		}
 	}
