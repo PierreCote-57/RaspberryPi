@@ -9,6 +9,33 @@ from motor import Motor, motor2040
 from pimoroni import Button  # , REVERSED_DIR
 from encoder import Encoder, MMME_CPR
 
+GEAR_RATIO = 50                         # The gear ratio of the motor
+COUNTS_PER_REV = MMME_CPR * GEAR_RATIO  # The counts per revolution of the motor's output shaft
+
+NAME_LIST = ["A", "B", "C", "D"]
+MOTOR_PINS = [motor2040.MOTOR_A, motor2040.MOTOR_B, motor2040.MOTOR_C, motor2040.MOTOR_D]
+ENCODER_PINS = [motor2040.ENCODER_A, motor2040.ENCODER_B, motor2040.ENCODER_C, motor2040.ENCODER_D]
+NUM_MOTORS = len(ENCODER_PINS)
+
+ENCODER_LIST = [Encoder(0, i, ENCODER_PINS[i], counts_per_rev=COUNTS_PER_REV, count_microsteps=True) for i in range(NUM_MOTORS)]
+
+MOTOR_LIST = [Motor(MOTOR_PINS[i]) for i in range(NUM_MOTORS)]
+
+if 1 == 2:
+    m = MOTOR_LIST[0]
+    print(m)
+    print(dir(m))
+    print("Pins", m.pins())
+    print("enabled", m.is_enabled())
+    print("speed", m.speed())
+    print("freq", m.frequency())
+    print("full_positive", m.full_positive())
+    print("full_negative", m.full_negative())
+    print("direction", m.direction())
+    print("speed_scale", m.speed_scale())
+    print("zeropoint", m.zeropoint())
+    print("deadzone", m.deadzone())
+    print("decay_mode", m.decay_mode())
 
 # Utility methods
 class Reporter:
@@ -76,7 +103,7 @@ class LightProcessor:
             elif "Get" == command:
                 result = self.led.get(no)
             else:
-                Reporter.reportError("Unknown command '{}'".format(command))
+                Reporter.reportError(f"Unknown command '{command}'")
 
         Reporter.reportSuccess(result)
 
@@ -97,33 +124,43 @@ class MotorProcessor:
 
     def processLine(self, lineParts):
         command = lineParts[1]
-        if ("Speed" == command):
-            self.mux.select(servo2040.VOLTAGE_SENSE_ADDR)
-            result = self.vol_adc.read_voltage()
-        elif ("Amp" == command):
-            self.mux.select(servo2040.CURRENT_SENSE_ADDR)
-            result = self.cur_adc.read_current();
-        elif ("Prop" == command):
-            self.mux.select(0)
-            prop = {}
-            prop["Gain"] = self.cur_adc.gain
-            prop["Offset"] = self.cur_adc.offset
-            prop["Resistor"] = self.cur_adc.resistor
-            result = prop
+        channel = lineParts[2]
+        try:
+            channel = int(channel)
+        except:
+            Reporter.reportError("Invalid channel {}".format(channel))
+            return
+
+        if (channel < 0 or NUM_MOTORS <= channel):
+            Reporter.reportError(f"Channel must be [0-{NUM_MOTORS - 1}] ; not {channel}")
+            return
+        
+        motor = MOTOR_LIST[channel]
+        if ("Disable" == command):
+            motor.disable()
         else:
-            channel = lineParts[1]
-            try:
-                channel = int(channel)
-            except:
-                Reporter.reportError("Invalid channel {}".format(channel))
-                return
+            if not motor.is_enabled():
+                motor.enable()
 
-            if (channel < 0 or len(self.sensor_addrs) <= channel):
-                Reporter.reportError("Channel must be [0-{0}] ; not {1}".format((len(self.sensor_addrs) - 1), channel))
-                return
-
-            self.mux.select(channel)
-            result = self.vol_adc.read_voltage()
+            result = None
+            if ("Coast" == command):
+                motor.coast()
+            elif ("Set" == command):
+                speed = float(lineParts[3])
+                motor.speed(speed)
+            elif ("ToPercent" == command):
+                pct = float(lineParts[3])
+                motor.to_percent(pct)
+            elif ("Stop" == command):
+                motor.stop()
+            elif ("Prop" == command):
+                self.mux.select(0)
+                prop = {}
+                prop["pins"] = motor.pins()
+                prop["is_enabled"] = motor.is_enabled()
+                result = prop
+            else:
+                Reporter.reportFailure(f"Unknown command {command}")
 
         # If made it here, result is the success answer
         Reporter.reportSuccess(result)
@@ -190,8 +227,8 @@ class EncoderProcessor:
 
 processorMap = {}
 processorMap["Light"] = LightProcessor()
-processorMap["Sensor"] = MotorProcessor()
-processorMap["Servo"] = EncoderProcessor()
+processorMap["Motor"] = MotorProcessor()
+processorMap["Encoder"] = EncoderProcessor()
 
 
 chDollar = "$"
