@@ -3,11 +3,15 @@ import sys
 import time
 import utime
 import math
+import json
 
 from plasma import WS2812
 from motor import Motor, motor2040
 from pimoroni import Button  # , REVERSED_DIR
 from encoder import Encoder, MMME_CPR
+
+# Start fresh
+gc.collect()
 
 GEAR_RATIO = 50                         # The gear ratio of the motor
 COUNTS_PER_REV = MMME_CPR * GEAR_RATIO  # The counts per revolution of the motor's output shaft
@@ -20,22 +24,6 @@ NUM_MOTORS = len(ENCODER_PINS)
 ENCODER_LIST = [Encoder(0, i, ENCODER_PINS[i], counts_per_rev=COUNTS_PER_REV, count_microsteps=True) for i in range(NUM_MOTORS)]
 
 MOTOR_LIST = [Motor(MOTOR_PINS[i]) for i in range(NUM_MOTORS)]
-
-if 1 == 2:
-    m = MOTOR_LIST[0]
-    print(m)
-    print(dir(m))
-    print("Pins", m.pins())
-    print("enabled", m.is_enabled())
-    print("speed", m.speed())
-    print("freq", m.frequency())
-    print("full_positive", m.full_positive())
-    print("full_negative", m.full_negative())
-    print("direction", m.direction())
-    print("speed_scale", m.speed_scale())
-    print("zeropoint", m.zeropoint())
-    print("deadzone", m.deadzone())
-    print("decay_mode", m.decay_mode())
 
 # Utility methods
 class Reporter:
@@ -116,11 +104,13 @@ class MotorProcessor:
         pass
 
     def shutdown(self):
+        for m in MOTOR_LIST:
+            m.disable()
         # Nothing to do
         return
 
     def __str__(self):
-        return "MotorProcessor"
+        return f"MotorProcessor with {NUM_MOTORS} encoder motors"
 
     def processLine(self, lineParts):
         command = lineParts[1]
@@ -143,21 +133,51 @@ class MotorProcessor:
                 motor.enable()
 
             result = None
-            if ("Coast" == command):
+            if ("Brake" == command):
+                motor.brake()
+            elif ("Coast" == command):
                 motor.coast()
-            elif ("Set" == command):
-                speed = float(lineParts[3])
-                motor.speed(speed)
-            elif ("ToPercent" == command):
+            elif ("SetDuty" == command):
+                duty = float(lineParts[3])
+                motor.duty(duty)
+                result = motor.duty()
+            elif ("SetPercent" == command):
                 pct = float(lineParts[3])
                 motor.to_percent(pct)
+            elif ("SetSpeed" == command):
+                speed = float(lineParts[3])
+                motor.speed(speed)
+                result = motor.speed()
             elif ("Stop" == command):
                 motor.stop()
             elif ("Prop" == command):
-                self.mux.select(0)
+                if 1 == 2:
+                    m = MOTOR_LIST[0]
+                    print(m)
+                    print(dir(m))
+                    print("deadzone", m.deadzone())
+                    print("decay_mode", m.decay_mode())
+                    print("direction", m.direction())
+                    print("frequency", m.frequency())
+                    print("is_enabled", m.is_enabled())
+                    print("pins", m.pins())
+                    print("speed", m.speed())
+                    print("speed_scale", m.speed_scale())
+                    print("zeropoint", m.zeropoint())
+
                 prop = {}
-                prop["pins"] = motor.pins()
+                prop["deadzone"] = motor.deadzone()
+                prop["decay_mode"] = motor.decay_mode()
+                prop["duty"] = motor.duty()
+                prop["direction"] = motor.direction()
+                prop["frequency"] = motor.frequency()
+#                prop["full_positive"] = motor.full_positive()
+#                prop["full_negative"] = motor.full_negative()
                 prop["is_enabled"] = motor.is_enabled()
+                prop["pins"] = motor.pins()
+                prop["speed"] = motor.speed()
+                prop["speed_scale"] = motor.speed_scale()
+                prop["zeropoint"] = motor.zeropoint()
                 result = prop
             else:
                 Reporter.reportFailure(f"Unknown command {command}")
@@ -172,57 +192,63 @@ class EncoderProcessor:
         self.servoMap = {}
         
     def shutdown(self):
-        for key, servo in self.servoMap.items():
-            print("Shutting down servo", key, " -> ", servo)
-            servo.disable()
-
+        pass
 
     def __str__(self):
-        return f"ServoProcessor with {len(self.servoMap)} active servos"
+        return f"EncoderProcessor with {NUM_MOTORS} encoders"
 
     def processLine(self, lineParts):
         command = lineParts[1]
         channel = int(lineParts[2])
-        motor = self.ensureMotor(channel)
+        encoder = ENCODER_LIST[channel]
 
-        if ("Set" == command):
-            angle = float(lineParts[3])
-            motor.value(angle)
-            result = angle
-        elif ("Get" == command):
-            angle = motor.value()
-            result = angle
-        elif "Close" == command:
-            motor.value(0.0)
-            motor.disable()
-            self.servoMap.pop(channel, None)
-            result = None
-        elif "Prop" == command:
+
+#        utime.sleep_ms(15_000)
+
+
+        if "Get" == command:
+            result = encoder.degrees()
+        elif "Zero" == command:
+            encoder.zero()
+        elif "State" == command:
+            result = encoder.state()
+        elif "Capture" == command:
+            cap = encoder.capture()
+            if 1 == 2:
+                print(dir(cap))
             prop = {}
-            prop["Pin"] = motor.pin()
-            prop["Min"] = motor.min_value()
-            prop["Mid"] = motor.mid_value()
-            prop["Max"] = motor.max_value()
-            prop["Value"] = motor.value()
-            prop["Pulse"] = motor.pulse()
-            prop["Frequency"] = motor.frequency()
-            prop["Calibration"] = motor.calibration()
+            prop["count"] = cap.count;
+            prop["delta"] = cap.delta;
+            prop["frequency"] = cap.frequency;
+            prop["counts_per_rev"] = encoder.counts_per_rev()
+
+            prop["degrees"] = cap.degrees
+            prop["degrees_delta"] = cap.degrees_delta
+            prop["degrees_per_second"] = cap.degrees_per_second
+
+            prop["revoputions"] = cap.revolutions
+            prop["revolutions_delta"] = cap.revolutions_delta
+            prop["revolutions_per_second"] = cap.revolutions_per_second
+            result = prop
+#            prop["common_pin"] = encoder.common_pin()
+        elif "Prop" == command:
+#            print(dir(encoder))
+            prop = {}
+#            prop["common_pin"] = encoder.common_pin()
+            prop["count"] = encoder.count()
+            prop["counts_per_rev"] = encoder.counts_per_rev()
+            prop["degrees"] = encoder.degrees()
+            prop["delta"] = encoder.delta()
+            prop["direction"] = encoder.direction()
+            prop["pins"] = encoder.pins()
+            prop["radians"] = encoder.radians()
+            prop["revolutions"] = encoder.revolutions()
+            prop["step"] = encoder.step()
+            prop["turn"] = encoder.turn()
             result = prop
         else:
-            Reporter.reportError(f"Unknown ommand {command}")
+            Reporter.reportError(f"Unknown command {command}")
         Reporter.reportSuccess(result)
-
-
-    def ensureMotor(self, channel):
-        try:
-            servo = self.servoMap[channel]
-#            print(f"Channel {channel} has servo {servo}")
-        except:
-            # Servo not initialized
-            servo = Servo(channel)
-            servo.enable()
-            self.servoMap[channel] = servo
-        return servo
 
 
 processorMap = {}
