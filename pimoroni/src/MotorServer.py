@@ -180,7 +180,7 @@ class MotorProcessor:
                 prop["zeropoint"] = motor.zeropoint()
                 result = prop
             else:
-                Reporter.reportFailure(f"Unknown command {command}")
+                Reporter.reportError(f"Unknown command {command}")
 
         # If made it here, result is the success answer
         Reporter.reportSuccess(result)
@@ -205,16 +205,29 @@ class EncoderProcessor:
 
 #        utime.sleep_ms(15_000)
 
-
-        if "Get" == command:
+        result = None
+        if "GetCount" == command:
+            result = encoder.count()
+        elif "GetDegrees" == command:
             result = encoder.degrees()
         elif "Zero" == command:
             encoder.zero()
         elif "State" == command:
             result = encoder.state()
+        elif "MoveDegrees" == command:
+            deg = float(lineParts[3])
+            speed = float(lineParts[4]) if 5 <= len(lineParts) else None
+            EncoderProcessor.moveDegrees(channel, deg, speed)
+            result = encoder.degrees()
+        elif "MoveCount" == command:
+            count = float(lineParts[3])
+            speed = float(lineParts[4]) if 5 <= len(lineParts) else None
+            EncoderProcessor.moveCount(channel, count, speed)
+            result = encoder.count()
+            
         elif "Capture" == command:
             cap = encoder.capture()
-            if 1 == 2:
+            if 1 == 1:
                 print(dir(cap))
             prop = {}
             prop["count"] = cap.count;
@@ -249,6 +262,34 @@ class EncoderProcessor:
         else:
             Reporter.reportError(f"Unknown command {command}")
         Reporter.reportSuccess(result)
+
+    @staticmethod
+    def countFromDegrees(channel, degrees):
+        e = ENCODER_LIST[channel]
+        cpr = e.counts_per_rev()
+        count = (degrees / 360.0) * cpr
+        return count
+
+    @staticmethod
+    def moveDegrees(channel, deg, speed):
+        count = EncoderProcessor.countFromDegrees(channel, deg)
+        EncoderProcessor.moveCount(channel, count, speed)
+        
+
+    @staticmethod
+    def moveCount(channel, count, speed):
+        m = MOTOR_LIST[channel]
+        if not m.is_enabled():
+            m.enable()
+        e = ENCODER_LIST[channel]
+        # Presumably, the motor is stopped
+        countStart = e.count()
+        countTarget = countStart + count
+        m.speed(speed if None != speed else 0.1)
+        while countTarget > e.count():
+            pass
+        m.stop()
+
 
 
 processorMap = {}
