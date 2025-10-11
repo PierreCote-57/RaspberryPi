@@ -227,8 +227,7 @@ class EncoderProcessor:
             
         elif "Capture" == command:
             cap = encoder.capture()
-            if 1 == 1:
-                print(dir(cap))
+#            print(dir(cap))
             prop = {}
             prop["count"] = cap.count;
             prop["delta"] = cap.delta;
@@ -243,11 +242,9 @@ class EncoderProcessor:
             prop["revolutions_delta"] = cap.revolutions_delta
             prop["revolutions_per_second"] = cap.revolutions_per_second
             result = prop
-#            prop["common_pin"] = encoder.common_pin()
         elif "Prop" == command:
 #            print(dir(encoder))
             prop = {}
-#            prop["common_pin"] = encoder.common_pin()
             prop["count"] = encoder.count()
             prop["counts_per_rev"] = encoder.counts_per_rev()
             prop["degrees"] = encoder.degrees()
