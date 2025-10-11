@@ -10,14 +10,14 @@ difference()
 	{
 		minkowski()
 		{
-			cube(size=[54.000, 74.000, 10.000], center=true);
+			cube(size=[54.000, 54.000, 10.000], center=true);
 			rotate(a=[0.000, 0.000, 90.000])
 			{
 				cylinder(h=0.010, r1=3.000, r2=3.000, center=false);
 			}
 		}
 	}
-	translate(v=[0.000, 22.000, 0.000])
+	translate(v=[0.000, 20.000, 0.000])
 	{
 		union()
 		{
@@ -31,7 +31,7 @@ difference()
 			}
 		}
 	}
-	translate(v=[0.000, -22.000, 0.000])
+	translate(v=[0.000, -20.000, 0.000])
 	{
 		union()
 		{

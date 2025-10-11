@@ -3,7 +3,7 @@ $fa=1.000;
 $fn=36.000;
 
 
-// DesktopTray-12 VDC
+// DesktopTray-Steppers
 difference()
 {
 	union()
@@ -27,7 +27,7 @@ difference()
 				{
 					linear_extrude(height=2.000, center="false", scale=[1.000, 1.000])
 					{
-						text(text="12 VDC", size=8.000, , font="LiberationSans:style=Regular", , halign="center", , valign="center");
+						text(text="Steppers", size=8.000, , font="LiberationSans:style=Regular", , halign="center", , valign="center");
 					}
 				}
 			}
