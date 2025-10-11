@@ -10,20 +10,20 @@ print("Root path = ", root_path)
 
 sys.path.append(root_path + "/utility")
 
-import PimoroniClient
+import PimoroniClientServo2040
 from LocalWorld import LocalHardware
-from PimoroniClient import ServoClient
+from PimoroniClientServo2040 import ClientServo2040
 
 hw = LocalHardware()
 print(hw)
 environ = os.environ
 
-servo = ServoClient()
+servo = ClientServo2040()
 
 servo.setRGB(2, 64, 0, 0)
 print(servo.getRGB(2))
 time.sleep(2.0)
 servo.clearLight()
 
-PimoroniClient.testRGB(servo)
-PimoroniClient.testServo(servo)
+PimoroniClientServo2040.testRGB(servo)
+PimoroniClientServo2040.testServo(servo)
