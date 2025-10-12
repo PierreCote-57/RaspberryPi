@@ -82,6 +82,17 @@ class GenericAnswer:
     def isSuccess(self):
         return self.answer.startswith("OK");
 
+    def __str__(self):
+        return self.answer
+
+class NumberAnswer(GenericAnswer):
+    def __init__(self, answer):
+        GenericAnswer.__init__(self, answer);
+        self.value = float(answer[3:])
+    
+    def __str__(self):
+        return f"{self.value:,.2f}";
+
 class AnswerRGB(GenericAnswer):
     def __init__(self, answer):
         GenericAnswer.__init__(self, answer);

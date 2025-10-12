@@ -202,9 +202,6 @@ class EncoderProcessor:
         channel = int(lineParts[2])
         encoder = ENCODER_LIST[channel]
 
-
-#        utime.sleep_ms(15_000)
-
         result = None
         if "GetCount" == command:
             result = encoder.count()

@@ -70,80 +70,82 @@ class AnswerServo(GenericAnswer):
     def __str__(self):
         return f"[{self.angle:5.1f}]"
 
-def testRGB(servo):
-    for channel in range(6):
-        servo.testRGB(channel, 0.25)
 
-def testSensor(servo):
-    prop = servo.getSensorProp()
+def testRGB(client):
+    for channel in range(6):
+        client.testRGB(channel, 0.25)
+
+def testSensor(client):
+    prop = client.getSensorProp()
     print("SensorProp:", prop.strip())
-    voltage = servo.readVoltage()
-    current = servo.readCurrent()
+    voltage = client.readVoltage()
+    current = client.readCurrent()
     print(datetime.fromtimestamp(time.time()).strftime('%Y-%m-%d %H:%M:%S.%f'), end=" ")
     print(f"Voltage {voltage:.3f} volts Current {current:.3f} amps", end="")
     
     for i in range(6):
-        sensor = servo.readSensor(i)
+        sensor = client.readSensor(i)
         print(f" Sensor-{i} = {sensor:.3f}", end = "")
     print("")
 
 
-def testServo(servo):
+def testServo(client):
     angleList =  [0, -45, -90, -45, 0, 45, 90, 45, 0]
     angleList =  [0, 45, 0]
     channelList = [0, 5]
 
     for channel in channelList:
-        prop = servo.getServoProp(channel)
+        prop = client.getServoProp(channel)
         print(f"Props(channel {channel}) = {prop.strip()}")
 
+    delay180 = 0.25
     for angle in angleList:
         print("Moving to ", angle)
         for channel in channelList:
-            front = servo.setServo(channel, angle)
-            back = servo.getServo(channel);
+            front = client.setServo(channel, angle)
+            back = client.getServo(channel);
             if (angle != back.angle or angle != front.angle):
                 print("Error")
             time.sleep(0.25)
 
-#    for channel in [12, 17]:
-    for channel in []:
-        servo.setServo(channel, 10)
-        time.sleep(2)
-        servo.setServo(channel, -10)
-        time.sleep(2)
+    delay360 = 1.0
+    for channel in [12, 17]:
+        client.setServo(channel, 10)
+        time.sleep(delay360)
+        client.setServo(channel, -10)
+        time.sleep(delay360)
 #        servo.setServo(channel, 0)
-        servo.closeServo(channel)
+        client.closeServo(channel)
 
-def calibrateServo360(servo):
+def calibrateServo360(client):
     noList = [12, 17]
     for no in noList:
-        servo.setServo(no, 0)
+        client.setServo(no, 0)
     time.sleep(5)
 
     for angle in [ 5, 10, 15 ]:
         print("Spinning at ", angle)
         for no in noList:
-            servo.setServo(no, angle)
+            client.setServo(no, angle)
         time.sleep(5.0)
         for no in noList:
-            servo.closeServo(no)
+            client.closeServo(no)
         time.sleep(2)
 
-def testPerformance(servo):
+def testPerformance(client):
     timer = SimpleTimer()
     for n in range(5):
-        servo.setRGB(n, 128, 128, 0)
+        client.setRGB(n, 128, 128, 0)
     for n in range(5):
-        servo.setRGB(n, 0, 0, 0)
+        client.setRGB(n, 0, 0, 0)
     timer.checkpoint("Done with 10 setLight")
     for n in [0, 5]:
-        servo.setServo(n, 45)
+        client.setServo(n, 45)
     for n in [0, 17]:
-        servo.setServo(n, 0)
+        client.setServo(n, 0)
     timer.checkpoint("Done with 4 setServo calls")
     for n in range(10):
-        servo.readVoltage()
+        client.readVoltage()
     timer.checkpoint("Done reading 10 voltage")
     print(timer)
 
