@@ -164,7 +164,6 @@ class MotorProcessor:
                     print("speed", m.speed())
                     print("speed_scale", m.speed_scale())
                     print("zeropoint", m.zeropoint())
-
                 prop = {}
                 prop["deadzone"] = motor.deadzone()
                 prop["decay_mode"] = motor.decay_mode()

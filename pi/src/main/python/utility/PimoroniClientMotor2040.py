@@ -17,11 +17,26 @@ from PimoroniClientBase import AnswerJson
 
 class ClientMotor2040(ClientBase):
 
-    # def defines a method/function
+    # Setting -> CPS
+    SPEED_CALIBRATION = [
+        [0.49,     0],
+        [0.05,    90],
+        [0.07,   170],
+        [0.10,   260],
+        [0.15,   430],
+        [0.25,   760],
+        [0.50, 1_590],
+        [0.75, 2_430],
+        [1.00, 3_260]
+    ]
 
     # Constructor
     def __init__(self):
         ClientBase.__init__(self, LocalWorld.LocalHardware().findMotor2040())
+        self.cpr = []
+        for i in range(4):
+            prop = self.getEncoderProp(i)
+            self.cpr.append(prop.value["counts_per_rev"])
         return
 
     # toString
@@ -73,7 +88,7 @@ class ClientMotor2040(ClientBase):
 
     def state(self, channel):
         response = self.processCommand(f"$Encoder,State,{channel}")
-        return AnswerNumber(response)
+        return GenericAnswer(response)
 
     def capture(self, channel):
         response = self.processCommand(f"$Encoder,Capture,{channel}")
@@ -89,12 +104,12 @@ class ClientMotor2040(ClientBase):
 
 def testMotor(client):
     for channel in [0, 3]:
-        prop = client.getMotorProp(channel)
-        prop.print(f"Motor {channel}")
-#        for speed in [0.1, 0.25, 0.5, 1.0]:
-        for speed in [0.25]:
-            calibrate(client, channel)
-#            testMotorSingle(client, channel, speed)
+        propMotor = client.getMotorProp(channel)
+        propMotor.print(f"Motor {channel}")
+        propEncoder = client.getEncoderProp(channel)
+        propEncoder.print(f"Encoder {channel}")
+        calibrate(client, channel)
+#        testMotorSingle(client, channel, speed)
 
 def testMotorSingle(client, channel, speed):
     client.setSpeed(channel, speed)
@@ -109,7 +124,8 @@ def testMotorSingle(client, channel, speed):
     print(f"Testing[channel {channel}, speed {speed:4.1f}]: Degrees turned = {delta1:8,.1f}; degrees to stop: {delta2:5,.1f}")
 
 def calibrate(client, channel):
-    for speed in [0.05,0.1, 0.25, 0.5, 1.0]:
+    print(f"Calibrate {channel}")
+    for speed in [0.05, 0.07, 0.1, 0.15, 0.25, 0.5, 0.75, 1.0]:
         answer = client.calibrate(channel, speed)
         print(f"\tSpeed {speed:4.2f} = {answer.value[1]:7,.0f} cps")
 
