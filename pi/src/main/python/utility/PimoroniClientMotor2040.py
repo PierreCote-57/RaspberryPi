@@ -11,7 +11,7 @@ from RandomUtil import SimpleTimer
 
 from PimoroniClientBase import ClientBase
 from PimoroniClientBase import GenericAnswer
-from PimoroniClientBase import NumberAnswer
+from PimoroniClientBase import AnswerNumber
 
 
 class ClientMotor2040(ClientBase):
@@ -58,11 +58,11 @@ class ClientMotor2040(ClientBase):
 
     def getCount(self, channel):
         response = self.processCommand(f"$Encoder,GetCount,{channel}")
-        return NumberAnswer(response)
+        return AnswerNumber(response)
 
     def getDegrees(self, channel):
         response = self.processCommand(f"$Encoder,GetDegrees,{channel}")
-        return NumberAnswer(response)
+        return AnswerNumber(response)
 
     def zero(self, channel):
         response = self.processCommand(f"$Encoder,Zero,{channel}")
@@ -70,7 +70,7 @@ class ClientMotor2040(ClientBase):
 
     def state(self, channel):
         response = self.processCommand(f"$Encoder,State,{channel}")
-        return NumberAnswer(response)
+        return AnswerNumber(response)
 
     def capture(self, channel):
         response = self.processCommand(f"$Encoder,Capture,{channel}")

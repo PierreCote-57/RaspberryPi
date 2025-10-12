@@ -10,6 +10,8 @@ from RandomUtil import SimpleTimer
 
 from PimoroniClientBase import ClientBase
 from PimoroniClientBase import GenericAnswer
+from PimoroniClientBase import AnswerJson
+from PimoroniClientBase import AnswerNumber
 
 
 class ClientServo2040(ClientBase):
@@ -29,46 +31,31 @@ class ClientServo2040(ClientBase):
         return self.readSensor("Volt")
 
     def readCurrent(self):
-        return self.readSensor("Amp")
+        return  self.readSensor("Amp")
     
     def readSensor(self, channel):
         response = self.processCommand(f"$Sensor,{channel}")
-        responseParts = response.split(",")
-        isSuccess = "OK" == responseParts[0]
-        if isSuccess:
-            answer = float(responseParts[1]);
-        else:
-            answer = response
-        return answer
+        return AnswerNumber(response)
 
     def getSensorProp(self):
-        return  self.processCommand(f"$Sensor,Prop")
+        response = self.processCommand(f"$Sensor,Prop")
+        return AnswerJson(response)
 
 
     def setServo(self, channel, angle):
         response = self.processCommand(f"$Servo,Set,{channel},{angle}")
-        return AnswerServo(response)
+        return AnswerNumber(response)
 
     def getServo(self, channel):
         response = self.processCommand(f"$Servo,Get,{channel}")
-        return AnswerServo(response)
+        return AnswerNumber(response)
 
     def getServoProp(self, channel):
         response = self.processCommand(f"$Servo,Prop,{channel}")
-        return response
+        return AnswerJson(response)
 
     def closeServo(self, channel):
         return self.processCommand(f"$Servo,Close,{channel}")
-
-
-class AnswerServo(GenericAnswer):
-    def __init__(self, answer):
-        GenericAnswer.__init__(self, answer);
-        self.result = answer[:2]
-        self.angle = float(answer[3:].replace("'", ""))
-
-    def __str__(self):
-        return f"[{self.angle:5.1f}]"
 
 
 def testRGB(client):
@@ -77,15 +64,18 @@ def testRGB(client):
 
 def testSensor(client):
     prop = client.getSensorProp()
-    print("SensorProp:", prop.strip())
+    print("SensorProp")
+    if prop.isSuccess():
+        for item in prop.map.items():
+            print("\t", item[0], " = ", item[1])
     voltage = client.readVoltage()
     current = client.readCurrent()
     print(datetime.fromtimestamp(time.time()).strftime('%Y-%m-%d %H:%M:%S.%f'), end=" ")
-    print(f"Voltage {voltage:.3f} volts Current {current:.3f} amps", end="")
+    print(f"Voltage {voltage.value:.3f} volts Current {current.value:.3f} amps", end="")
     
     for i in range(6):
         sensor = client.readSensor(i)
-        print(f" Sensor-{i} = {sensor:.3f}", end = "")
+        print(f" Sensor-{i} = {sensor.value:.3f}", end = "")
     print("")
 
 
@@ -96,7 +86,10 @@ def testServo(client):
 
     for channel in channelList:
         prop = client.getServoProp(channel)
-        print(f"Props(channel {channel}) = {prop.strip()}")
+        if prop.isSuccess():
+            print("Props for Servo ", channel)
+            for item in prop.map.items():
+                print("\t", item[0], " = ", item[1])
 
     delay180 = 0.25
     for angle in angleList:
@@ -104,7 +97,7 @@ def testServo(client):
         for channel in channelList:
             front = client.setServo(channel, angle)
             back = client.getServo(channel);
-            if (angle != back.angle or angle != front.angle):
+            if (angle != back.value or angle != front.value):
                 print("Error")
             time.sleep(0.25)
 
