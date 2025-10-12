@@ -90,7 +90,16 @@ class AnswerJson(GenericAnswer):
     def __init__(self, response):
         GenericAnswer.__init__(self, response);
         if self.isSuccess():
-            self.map = json.loads(response[3:])
+            self.value = json.loads(response[3:])
+    
+    def get(self, name):
+        return self.value[name];
+
+    def print(self, name):
+        print(name, self.isSuccess())
+        if self.isSuccess():
+            for item in self.value.items():
+                print(f"\t{item[0]:10} = {item[1]}")
 
 class AnswerNumber(GenericAnswer):
     def __init__(self, response):
@@ -105,7 +114,7 @@ class AnswerRGB(GenericAnswer):
     def __init__(self, response):
         GenericAnswer.__init__(self, response);
         if self.isSuccess():
-            self.result = response[:2]
+            self.value = response[:2]
             rgbParts= response[4:len(response)-3].split(",")
             self.r = int(rgbParts[0].replace("'", ""))
             self.g = int(rgbParts[1].replace("'", ""))

@@ -12,6 +12,7 @@ from RandomUtil import SimpleTimer
 from PimoroniClientBase import ClientBase
 from PimoroniClientBase import GenericAnswer
 from PimoroniClientBase import AnswerNumber
+from PimoroniClientBase import AnswerJson
 
 
 class ClientMotor2040(ClientBase):
@@ -26,6 +27,8 @@ class ClientMotor2040(ClientBase):
     # toString
     def __str__(self):
         return super().__str__()
+
+# Inherits all the RGB methods
 
     def disable(self, channel):
         response = self.processCommand(f"$Motor,Disable,{channel}")
@@ -53,7 +56,7 @@ class ClientMotor2040(ClientBase):
 
     def getMotorProp(self, channel):
         response = self.processCommand(f"$Motor,Prop,{channel}")
-        return GenericAnswer(response)
+        return AnswerJson(response)
 
 
     def getCount(self, channel):
@@ -74,18 +77,24 @@ class ClientMotor2040(ClientBase):
 
     def capture(self, channel):
         response = self.processCommand(f"$Encoder,Capture,{channel}")
-        return GenericAnswer(response)
+        return AnswerJson(response)
 
     def getEncoderProp(self, channel):
         response = self.processCommand(f"$Encoder,Prop,{channel}")
-        return GenericAnswer(response)
+        return AnswerJson(response)
+    
+    def calibrate(self, channel, speed):
+        response = self.processCommand(f"$Encoder,Calibrate,{channel}, {speed}")
+        return AnswerJson(response)
 
 def testMotor(client):
     for channel in [0, 3]:
-        print(f"Motor {channel}: Props = {client.getMotorProp(channel)}")
+        prop = client.getMotorProp(channel)
+        prop.print(f"Motor {channel}")
 #        for speed in [0.1, 0.25, 0.5, 1.0]:
         for speed in [0.25]:
-            testMotorSingle(client, channel, speed)
+            calibrate(client, channel)
+#            testMotorSingle(client, channel, speed)
 
 def testMotorSingle(client, channel, speed):
     client.setSpeed(channel, speed)
@@ -97,7 +106,12 @@ def testMotorSingle(client, channel, speed):
     answer3 = client.getDegrees(channel)
     delta1 = answer2.value - answer1.value
     delta2 = answer3.value - answer2.value
-    print(f"Testing[channel {channel}, speed {speed:4.1f}]: Degrees turning = {delta1:8,.1f}; degrees to stop: {delta2:5,.1f}")
+    print(f"Testing[channel {channel}, speed {speed:4.1f}]: Degrees turned = {delta1:8,.1f}; degrees to stop: {delta2:5,.1f}")
+
+def calibrate(client, channel):
+    for speed in [0.05,0.1, 0.25, 0.5, 1.0]:
+        answer = client.calibrate(channel, speed)
+        print(f"\tSpeed {speed:4.2f} = {answer.value[1]:7,.0f} cps")
 
 if __name__ == "__main__":
     timer = RandomUtil.SimpleTimer()

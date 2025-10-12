@@ -27,6 +27,8 @@ class ClientServo2040(ClientBase):
     def __str__(self):
         return super().__str__()
 
+# Inherits all the RGB methods
+
     def readVoltage(self):
         return self.readSensor("Volt")
 
