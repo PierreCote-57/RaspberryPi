@@ -1,7 +1,7 @@
 $fn=36;
 height=10;
 outerD=10;
-innerD=3.3;
+innerD=3.25;
 barOffset=innerD / 2 - (innerD - 3.);
 
 union()
