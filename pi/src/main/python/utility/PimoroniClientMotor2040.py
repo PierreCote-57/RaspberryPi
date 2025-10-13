@@ -103,7 +103,7 @@ class ClientMotor2040(ClientBase):
         return AnswerJson(response)
 
 def testMotor(client):
-    for channel in [0, 3]:
+    for channel in [0, 2, 3]:
         propMotor = client.getMotorProp(channel)
         propMotor.print(f"Motor {channel}")
         propEncoder = client.getEncoderProp(channel)
@@ -134,9 +134,10 @@ if __name__ == "__main__":
     timer.checkpoint("Writing ")
 
     client = ClientMotor2040()
-    client.testRGB(0, 0.5)
+#    client.testRGB(0, 0.5)
 
-    testMotor(client)
+#    testMotor(client)
+    calibrate(client, 2)
 
 
     print("Done")

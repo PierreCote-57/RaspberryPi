@@ -7,7 +7,7 @@ import json
 
 from plasma import WS2812
 from motor import Motor, motor2040
-from pimoroni import Button  # , REVERSED_DIR
+from pimoroni import Button, REVERSED_DIR
 from encoder import Encoder, MMME_CPR
 
 # Start fresh
@@ -131,6 +131,8 @@ class MotorProcessor:
         else:
             if not motor.is_enabled():
                 motor.enable()
+#                if 2 == channel:
+#                    motor.direction(REVERSED_DIR)
 
             result = None
             if ("Brake" == command):
@@ -188,6 +190,10 @@ class MotorProcessor:
 # Servos are 0-17 for labels 1-18
 class EncoderProcessor:
     def __init__(self):
+        print(dir(ENCODER_LIST[2]))
+        print(ENCODER_LIST[2].counts_per_rev())
+        ENCODER_LIST[2].counts_per_rev(600*380/50)
+        print(ENCODER_LIST[2].counts_per_rev())
         self.servoMap = {}
         
     def shutdown(self):
@@ -277,16 +283,16 @@ class EncoderProcessor:
         if not m.is_enabled():
             m.enable()
         e = ENCODER_LIST[channel]
-        duration = 0.1
+        duration = 0.99
         m.speed(speed)
         countSav = e.count()
         for i in range(5):
             time.sleep(duration)
             count = e.count()
-            cps = count - countSav
+            delta = count - countSav
             countSav = count
         m.stop()
-        return cps / duration   
+        return delta / duration   
         
 
 
