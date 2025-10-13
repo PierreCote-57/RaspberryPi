@@ -164,7 +164,6 @@ class MotorProcessor:
                     print("speed", m.speed())
                     print("speed_scale", m.speed_scale())
                     print("zeropoint", m.zeropoint())
-
                 prop = {}
                 prop["deadzone"] = motor.deadzone()
                 prop["decay_mode"] = motor.decay_mode()
@@ -178,7 +177,7 @@ class MotorProcessor:
                 prop["speed"] = motor.speed()
                 prop["speed_scale"] = motor.speed_scale()
                 prop["zeropoint"] = motor.zeropoint()
-                result = prop
+                result = json.dumps(prop)
             else:
                 Reporter.reportError(f"Unknown command {command}")
 
@@ -202,9 +201,6 @@ class EncoderProcessor:
         channel = int(lineParts[2])
         encoder = ENCODER_LIST[channel]
 
-
-#        utime.sleep_ms(15_000)
-
         result = None
         if "GetCount" == command:
             result = encoder.count()
@@ -224,7 +220,10 @@ class EncoderProcessor:
             speed = float(lineParts[4]) if 5 <= len(lineParts) else None
             EncoderProcessor.moveCount(channel, count, speed)
             result = encoder.count()
-            
+        elif "Calibrate" == command:
+            speed = float(lineParts[3]) if len(lineParts) >= 4 else 0.25
+            cps = EncoderProcessor.calibrate(channel, speed)
+            result = json.dumps([speed, cps])
         elif "Capture" == command:
             cap = encoder.capture()
 #            print(dir(cap))
@@ -238,10 +237,10 @@ class EncoderProcessor:
             prop["degrees_delta"] = cap.degrees_delta
             prop["degrees_per_second"] = cap.degrees_per_second
 
-            prop["revoputions"] = cap.revolutions
+            prop["revolutions"] = cap.revolutions
             prop["revolutions_delta"] = cap.revolutions_delta
             prop["revolutions_per_second"] = cap.revolutions_per_second
-            result = prop
+            result = json.dumps(prop)
         elif "Prop" == command:
 #            print(dir(encoder))
             prop = {}
@@ -255,7 +254,7 @@ class EncoderProcessor:
             prop["revolutions"] = encoder.revolutions()
             prop["step"] = encoder.step()
             prop["turn"] = encoder.turn()
-            result = prop
+            result = json.dumps(prop)
         else:
             Reporter.reportError(f"Unknown command {command}")
         Reporter.reportSuccess(result)
@@ -272,6 +271,24 @@ class EncoderProcessor:
         count = EncoderProcessor.countFromDegrees(channel, deg)
         EncoderProcessor.moveCount(channel, count, speed)
         
+    @staticmethod
+    def calibrate(channel, speed):
+        m = MOTOR_LIST[channel]
+        if not m.is_enabled():
+            m.enable()
+        e = ENCODER_LIST[channel]
+        duration = 0.1
+        m.speed(speed)
+        countSav = e.count()
+        for i in range(5):
+            time.sleep(duration)
+            count = e.count()
+            cps = count - countSav
+            countSav = count
+        m.stop()
+        return cps / duration   
+        
+
 
     @staticmethod
     def moveCount(channel, count, speed):

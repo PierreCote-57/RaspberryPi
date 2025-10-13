@@ -1,6 +1,7 @@
 
 import sys
 import time
+import json
 
 from machine import Pin
 from pimoroni import Analog, AnalogMux, Button
@@ -121,7 +122,7 @@ class SensorProcessor:
             prop["Gain"] = self.cur_adc.gain
             prop["Offset"] = self.cur_adc.offset
             prop["Resistor"] = self.cur_adc.resistor
-            result = prop
+            result = json.dumps(prop)
         else:
             channel = lineParts[1]
             try:
@@ -181,8 +182,13 @@ class ServoProcessor:
             prop["Value"] = servo.value()
             prop["Pulse"] = servo.pulse()
             prop["Frequency"] = servo.frequency()
-            prop["Calibration"] = servo.calibration()
-            result = prop
+            cal = servo.calibration()
+#            print(dir(cal))
+            pairs = []
+            for i in range(cal.size()):
+                pairs.append(cal.pair(i))
+            prop["pairs"] = pairs
+            result = json.dumps(prop)
         else:
             Reporter.reportError(f"Unknown ommand {command}")
         Reporter.reportSuccess(result)
