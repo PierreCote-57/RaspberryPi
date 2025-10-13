@@ -27,24 +27,24 @@ difference()
 				{
 					linear_extrude(height=2.000, center="false", scale=[1.000, 1.000])
 					{
-						text(text="5 VDC", size=8.000, , font="LiberationSans:style=Regular", , halign="center", , valign="center");
+						text(text="5 VDC", size=7.000, , font="LiberationSans:style=Regular", , halign="center", , valign="center");
 					}
 				}
 			}
 		}
 	}
-	translate(v=[3.000, 12.500, 0.000])
+	translate(v=[3.000, 12.250, 0.000])
 	{
 		translate(v=[0.000, 0.000, 6.000])
 		{
-			cube(size=[30.000, 23.000, 10.000], center=true);
+			cube(size=[30.000, 22.500, 10.000], center=true);
 		}
 	}
-	translate(v=[3.000, -12.500, 0.000])
+	translate(v=[3.000, -12.250, 0.000])
 	{
 		translate(v=[0.000, 0.000, 6.000])
 		{
-			cube(size=[30.000, 23.000, 10.000], center=true);
+			cube(size=[30.000, 22.500, 10.000], center=true);
 		}
 	}
 }
