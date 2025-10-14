@@ -26,8 +26,8 @@ class ClientMotor2040(ClientBase):
         [0.15, 0.71],
         [0.25, 1.24],
         [0.50, 2.61],
-        [0.75, 4.0],
-        [1.00, 5.38]
+        [0.75, 4.1],
+        [1.00, 5.48]
     ])
     SPEED_CALIBRATION.append([])
     SPEED_CALIBRATION.append([
