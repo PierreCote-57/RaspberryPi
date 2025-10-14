@@ -190,10 +190,7 @@ class MotorProcessor:
 # Servos are 0-17 for labels 1-18
 class EncoderProcessor:
     def __init__(self):
-        print(dir(ENCODER_LIST[2]))
-        print(ENCODER_LIST[2].counts_per_rev())
         ENCODER_LIST[2].counts_per_rev(600*380/50)
-        print(ENCODER_LIST[2].counts_per_rev())
         self.servoMap = {}
         
     def shutdown(self):
@@ -229,7 +226,8 @@ class EncoderProcessor:
         elif "Calibrate" == command:
             speed = float(lineParts[3]) if len(lineParts) >= 4 else 0.25
             cps = EncoderProcessor.calibrate(channel, speed)
-            result = json.dumps([speed, cps])
+            rps = cps / encoder.counts_per_rev()
+            result = json.dumps([speed, rps])
         elif "Capture" == command:
             cap = encoder.capture()
 #            print(dir(cap))
@@ -283,7 +281,7 @@ class EncoderProcessor:
         if not m.is_enabled():
             m.enable()
         e = ENCODER_LIST[channel]
-        duration = 0.99
+        duration = 0.1
         m.speed(speed)
         countSav = e.count()
         for i in range(5):

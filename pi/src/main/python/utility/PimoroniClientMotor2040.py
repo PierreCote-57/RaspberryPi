@@ -17,18 +17,58 @@ from PimoroniClientBase import AnswerJson
 
 class ClientMotor2040(ClientBase):
 
-    # Setting -> CPS
-    SPEED_CALIBRATION = [
-        [0.49,     0],
-        [0.05,    90],
-        [0.07,   170],
-        [0.10,   260],
-        [0.15,   430],
-        [0.25,   760],
-        [0.50, 1_590],
-        [0.75, 2_430],
-        [1.00, 3_260]
-    ]
+    # Setting -> RPS
+    SPEED_CALIBRATION = []
+    SPEED_CALIBRATION.append([
+        [0.05, 0.17],
+        [0.07, 0.28],
+        [0.10, 0.44],
+        [0.15, 0.71],
+        [0.25, 1.24],
+        [0.50, 2.61],
+        [0.75, 4.0],
+        [1.00, 5.38]
+    ])
+    SPEED_CALIBRATION.append([])
+    SPEED_CALIBRATION.append([
+        [0.05, 0.03],
+        [0.07, 0.04],
+        [0.10, 0.08],
+        [0.15, 0.14],
+        [0.25, 0.27],
+        [0.50, 0.61],
+        [0.75, 0.95],
+        [1.00, 1.30]
+    ])
+    SPEED_CALIBRATION.append([
+        [0.05, 0.16],
+        [0.07, 0.28],
+        [0.10, 0.43],
+        [0.15, 0.70],
+        [0.25, 1.26],
+        [0.50, 2.66],
+        [0.75, 4.08],
+        [1.00, 5.48]
+    ])
+
+    @staticmethod
+    def speedForRPS(channel, rps):
+        if channel >= len(ClientMotor2040.SPEED_CALIBRATION):
+            return None
+        cal = ClientMotor2040.SPEED_CALIBRATION[channel]
+        if rps < cal[0][1]:
+            return None
+        if rps > cal[len(cal) - 1][1]:
+            return 1.0
+        speed = 1.0
+        for i in range(len(cal) - 1):
+            point1 = cal[i]
+            point2 = cal[i + 1]
+            if point2[1] > rps:
+                # Here!
+                speed = (point1[0] + point2[0]) / 2.0
+                break
+        return speed
 
     # Constructor
     def __init__(self):
@@ -108,36 +148,49 @@ def testMotor(client):
         propMotor.print(f"Motor {channel}")
         propEncoder = client.getEncoderProp(channel)
         propEncoder.print(f"Encoder {channel}")
-        calibrate(client, channel)
-#        testMotorSingle(client, channel, speed)
-
-def testMotorSingle(client, channel, speed):
-    client.setSpeed(channel, speed)
-    answer1 = client.getDegrees(channel)
-    time.sleep(1.0)
-    answer2 = client.getDegrees(channel)
-    client.stop(channel)
-    time.sleep(0.1)
-    answer3 = client.getDegrees(channel)
-    delta1 = answer2.value - answer1.value
-    delta2 = answer3.value - answer2.value
-    print(f"Testing[channel {channel}, speed {speed:4.1f}]: Degrees turned = {delta1:8,.1f}; degrees to stop: {delta2:5,.1f}")
+#        calibrate(client, channel)
+        validate(client, channel)
 
 def calibrate(client, channel):
     print(f"Calibrate {channel}")
     for speed in [0.05, 0.07, 0.1, 0.15, 0.25, 0.5, 0.75, 1.0]:
         answer = client.calibrate(channel, speed)
-        print(f"\tSpeed {speed:4.2f} = {answer.value[1]:7,.0f} cps")
+        rps = f"{answer.value[1]:7,.2f}"
+        rpm = f"{answer.value[1] * 60:7,.1f}"
+        spr = f"{1.0 / answer.value[1]:7,.2f}" if 0.0 != answer.value[1] else "0.0"
+        print(f"\tSpeed ({speed:4.2f}) = {rps} rps == {rpm} rpm == {spr} sec / rev")
+
+def validate(client, channel):
+    print(f"Validating {channel}")
+    cal = ClientMotor2040.SPEED_CALIBRATION[channel]
+    for i in range(len(cal) - 1):
+        point1 = cal[i]
+        point2 = cal[i + 1]
+        targetRPS = (point1[1] + point2[1]) / 2.0
+        targetSpeed = ClientMotor2040.speedForRPS(channel, targetRPS)
+        client.setSpeed(channel, targetSpeed)
+        time.sleep(0.25)
+        client.capture(channel)
+        time.sleep(0.25)
+        answer = client.capture(channel)
+        rps = answer.value["revolutions_per_second"]
+        delta = rps - targetRPS
+        print(f"Speed {targetSpeed:4.2f}: Expected {targetRPS:7.2f} rps; got {rps:7.2f}; Delta = {delta:7.2f}")
 
 if __name__ == "__main__":
     timer = RandomUtil.SimpleTimer()
     timer.checkpoint("Writing ")
 
     client = ClientMotor2040()
-#    client.testRGB(0, 0.5)
+    client.testRGB(0, 0.5)
 
-#    testMotor(client)
-    calibrate(client, 2)
+    client.setSpeed(0,0.1)
+    client.setSpeed(2,0.1)
+    client.setSpeed(3,0.1)
+    time.sleep(10)
+
+    testMotor(client)
+#    calibrate(client, 2)
 
 
     print("Done")

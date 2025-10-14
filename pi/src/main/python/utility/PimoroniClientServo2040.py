@@ -68,7 +68,7 @@ def testSensor(client):
     prop = client.getSensorProp()
     print("SensorProp")
     if prop.isSuccess():
-        for item in prop.map.items():
+        for item in prop.value.items():
             print("\t", item[0], " = ", item[1])
     voltage = client.readVoltage()
     current = client.readCurrent()
@@ -90,7 +90,7 @@ def testServo(client):
         prop = client.getServoProp(channel)
         if prop.isSuccess():
             print("Props for Servo ", channel)
-            for item in prop.map.items():
+            for item in prop.value.items():
                 print("\t", item[0], " = ", item[1])
 
     delay180 = 0.25
