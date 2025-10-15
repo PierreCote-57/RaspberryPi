@@ -6,6 +6,8 @@ from datetime import datetime
 import pytz
 import time
 import serial
+import logging
+import threading
 
 import LocalWorld as LocalWorld
 
@@ -93,7 +95,7 @@ class ReadingGSV:
 # GSV GPS Satellites in view
 class SerialGPS:
 
-    KMH_PER_KNOT = 1.852
+    KM_PER_NM = 1.852
 
     # Constructor
     def __init__(self, port):
@@ -107,19 +109,61 @@ class SerialGPS:
         self.lastGSA = None
         self.lastGSV = None
 
+        self.thread = None
+        self.callback = None
+
     # toString
     def __str__(self):
         message = f"SerialGPS on  {self.port}"
         if None != self.lastRMC and self.lastRMC.isGood():
             message = str(self.lastRMC)
         if None != self.lastGGA and self.lastGGA.isGood():
+            message = f"{message} alt {self.lastGGA.altitude} {self.lastGGA.units}"
             message = f"{message} using {self.lastGGA.countInUse}"
 #            if None != self.lastGSA:
 #                message = f"{message}(={self.lastGSA.getCount()})"
             if None != self.lastGSV:
-                message = f"{message} of {self.lastGSV.satInView}"
-            message = f"{message} at {self.lastGGA.altitude} {self.lastGGA.units}"
+                message = f"{message} of {self.lastGSV.satInView} sat."
         return message
+
+    def start(self):
+        # Start on a background thread
+        self.thread = threading.Thread(target=SerialGPS.doReading, args=(self,), daemon=True)
+        self.thread.name = "SerialGPS"
+        self.thread.start()
+        pass
+
+    def stop(self):
+        # Stop the thread
+        if None != self.thread:
+            print("Stopping thread ", self.thread.name)
+            self.thread = None
+            time.sleep(0.1) # Give thread a chance to stop
+        pass
+
+    def setCallback(self, callback):
+        self.callback = callback
+
+    def doReading(self):
+        print("doReading() on thread ", threading.current_thread().name)
+        self.waitForReading()
+        while True:
+            if None == self.thread:
+                print("doReading()", threading.current_thread().name, "exiting")
+                return
+            line = self.readString()
+            self.parseLine(line)
+
+    def waitForReading(gps):
+        timeStart = datetime.now()
+        while True:
+            line = gps.readString()
+            gps.parseLine(line)
+            if None != gps.lastRMC and gps.lastRMC.isGood():
+                break
+            elif line.startswith("GPRMC"):
+                print("Still waiting at", datetime.now(), "after", datetime.now() - timeStart)
+        return datetime.now() - timeStart
 
 
     def readString(self):
@@ -149,6 +193,8 @@ class SerialGPS:
 #            print(datetime.now(), "Line = ", line)  #.strftime("%Y-%m-%d %H:%M:%S"))
             if lineParts[0] == "GPRMC":
                 self.parseRMC(lineParts)
+                if self.lastRMC.isGood() and None != self.callback:
+                    self.callback(self)
                 pass
             elif lineParts[0] == "GPGGA":
                 self.parseGGA(lineParts)
@@ -209,7 +255,7 @@ class SerialGPS:
             lat = SerialGPS.parseLat(lineParts, 3)
             lon = SerialGPS.parseLon(lineParts, 5)
             speedKnot = float(lineParts[7])
-            speedKMH = speedKnot * SerialGPS.KMH_PER_KNOT
+            speedKMH = speedKnot * SerialGPS.KM_PER_NM
             speedMPS = speedKMH / 3.600
             courseTrue = float(lineParts[8]) if lineParts[8] else None
         else:
@@ -484,17 +530,6 @@ def checksum(line):
         print(hex(checksum), "!=", hex(inputChecksum))
         return False
 
-def waitForReading(gps):
-    timeStart = datetime.now()
-    while True:
-        line = gps.readString()
-        gps.parseLine(line)
-        if None != gps.lastRMC and gps.lastRMC.isGood():
-            break
-        elif line.startswith("GPRMC"):
-            print("Still waiting at", datetime.now(), "after", datetime.now() - timeStart)
-    return datetime.now() - timeStart
-
 def measureStartup(getPortFunction):
     functionName = getPortFunction.__name__
     device = functionName[8:]
@@ -507,24 +542,23 @@ def measureStartup(getPortFunction):
     print(f"Found GPS on {port}")
     print("Waiting for first reading")
     gps = SerialGPS(port)
-    duration = waitForReading(gps)
+    duration = gps.waitForReading()
     print(gps.lastRMC)
     print("Time to first reading = ", duration)
 
-def doReading(gps):
-    waitForReading(gps)
-    try:
-        while True:
-            line = gps.readString()
-            gps.parseLine(line)
-            if (line.startswith("GPRMC")):
-                print(gps)
-
-    except KeyboardInterrupt:
-        print("Exiting Script")
+def onReading(gps):
+    print(gps)
 
 if __name__ == "__main__":
-    measureStartup(LocalWorld.LocalHardware.findGPS_USB)
+#    format = "%(asctime)s: %(message)s"
+#    logging.basicConfig(format=format, level=logging.INFO, datefmt="%H:%M:%S")
+#    measureStartup(LocalWorld.LocalHardware.findGPS_USB)
 #    measureStartup(LocalWorld.LocalHardware.findGPS_Garmin)
-    doReading(SerialGPS(LocalWorld.LocalHardware.findGPS_USB()))
-
+    gps = SerialGPS(LocalWorld.LocalHardware.findGPS_USB())
+    gps.setCallback(onReading)
+ #   logging.info("Starting thread")
+    gps.start()
+    time.sleep(5)
+#    logging.info("stopping thread")
+    gps.stop()
+    print("Done")
