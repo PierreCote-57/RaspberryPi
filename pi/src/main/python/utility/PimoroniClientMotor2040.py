@@ -173,6 +173,7 @@ def validate(client, channel):
         client.capture(channel)
         time.sleep(0.25)
         answer = client.capture(channel)
+        client.stop(channel)
         rps = answer.value["revolutions_per_second"]
         delta = rps - targetRPS
         print(f"Speed {targetSpeed:4.2f}: Expected {targetRPS:7.2f} rps; got {rps:7.2f}; Delta = {delta:7.2f}")
@@ -183,11 +184,6 @@ if __name__ == "__main__":
 
     client = ClientMotor2040()
     client.testRGB(0, 0.5)
-
-    client.setSpeed(0,0.1)
-    client.setSpeed(2,0.1)
-    client.setSpeed(3,0.1)
-    time.sleep(10)
 
     testMotor(client)
 #    calibrate(client, 2)
