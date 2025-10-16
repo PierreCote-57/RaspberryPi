@@ -85,6 +85,9 @@ class LocalHardware:
     def findServo2040():
         return LocalHardware.findPort("e6617c93e3514d2a");
 
+    @staticmethod
+    def findYukon():
+        return LocalHardware.findPort("e4612d169b135022");
 
 class LocalSoftware:
     @staticmethod
@@ -122,11 +125,12 @@ class LocalSoftware:
 if __name__ == "__main__":
     print("Found platform: ", LocalHardware.getPlatform())
 
+    LocalHardware.showPortList()
+
     print("SerialGPS is on ", LocalHardware.findGPS_USB())
     print("Motor2040 is on ", LocalHardware.findMotor2040())
     print("Servo2040 is on ", LocalHardware.findServo2040())
-
-    LocalHardware.showPortList()
+    print("Yukon     is on ", LocalHardware.findYukon())
 
 #    print("Processes ", TugSoftware.listProcesses("rfcomm"))
     p_rfcomm = LocalSoftware.findProcesses("rfcomm");
