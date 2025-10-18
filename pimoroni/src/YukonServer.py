@@ -15,9 +15,9 @@ from pimoroni_yukon import SLOT3
 from pimoroni_yukon import SLOT4
 from pimoroni_yukon import SLOT5
 from pimoroni_yukon import SLOT6
-from pimoroni_yukon.modules import DualOutputModule
-from pimoroni_yukon.modules import DualMotorModule
 from pimoroni_yukon.modules import BenchPowerModule
+from pimoroni_yukon.modules import DualMotorModule
+from pimoroni_yukon.modules import DualOutputModule
 from pimoroni_yukon.modules import QuadServoRegModule
 
 from pimoroni_yukon.devices.stepper import OkayStepper
@@ -44,26 +44,30 @@ MODULE_LIST = [
 def initModuleList():
     print(MODULE_LIST)    
 
+    for slot in yukon.find_slots_with(BenchPowerModule):
+        print("Servo in ", slot)
+        module = BenchPowerModule()
+        yukon.register_with_slot(module, slot)
+        MODULE_LIST[slot] = module
+
     for slot in yukon.find_slots_with(DualMotorModule):
         print("Motor in ", slot)
-        module = DualMotorModule()           # Create a QuadServoRegModule object
-        yukon.register_with_slot(module, slot)  # Register the QuadServoDirectModule object with the slot
+        module = DualMotorModule()
+        yukon.register_with_slot(module, slot)
         MODULE_LIST[slot] = module
-    print(MODULE_LIST)
 
-# Find out which slots of Yukon have QuadServoRegModule attached
     for slot in yukon.find_slots_with(DualOutputModule):
         print("Output in ", slot)
-        module = DualOutputModule()           # Create a QuadServoRegModule object
-        yukon.register_with_slot(module, slot)  # Register the QuadServoDirectModule object with the slot
+        module = DualOutputModule()
+        yukon.register_with_slot(module, slot)
         MODULE_LIST[slot] = module
-    print(MODULE_LIST)
 
     for slot in yukon.find_slots_with(QuadServoRegModule):
         print("Servo in ", slot)
-        module = QuadServoRegModule()           # Create a QuadServoRegModule object
-        yukon.register_with_slot(module, slot)  # Register the QuadServoDirectModule object with the slot
+        module = QuadServoRegModule()
+        yukon.register_with_slot(module, slot)
         MODULE_LIST[slot] = module
+
     print(MODULE_LIST)
 
 # Utility methods
@@ -106,7 +110,8 @@ class BoardProcessor:
     def processLine(self, slot, command, lineParts):
         result = None
         if "Clear" == command:
-            self.led.clear()
+            yukon.set_led(0, 0)
+            yukon.set_led(1, 0)
         elif "SetLED" == command:
             led = lineParts[3]
             led = int(led)
@@ -114,7 +119,10 @@ class BoardProcessor:
             state = state.lower() in ['true', 'True', '1', 't', 'y', 'yes', 'yeah', 'yup', 'certainly', 'uh-huh']
             yukon.set_led(led, state)
         elif "Config" == command:
-            pass
+            config = []
+            for module in MODULE_LIST:
+                config.append(module if None == module else type(module).__name__)
+            result = json.dumps(config)
         elif "Prop" == command:
             prop = {}
             prop["led-0"] = yukon.is_led_on(0)
@@ -194,7 +202,9 @@ class MotorProcessor:
         motor = module.motors[channel]
         if not motor.is_enabled():
             motor.enable()
-        if "Set" == command:
+        if ("Disable" == command):
+            motor.disable()
+        elif "Set" == command:
             value = float(lineParts[4])
             motor.speed(value)
             result = motor.speed()

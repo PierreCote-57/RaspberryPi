@@ -135,9 +135,15 @@ class SerialGPS:
 
     def stop(self):
         # Stop the thread
-        if None != self.thread:
-            print("Stopping thread ", self.thread.name)
-            self.thread = None
+        if None == self.thread:
+            return
+        if self.thread.daemon:
+            return
+        thread = self.thread
+        print("Stopping thread ", thread.name)
+        self.thread = None
+        while thread.is_alive():
+#            print("Waiting for thread to exit")
             time.sleep(0.1) # Give thread a chance to stop
         pass
 
@@ -148,18 +154,16 @@ class SerialGPS:
         print("doReading() on thread ", threading.current_thread().name)
         self.waitForReading()
         while True:
-            if None == self.thread:
-                print("doReading()", threading.current_thread().name, "exiting")
-                return
             line = self.readString()
             self.parseLine(line)
+        print("doReading()", threading.current_thread().name, "exiting")
 
-    def waitForReading(gps):
+    def waitForReading(self):
         timeStart = datetime.now()
-        while True:
-            line = gps.readString()
-            gps.parseLine(line)
-            if None != gps.lastRMC and gps.lastRMC.isGood():
+        while None != self.thread:
+            line = self.readString()
+            self.parseLine(line)
+            if None != self.lastRMC and self.lastRMC.isGood():
                 break
             elif line.startswith("GPRMC"):
                 print("Still waiting at", datetime.now(), "after", datetime.now() - timeStart)
@@ -239,11 +243,14 @@ class SerialGPS:
         
     @staticmethod
     def parseLatOrLon(lineParts, index, count):
-        deg = int(lineParts[index][0:count])
-        min = float(lineParts[index][count:])
-        lol = deg + (min / 60)
-        if ("S" == lineParts[index + 1] or "W" == lineParts[index + 1]):
-            lol = -lol
+        if not lineParts[index]:
+            lol = None
+        else:
+            deg = int(lineParts[index][0:count])
+            min = float(lineParts[index][count:])
+            lol = deg + (min / 60)
+            if ("S" == lineParts[index + 1] or "W" == lineParts[index + 1]):
+                lol = -lol
         return lol
 
 
@@ -295,7 +302,7 @@ class SerialGPS:
         satInView = int(lineParts[3])
 
         for offset in [4, 8, 12, 16]:
-            if offset >= len(lineParts):
+            if offset >= len(lineParts) or not lineParts[offset + 1]:
                 break
             prn = lineParts[offset]
             elevation = int(lineParts[offset + 1])
@@ -558,7 +565,7 @@ if __name__ == "__main__":
     gps.setCallback(onReading)
  #   logging.info("Starting thread")
     gps.start()
-    time.sleep(5)
+    time.sleep(15)
 #    logging.info("stopping thread")
     gps.stop()
     print("Done")

@@ -116,10 +116,13 @@ class LocalSoftware:
     def findProcesses(text):
         pids = psutil.pids()
         for pid in pids:
-            p = psutil.Process(pid)
-            for part in p.cmdline():
-                if text in part:
-                    return p
+            try:
+                p = psutil.Process(pid)
+                for part in p.cmdline():
+                    if text in part:
+                        return p
+            except:
+                continue
 
 
 if __name__ == "__main__":

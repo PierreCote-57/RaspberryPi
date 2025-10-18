@@ -49,6 +49,7 @@ class ClientBase:
         answer = self.processCommand(f"$Light,Get,{n}")
         return AnswerRGB(answer)
 
+    @staticmethod
     def testRGB(servo, no, pause):
         servo.clearLight()
         time.sleep(pause)
@@ -60,6 +61,7 @@ class ClientBase:
         time.sleep(pause)
         servo.clearLight()
 
+    @staticmethod
     def calibrateRGB(servo):
         values = range(0, 256, 8)
         pauseSec = 0.1
