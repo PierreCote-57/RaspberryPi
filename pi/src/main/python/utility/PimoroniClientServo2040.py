@@ -62,7 +62,7 @@ class ClientServo2040(ClientBase):
 
 def testRGB(client):
     for channel in range(6):
-        client.testRGB(channel, 0.25)
+        client.testRGB(channel, 0.1)
 
 def testSensor(client):
     prop = client.getSensorProp()
