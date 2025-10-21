@@ -142,14 +142,18 @@ class ClientMotor2040(ClientBase):
         response = self.processCommand(f"$Encoder,Calibrate,{channel}, {speed}")
         return AnswerJson(response)
 
+    def testRGB(self):
+        for channel in range(1):
+            super().testRGB(channel, 1.0)
+
     def testMotor(self):
         for channel in [0, 2, 3]:
-            propMotor = client.getMotorProp(channel)
+            propMotor = self.getMotorProp(channel)
             propMotor.print(f"Motor {channel}")
-            propEncoder = client.getEncoderProp(channel)
+            propEncoder = self.getEncoderProp(channel)
             propEncoder.print(f"Encoder {channel}")
-        #        calibrate(client, channel)
-            validate(client, channel)
+        #        calibrate(self, channel)
+            validate(self, channel)
 
 def calibrate(client, channel):
     print(f"Calibrate {channel}")
@@ -183,7 +187,7 @@ if __name__ == "__main__":
     timer.checkpoint("Writing ")
 
     client = ClientMotor2040()
-    client.testRGB(0, 0.5)
+    client.testRGB()
 
     client.testMotor()
 #    calibrate(client, 2)

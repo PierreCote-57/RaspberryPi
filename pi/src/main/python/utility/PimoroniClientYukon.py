@@ -87,64 +87,64 @@ class ClientYukon(ClientBase):
         response = self.processCommand(f"$Motor,{slot},Disable,{channel}")
         return GenericAnswer(response)
 
-def testBoard(client):
-    prop = client.getBoardProp()
-    if prop.isSuccess():
-        print("Props for Board")
-        for item in prop.value.items():
-            print("\t", item[0], " = ", item[1])
-    
-    config = client.getBoardConfig()
-    if config.isSuccess():
-        print("Config for Board")
-        for item in config.value:
-            print("\t", item)
+    def testBoard(self):
+        prop = self.getBoardProp()
+        if prop.isSuccess():
+            print("Props for Board")
+            for item in prop.value.items():
+                print("\t", item[0], " = ", item[1])
+        
+        config = self.getBoardConfig()
+        if config.isSuccess():
+            print("Config for Board")
+            for item in config.value:
+                print("\t", item)
 
-    delay = 0.5
-    print("LED to 1,0")
-    client.setLED(0,1)
-    client.setLED(1,0)
-    time.sleep(delay)
-    print("LED to 1,1")
-    client.setLED(1,1)
-    time.sleep(delay)
-    print("Clear")
-    client.clearLED()
-
-def testServo(client):
-    angleList =  [0, -45, -90, -45, 0, 45, 90, 45, 0]
-#    angleList =  [0, 45, 0]
-    channelList = [0]
-
-    if 1 == 2:
-        for channel in channelList:
-            prop = client.getServoProp(channel)
-            if prop.isSuccess():
-                print("Props for Servo ", channel)
-                for item in prop.value.items():
-                    print("\t", item[0], " = ", item[1])
-
-    delay180 = 0.25
-    for angle in angleList:
-        print("Moving to ", angle)
-        for channel in channelList:
-            front = client.setServo(channel, angle)
-            time.sleep(0.25)
-
-def testMotor(client):
-    speed = -0.5
-    delay = 1.0
-    for channel in [0]:
-        prop = client.getMotorProp(channel)
-        showProp(f"Motor {channel}", prop)
-
-        print("SetMotor", channel, client.setMotor(channel, speed))
+        delay = 0.5
+        print("LED to 1,0")
+        self.setLED(0,1)
+        self.setLED(1,0)
         time.sleep(delay)
-        client.setMotor(channel, 0)
-        time.sleep(0.5)
-#        print("SetMotor", channel, client.setMotor(channel, -speed))
-#        time.sleep(delay)
-        print(client.disableMotor(channel))
+        print("LED to 1,1")
+        self.setLED(1,1)
+        time.sleep(delay)
+        print("Clear")
+        self.clearLED()
+
+    def testServo(self):
+        angleList =  [0, -45, -90, -45, 0, 45, 90, 45, 0]
+    #    angleList =  [0, 45, 0]
+        channelList = [0]
+
+        if 1 == 2:
+            for channel in channelList:
+                prop = self.getServoProp(channel)
+                if prop.isSuccess():
+                    print("Props for Servo ", channel)
+                    for item in prop.value.items():
+                        print("\t", item[0], " = ", item[1])
+
+        delay180 = 0.25
+        for angle in angleList:
+            print("Moving to ", angle)
+            for channel in channelList:
+                front = self.setServo(channel, angle)
+                time.sleep(0.25)
+
+    def testMotor(self):
+        speed = -0.5
+        delay = 1.0
+        for channel in [0]:
+            prop = self.getMotorProp(channel)
+            showProp(f"Motor {channel}", prop)
+
+            print("SetMotor", channel, self.setMotor(channel, speed))
+            time.sleep(delay)
+            self.setMotor(channel, 0)
+            time.sleep(0.5)
+    #        print("SetMotor", channel, self.setMotor(channel, -speed))
+    #        time.sleep(delay)
+            print(self.disableMotor(channel))
 
 def showProp(name, prop):
         print(f"Props for {name} -> isSuccess = {prop.isSuccess()}")
@@ -158,8 +158,8 @@ if __name__ == "__main__":
 
     client = ClientYukon()
 
-    testBoard(client)
-    testServo(client)
-#    testMotor(client)
+    client.testBoard()
+    client.testServo()
+#    client.testMotor()
 
     print("Done")
