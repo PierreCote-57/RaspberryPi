@@ -60,57 +60,57 @@ class ClientServo2040(ClientBase):
         return self.processCommand(f"$Servo,Close,{channel}")
 
 
-def testRGB(client):
-    for channel in range(6):
-        client.testRGB(channel, 0.1)
+    def testRGB(self):
+        for channel in range(6):
+            super().testRGB(channel, 0.1)
 
-def testSensor(client):
-    prop = client.getSensorProp()
-    print("SensorProp")
-    if prop.isSuccess():
-        for item in prop.value.items():
-            print("\t", item[0], " = ", item[1])
-    voltage = client.readVoltage()
-    current = client.readCurrent()
-    print(datetime.fromtimestamp(time.time()).strftime('%Y-%m-%d %H:%M:%S.%f'), end=" ")
-    print(f"Voltage {voltage.value:.3f} volts Current {current.value:.3f} amps", end="")
-    
-    for i in range(6):
-        sensor = client.readSensor(i)
-        print(f" Sensor-{i} = {sensor.value:.3f}", end = "")
-    print("")
-
-
-def testServo(client):
-    angleList =  [0, -45, -90, -45, 0, 45, 90, 45, 0]
-    angleList =  [0, 45, 0]
-    channelList = [0, 5]
-
-    for channel in channelList:
-        prop = client.getServoProp(channel)
+    def testSensor(self):
+        prop = self.getSensorProp()
+        print("SensorProp")
         if prop.isSuccess():
-            print("Props for Servo ", channel)
             for item in prop.value.items():
                 print("\t", item[0], " = ", item[1])
+        voltage = self.readVoltage()
+        current = self.readCurrent()
+        print(datetime.fromtimestamp(time.time()).strftime('%Y-%m-%d %H:%M:%S.%f'), end=" ")
+        print(f"Voltage {voltage.value:.3f} volts Current {current.value:.3f} amps", end="")
+        
+        for i in range(6):
+            sensor = self.readSensor(i)
+            print(f" Sensor-{i} = {sensor.value:.3f}", end = "")
+        print("")
 
-    delay180 = 0.25
-    for angle in angleList:
-        print("Moving to ", angle)
+
+    def testServo(self):
+        angleList =  [0, -45, -90, -45, 0, 45, 90, 45, 0]
+        angleList =  [0, 45, 0]
+        channelList = [0]
+
         for channel in channelList:
-            front = client.setServo(channel, angle)
-            back = client.getServo(channel);
-            if (angle != back.value or angle != front.value):
-                print("Error")
-            time.sleep(0.25)
+            prop = self.getServoProp(channel)
+            if prop.isSuccess():
+                print("Props for Servo ", channel)
+                for item in prop.value.items():
+                    print("\t", item[0], " = ", item[1])
 
-    delay360 = 1.0
-    for channel in [12, 17]:
-        client.setServo(channel, 10)
-        time.sleep(delay360)
-        client.setServo(channel, -10)
-        time.sleep(delay360)
-#        servo.setServo(channel, 0)
-        client.closeServo(channel)
+        delay180 = 0.25
+        for angle in angleList:
+            print("Moving to ", angle)
+            for channel in channelList:
+                front = self.setServo(channel, angle)
+                back = self.getServo(channel);
+                if (angle != back.value or angle != front.value):
+                    print("Error")
+                time.sleep(0.25)
+
+        delay360 = 1.0
+        for channel in [12, 17]:
+            self.setServo(channel, 10)
+            time.sleep(delay360)
+            self.setServo(channel, -10)
+            time.sleep(delay360)
+    #        servo.setServo(channel, 0)
+            self.closeServo(channel)
 
 def calibrateServo360(client):
     noList = [12, 17]
@@ -149,12 +149,12 @@ if __name__ == "__main__":
     timer.checkpoint("Writing ")
 
     client = ClientServo2040()
-    testRGB(client)
+    client.testRGB()
 #    client.calibrateRGB(servo)
 
-    testSensor(client)
+    client.testSensor()
 
-    testServo(client)
+    client.testServo()
 #    calibrateServo360(client)
 #    testPerformance(client)
 

@@ -25,5 +25,5 @@ print(servo.getRGB(2))
 time.sleep(2.0)
 servo.clearLight()
 
-PimoroniClientServo2040.testRGB(servo)
-PimoroniClientServo2040.testServo(servo)
+servo.testRGB(0,0.5)
+servo.testServo()

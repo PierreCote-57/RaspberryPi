@@ -49,31 +49,29 @@ class ClientBase:
         answer = self.processCommand(f"$Light,Get,{n}")
         return AnswerRGB(answer)
 
-    @staticmethod
-    def testRGB(servo, no, pause):
-        servo.clearLight()
+    def testRGB(self, no, pause):
+        self.clearLight()
         time.sleep(pause)
-        servo.setRGB(no, 64, 0, 0)
+        self.setRGB(no, 64, 0, 0)
         time.sleep(pause)
-        servo.setRGB(no, 0, 64, 0)
+        self.setRGB(no, 0, 64, 0)
         time.sleep(pause)
-        servo.setRGB(no, 0, 0, 64)
+        self.setRGB(no, 0, 0, 64)
         time.sleep(pause)
-        servo.clearLight()
+        self.clearLight()
 
-    @staticmethod
-    def calibrateRGB(servo):
+    def calibrateRGB(self):
         values = range(0, 256, 8)
         pauseSec = 0.1
         for x in values:
-            answerR = servo.setRGB(1, x, 0, 0)
+            answerR = self.setRGB(1, x, 0, 0)
             time.sleep(pauseSec)
-            answerG = servo.setRGB(1, 0, x, 0)
+            answerG = self.setRGB(1, 0, x, 0)
             time.sleep(pauseSec)
-            answerB = servo.setRGB(1, 0, 0, x)
+            answerB = self.setRGB(1, 0, 0, x)
             time.sleep(pauseSec)
             print(f"At {x:3}: R={answerR}; G={answerG}; B={answerB}")
-        servo.clearLight()
+        self.clearLight()
 
 
 
