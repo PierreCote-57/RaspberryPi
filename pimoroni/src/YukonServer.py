@@ -225,6 +225,47 @@ class MotorProcessor:
 
 
 
+class PowerProcessor:
+    # Constructor
+    def __init__(self):
+        return
+
+    def shutdown(self):
+        return
+
+    def __str__(self):
+        return f"Yukon Bench Power processor"
+
+    def processLine(self, slot, command, lineParts):
+        result = None
+        module = MODULE_LIST[int(slot)]
+        if not isinstance(module, BenchPowerModule):
+            Reporter.reportError(f"Slot has {type(module)}, not BenchPowerModule")
+            return
+        
+        if not module.is_enabled:
+            module.enable()
+
+        if ("Disable" == command):
+            print("Disable")
+            module.disable()
+        elif "Set" == command:
+            value = float(lineParts[3])
+            print("Set")
+            module.set_voltage(value)
+        elif "Prop" == command:
+            prop = {}
+            prop["Voltage"] = module.read_voltage()
+            prop["Temperature"] = module.read_temperature()
+            
+            result = json.dumps(prop)
+        else:
+            Reporter.reportError(f"Unknown command '{command}'")
+            return
+
+        Reporter.reportSuccess(result)
+
+
 def loop():
     chDollar = "$"
     while 1 == 1:
@@ -283,6 +324,7 @@ processorMap = {}
 processorMap["Board"] = BoardProcessor()
 processorMap["Servo"] = ServoProcessor()
 processorMap["Motor"] = MotorProcessor()
+processorMap["Power"] = PowerProcessor()
 
 initModuleList()
 
@@ -296,8 +338,8 @@ try:
             module.enable()
 
     # Initial configuration
-    MODULE_LIST[1].outputs[0].value(True)         # Set the output to the inverted state
     yukon.set_led(0, True)                     # Set the button LED to match
+    MODULE_LIST[1].set_voltage(5.0)
 
     loop()
 finally:

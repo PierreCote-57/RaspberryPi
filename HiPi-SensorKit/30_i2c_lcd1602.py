@@ -4,8 +4,9 @@ import time
 
 def setup():
 	LCD1602.init(0x27, 1)	# init(slave address, background light)
-	LCD1602.write(0, 0, 'Greetings!!')
-	LCD1602.write(1, 1, 'from HiPi.io')
+	LCD1602.write(0, 0, 'Greetings!')
+	time.sleep(2.0)
+	LCD1602.write(0, 1, '1234567890123456')
 	time.sleep(2)
 
 def loop():
@@ -27,7 +28,7 @@ if __name__ == "__main__":
 	try:
 		setup()
 		#loop()
-		while True:
-			pass
+#		while True:
+#			pass
 	except KeyboardInterrupt:
 		destroy()

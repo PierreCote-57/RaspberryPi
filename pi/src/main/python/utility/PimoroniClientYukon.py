@@ -87,6 +87,12 @@ class ClientYukon(ClientBase):
         response = self.processCommand(f"$Motor,{slot},Disable,{channel}")
         return GenericAnswer(response)
 
+    def setPower(self, channel, value):
+        slot = self.findSlot("Power", int(channel / self.motorPerBoard))
+        response = self.processCommand(f"$Power,{slot},Set,{value}")
+        return GenericAnswer(response)
+
+
     def testBoard(self):
         prop = self.getBoardProp()
         if prop.isSuccess():
@@ -146,6 +152,11 @@ class ClientYukon(ClientBase):
     #        time.sleep(delay)
             print(self.disableMotor(channel))
 
+    def testPower(self):
+        self.setPower(0, 3.3)
+        time.sleep(5.0)
+        self.setPower(0, 5.0)
+
 def showProp(name, prop):
         print(f"Props for {name} -> isSuccess = {prop.isSuccess()}")
         if prop.isSuccess():
@@ -161,5 +172,6 @@ if __name__ == "__main__":
     client.testBoard()
     client.testServo()
 #    client.testMotor()
+    client.testPower()
 
     print("Done")

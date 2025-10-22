@@ -13,10 +13,12 @@ from RandomUtil import SimpleTimer
 class ClientBase:
     def __init__(self, port):
         self.port = port
-        print(self)
 
         self.dev = self.port.device
         self.remote = serial.Serial(self.dev, 9600, timeout=1)  # Open Serial port
+
+        x = self.remote.in_waiting
+        print("Waiting", x)
 
         return
 
