@@ -12,27 +12,78 @@ intersection()
 		union()
 		{
 // Shell
-			union()
+			difference()
 			{
-				color(c=[1.000, 1.000, 1.000])
+				union()
 				{
-					translate(v=[-0.100, 0.000, 0.000])
+					color(c=[1.000, 1.000, 1.000])
 					{
-						cockpit_empty(5.000);
+						translate(v=[-0.100, 0.000, 0.000])
+						{
+							cockpit_empty(5.000);
+						}
+					}
+					color(c=[0.000, 1.000, 0.000])
+					{
+						intersection()
+						{
+							difference()
+							{
+								cockpit_rounded();
+								cockpit_mask(7.500);
+							}
+							translate(v=[27.500, 0.000, 0.000])
+							{
+								cube(size=[5.000, 2000.000, 2000.000], center=true);
+							}
+						}
 					}
 				}
-				color(c=[0.000, 1.000, 0.000])
+				color(c=[1.000, 0.000, 0.000])
 				{
-					intersection()
+					union()
 					{
-						difference()
+						color(c=[0.000, 1.000, 0.000])
 						{
-							cockpit_rounded();
-							cockpit_mask(7.500);
+							translate(v=[27.500, 90.500, 150.000])
+							{
+								cylinder(h=20.000, r1=1.300, r2=1.300, center=true);
+							}
 						}
-						translate(v=[27.500, 0.000, 0.000])
+						color(c=[0.000, 1.000, 0.000])
 						{
-							cube(size=[5.000, 2000.000, 2000.000], center=true);
+							translate(v=[27.500, -90.500, 150.000])
+							{
+								cylinder(h=20.000, r1=1.300, r2=1.300, center=true);
+							}
+						}
+						color(c=[0.000, 1.000, 0.000])
+						{
+							translate(v=[27.500, 91.500, 300.000])
+							{
+								cylinder(h=20.000, r1=1.300, r2=1.300, center=true);
+							}
+						}
+						color(c=[0.000, 1.000, 0.000])
+						{
+							translate(v=[27.500, -91.500, 300.000])
+							{
+								cylinder(h=20.000, r1=1.300, r2=1.300, center=true);
+							}
+						}
+						color(c=[0.000, 1.000, 0.000])
+						{
+							translate(v=[27.500, 91.500, 450.000])
+							{
+								cylinder(h=20.000, r1=1.300, r2=1.300, center=true);
+							}
+						}
+						color(c=[0.000, 1.000, 0.000])
+						{
+							translate(v=[27.500, -91.500, 450.000])
+							{
+								cylinder(h=20.000, r1=1.300, r2=1.300, center=true);
+							}
 						}
 					}
 				}
