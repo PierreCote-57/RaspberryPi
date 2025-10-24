@@ -1,7 +1,15 @@
 import math
 from pimoroni_yukon import Yukon
-from pimoroni_yukon import SLOT1 as SLOT
+from pimoroni_yukon import SLOT1
+from pimoroni_yukon import SLOT2
+from pimoroni_yukon import SLOT3
+from pimoroni_yukon import SLOT4
+from pimoroni_yukon import SLOT5
+from pimoroni_yukon import SLOT6
+from pimoroni_yukon.modules import DualOutputModule
 from pimoroni_yukon.modules import DualMotorModule
+from pimoroni_yukon.modules import BenchPowerModule
+from pimoroni_yukon.modules import QuadServoRegModule
 from pimoroni_yukon.timing import ticks_ms, ticks_add
 
 """
@@ -13,7 +21,7 @@ Press "Boot/User" to exit the program.
 
 # Constants
 SPEED = 0.005                   # How much to advance the motor phase offset by each update
-UPDATES = 50                    # How many times to update the motors per second
+UPDATES = 1                    # How many times to update the motors per second
 SPEED_EXTENT = 1.0              # How far from zero to drive the motors
 CURRENT_LIMIT = 0.5             # The maximum current (in amps) the motors will be driven with
 
@@ -22,6 +30,10 @@ yukon = Yukon()                 # Create a new Yukon object
 module = DualMotorModule()      # Create a DualMotorModule object
 phase_offset = 0                # The offset used to animate the motors
 
+moduleMotor = DualMotorModule()      # Create a DualMotorModule object
+modulePower = BenchPowerModule()
+moduleServo = QuadServoRegModule()
+moduleSwitch = DualOutputModule()       # Create a DualOutputmoduleSwitch object
 
 # Function to get a motor speed from its index
 def speed_from_index(index, offset=0.0):
@@ -32,7 +44,9 @@ def speed_from_index(index, offset=0.0):
 
 # Wrap the code in a try block, to catch any exceptions (including KeyboardInterrupt)
 try:
-    yukon.register_with_slot(module, SLOT)      # Register the DualMotorModule object with the slot
+    yukon.register_with_slot(moduleSwitch, SLOT1)
+    yukon.register_with_slot(moduleServo, SLOT2)
+    yukon.register_with_slot(module, SLOT4)      # Register the DualMotorModule object with the slot
     yukon.verify_and_initialise()               # Verify that a DualMotorModule is attached to Yukon, and initialise it
     yukon.enable_main_output()                  # Turn on power to the module slots
 
@@ -48,6 +62,7 @@ try:
         current_motor = 0
         for motor in module.motors:
             speed = speed_from_index(current_motor, phase_offset)
+            print(f"Setting motor {current_motor} to {speed}", end="  ")
             motor.speed(speed)
             current_motor += 1
 

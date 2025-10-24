@@ -4,6 +4,8 @@
 import sys
 import serial
 import psutil
+import LCD1602
+import time
 from serial.tools import list_ports
 
 # See bluetoothctl/scan on /list /devices
@@ -116,10 +118,13 @@ class LocalSoftware:
     def findProcesses(text):
         pids = psutil.pids()
         for pid in pids:
-            p = psutil.Process(pid)
-            for part in p.cmdline():
-                if text in part:
-                    return p
+            try:
+                p = psutil.Process(pid)
+                for part in p.cmdline():
+                    if text in part:
+                        return p
+            except:
+                continue
 
 
 if __name__ == "__main__":
@@ -136,5 +141,12 @@ if __name__ == "__main__":
     p_rfcomm = LocalSoftware.findProcesses("rfcomm");
     if None != p_rfcomm:
         LocalSoftware.showProcess(p_rfcomm)
+
+    LCD1602.init(0x27, 1)	# init(slave address, background light)
+    LCD1602.write(0, 0, 'Hello PI-world!')
+    time.sleep(2.0)
+    LCD1602.write(0, 1, '1234567890123456')
+    time.sleep(2)
+
 
     print("Done")

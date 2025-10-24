@@ -13,10 +13,12 @@ from RandomUtil import SimpleTimer
 class ClientBase:
     def __init__(self, port):
         self.port = port
-        print(self)
 
         self.dev = self.port.device
         self.remote = serial.Serial(self.dev, 9600, timeout=1)  # Open Serial port
+
+        x = self.remote.in_waiting
+        print("Waiting", x)
 
         return
 
@@ -49,29 +51,29 @@ class ClientBase:
         answer = self.processCommand(f"$Light,Get,{n}")
         return AnswerRGB(answer)
 
-    def testRGB(servo, no, pause):
-        servo.clearLight()
+    def testRGB(self, no, pause):
+        self.clearLight()
         time.sleep(pause)
-        servo.setRGB(no, 64, 0, 0)
+        self.setRGB(no, 64, 0, 0)
         time.sleep(pause)
-        servo.setRGB(no, 0, 64, 0)
+        self.setRGB(no, 0, 64, 0)
         time.sleep(pause)
-        servo.setRGB(no, 0, 0, 64)
+        self.setRGB(no, 0, 0, 64)
         time.sleep(pause)
-        servo.clearLight()
+        self.clearLight()
 
-    def calibrateRGB(servo):
+    def calibrateRGB(self):
         values = range(0, 256, 8)
         pauseSec = 0.1
         for x in values:
-            answerR = servo.setRGB(1, x, 0, 0)
+            answerR = self.setRGB(1, x, 0, 0)
             time.sleep(pauseSec)
-            answerG = servo.setRGB(1, 0, x, 0)
+            answerG = self.setRGB(1, 0, x, 0)
             time.sleep(pauseSec)
-            answerB = servo.setRGB(1, 0, 0, x)
+            answerB = self.setRGB(1, 0, 0, x)
             time.sleep(pauseSec)
             print(f"At {x:3}: R={answerR}; G={answerG}; B={answerB}")
-        servo.clearLight()
+        self.clearLight()
 
 
 
