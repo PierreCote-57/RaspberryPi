@@ -14,6 +14,7 @@ from LocalWorld import LocalHardware
 from PimoroniClientServo2040 import ClientServo2040
 from PimoroniClientMotor2040 import ClientMotor2040
 from PimoroniClientYukon import ClientYukon
+from SensorKit import ClientSensorKit
 
 hw = LocalHardware()
 print(hw)
@@ -31,3 +32,6 @@ motor.testMotor()
 yukon = ClientYukon()
 yukon.testBoard()
 yukon.testServo()
+
+sensor = ClientSensorKit()
+sensor.testHumiture()

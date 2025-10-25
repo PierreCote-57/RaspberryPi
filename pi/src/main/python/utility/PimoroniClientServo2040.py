@@ -70,15 +70,18 @@ class ClientServo2040(ClientBase):
         if prop.isSuccess():
             for item in prop.value.items():
                 print("\t", item[0], " = ", item[1])
-        voltage = self.readVoltage()
-        current = self.readCurrent()
-        print(datetime.fromtimestamp(time.time()).strftime('%Y-%m-%d %H:%M:%S.%f'), end=" ")
-        print(f"Voltage {voltage.value:.3f} volts Current {current.value:.3f} amps", end="")
-        
-        for i in range(6):
-            sensor = self.readSensor(i)
-            print(f" Sensor-{i} = {sensor.value:.3f}", end = "")
-        print("")
+
+        for i in range(10):
+            voltage = self.readVoltage()
+            current = self.readCurrent()
+            print(datetime.fromtimestamp(time.time()).strftime('%Y-%m-%d %H:%M:%S.%f'), end=" ")
+            print(f"Voltage {voltage.value:.3f} volts Current {current.value:.3f} amps", end="")
+            
+            for i in range(6):
+                sensor = self.readSensor(i)
+                print(f" Sensor-{i} = {sensor.value:.3f}", end = "")
+            print("")
+            time.sleep(1.0)
 
 
     def testServo(self):
