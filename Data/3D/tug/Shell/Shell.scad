@@ -39,42 +39,42 @@ difference()
 			{
 				translate(v=[27.500, 90.500, 150.000])
 				{
-					cylinder(h=20.000, r1=1.300, r2=1.300, center=true);
+					cylinder(20.000, 1.300, 1.300, true);
 				}
 			}
 			color(c=[0.000, 1.000, 0.000])
 			{
 				translate(v=[27.500, -90.500, 150.000])
 				{
-					cylinder(h=20.000, r1=1.300, r2=1.300, center=true);
+					cylinder(20.000, 1.300, 1.300, true);
 				}
 			}
 			color(c=[0.000, 1.000, 0.000])
 			{
 				translate(v=[27.500, 91.500, 300.000])
 				{
-					cylinder(h=20.000, r1=1.300, r2=1.300, center=true);
+					cylinder(20.000, 1.300, 1.300, true);
 				}
 			}
 			color(c=[0.000, 1.000, 0.000])
 			{
 				translate(v=[27.500, -91.500, 300.000])
 				{
-					cylinder(h=20.000, r1=1.300, r2=1.300, center=true);
+					cylinder(20.000, 1.300, 1.300, true);
 				}
 			}
 			color(c=[0.000, 1.000, 0.000])
 			{
 				translate(v=[27.500, 91.500, 450.000])
 				{
-					cylinder(h=20.000, r1=1.300, r2=1.300, center=true);
+					cylinder(20.000, 1.300, 1.300, true);
 				}
 			}
 			color(c=[0.000, 1.000, 0.000])
 			{
 				translate(v=[27.500, -91.500, 450.000])
 				{
-					cylinder(h=20.000, r1=1.300, r2=1.300, center=true);
+					cylinder(20.000, 1.300, 1.300, true);
 				}
 			}
 		}

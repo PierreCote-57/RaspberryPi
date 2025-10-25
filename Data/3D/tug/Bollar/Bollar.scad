@@ -10,7 +10,7 @@ union()
 	{
 		minkowski()
 		{
-			cube(size=[13.000, 1.000, 1.000], center=true);
+			cube(size=[13.000, 0.500, 1.000], center=true);
 			rotate(a=[0.000, 0.000, 90.000])
 			{
 				cylinder(h=0.010, r1=1.000, r2=1.000, center=false);
@@ -19,17 +19,17 @@ union()
 	}
 	translate(v=[-3.750, 0.000, 5.000])
 	{
-		cylinder(h=10.000, r1=1.500, r2=1.500, center=true);
+		cylinder(h=10.000, r1=1.250, r2=1.250, center=true);
 	}
 	translate(v=[3.750, 0.000, 5.000])
 	{
-		cylinder(h=10.000, r1=1.500, r2=1.500, center=true);
+		cylinder(h=10.000, r1=1.250, r2=1.250, center=true);
 	}
 	translate(v=[0.000, 0.000, 6.660])
 	{
 		rotate(a=[0.000, 90.000, 0.000])
 		{
-			cylinder(h=15.000, r1=1.500, r2=1.500, center=true);
+			cylinder(h=15.000, r1=1.250, r2=1.250, center=true);
 		}
 	}
 }
