@@ -248,6 +248,7 @@ class ClientRange():
             print(reading)
             time.sleep(1.0)
 
+# DIsplay is LCD1602
 class ClientDisplay():
     def __init__(self):
         LCD1602.init(0x27, 1)	# init(slave address, background light)
@@ -268,6 +269,13 @@ class ClientDisplay():
         client.writeMiddle(0, "M234")
         client.writeRight(0, "R234")
         client.write(0, 1, "0123456789012345")
+
+# The MPU-6050
+class ClientGyroscope():
+    def __init__(self):
+        pass
+
+
 
 def onHumiture(result):
     h = result.humidity
