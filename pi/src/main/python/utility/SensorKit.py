@@ -2,6 +2,7 @@ import math
 import RPi.GPIO as GPIO
 import time
 import threading
+import LCD1602
 from datetime import datetime
 
 DHTPIN = 17
@@ -31,8 +32,9 @@ class ReadingHumiture():
         return str
 
 class ReadingRange():
-    def __init__(self, duration, speed, distance):
+    def __init__(self, count, duration, speed, distance):
         self.time = time.time()
+        self.count = count
         self.duration = duration
         self.speed = speed
         self.distance = distance
@@ -200,6 +202,10 @@ class ClientHumiture():
                 break
             time.sleep(0.5)
 
+# Speed of sound: 334 m/s @ 20 deg C
+# Theoretical max range: 4 meters
+# 10 meters = 0.03 sec = 30 ms
+# One loop ~ 15us -> 10m = 2,000 loops
 class ClientRange():
     def __init__(self):
         GPIO.setmode(GPIO.BCM)
@@ -211,10 +217,10 @@ class ClientRange():
         return 331.5 + temp * 0.59
 
     def measure(self):
-        duration = self.measureDuration()
+        duration, count = self.measureDuration()
         speed = ClientRange.getSpeedOfSound()
-        distance = speed * duration
-        reading = ReadingRange(duration, speed, distance)
+        distance = speed * duration / 2
+        reading = ReadingRange(count, duration, speed, distance)
         return reading;
     def measureDuration(self):
         GPIO.output(TRIG, 0)
@@ -230,17 +236,38 @@ class ClientRange():
             a = 0
         time1 = time.time()
         i = 0
-        while GPIO.input(ECHO) == 1:
+        while GPIO.input(ECHO) == 1 and i < 2_000:
             i = i + 1
         time2 = time.time()
         duration = time2 - time1
-        return duration
+        return duration, i
 
     def testRange(self):
         for i in range(4):
             reading = self.measure()
             print(reading)
-            time.sleep(0.25)
+            time.sleep(1.0)
+
+class ClientDisplay():
+    def __init__(self):
+        LCD1602.init(0x27, 1)	# init(slave address, background light)
+
+    def writeLeft(self, y, text):
+        self.write(0, y, text)
+
+    def writeRight(self, y, text):
+        self.write(16 - len(text), y, text)
+    def writeMiddle(self, y, text):
+        self.write(8 - int(len(text) / 2), y, text)
+
+    def write(self, x, y, text):
+        LCD1602.write(x, y, text)
+
+    def test(self):
+        client.writeLeft(0, "L234")
+        client.writeMiddle(0, "M234")
+        client.writeRight(0, "R234")
+        client.write(0, 1, "0123456789012345")
 
 def onHumiture(result):
     h = result.humidity
@@ -255,5 +282,7 @@ if __name__ == "__main__":
 #    time.sleep(5.0)
 
     client = ClientRange()
-    client.testRange()
+#    client.testRange()
 
+    client = ClientDisplay()
+    client.test()
