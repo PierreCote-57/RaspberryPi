@@ -16,8 +16,11 @@ STATE_DATA_FIRST_PULL_DOWN = 3
 STATE_DATA_PULL_UP = 4
 STATE_DATA_PULL_DOWN = 5
 
+TRIG = 19
+ECHO = 20
+
 class ReadingHumiture():
-    def __init__(self,h, t):
+    def __init__(self, h, t):
         self.time = time.time()
         self.humidity = h
         self.temperature = t
@@ -27,29 +30,40 @@ class ReadingHumiture():
         str += f" H = {self.humidity} %; t = {self.temperature:4.1f} \N{DEGREE SIGN}C"
         return str
 
-class ClientSensorKit():
+class ReadingRange():
+    def __init__(self, duration, speed, distance):
+        self.time = time.time()
+        self.duration = duration
+        self.speed = speed
+        self.distance = distance
 
-    # def defines a method/function
+    def __str__(self):
+        str = datetime.fromtimestamp(time.time()).strftime('%Y-%m-%d %H:%M:%S.%f')
+        str += f" t = {self.duration * 1000:6,.3f} ms; v = {self.speed:4.1f} m/s; d = {self.distance:5.3f} m"
+        return str
 
+# Humiture uses the DHT-11 sensor
+# Upon trigger (Low -> High, ),
+# returns a series of 5 * 8 bits (inc. checksum)
+class ClientHumiture():
 
     # Constructor
     def __init__(self):
 
         # Humiture variables
         self.dht11_pin = 17
-        self.humiturePeriodSec = 5.0
+        self.humiturePeriodSec = 30.0
         self.fnHumitureCallback = None
-        self.humidity = None
-        self.temperature = None
+        self.readingHumiture = None
 
     # toString
     def __str__(self):
-        return super().__str__()
+        return self.readingHumiture
 
     def startHumiture(self, periodSec):
         self.humiturePeriodSec = periodSec
         # Start on a background thread
-        self.thread = threading.Thread(target=ClientSensorKit.humitureThreadLoop, args=(self,), daemon=True)
+        self.thread = threading.Thread(target=ClientHumiture.humitureThreadLoop, args=(self,), daemon=True)
         self.thread.name = "Hum iture"
         self.thread.daemon = True
         self.thread.start()
@@ -67,7 +81,7 @@ class ClientSensorKit():
         result = self.read_dht11_dat()
         if result:
             # Success reading the bit stream
-            h = int(result[0])
+            h = int(result[0]) + int(result[1]) / 10.0
             t = int(result[2]) + int(result[3]) / 10.0
             self.readingHumiture = ReadingHumiture(h, t)
             if None != self.fnHumitureCallback:
@@ -186,6 +200,48 @@ class ClientSensorKit():
                 break
             time.sleep(0.5)
 
+class ClientRange():
+    def __init__(self):
+        GPIO.setmode(GPIO.BCM)
+        GPIO.setup(TRIG, GPIO.OUT)
+        GPIO.setup(ECHO, GPIO.IN)
+
+    @staticmethod
+    def getSpeedOfSound(temp = 20):
+        return 331.5 + temp * 0.59
+
+    def measure(self):
+        duration = self.measureDuration()
+        speed = ClientRange.getSpeedOfSound()
+        distance = speed * duration
+        reading = ReadingRange(duration, speed, distance)
+        return reading;
+    def measureDuration(self):
+        GPIO.output(TRIG, 0)
+        time.sleep(0.000002)
+
+        GPIO.output(TRIG, 1)
+        time.sleep(0.00001)
+        #	time.sleep(5.0)
+        GPIO.output(TRIG, 0)
+
+
+        while GPIO.input(ECHO) == 0:
+            a = 0
+        time1 = time.time()
+        i = 0
+        while GPIO.input(ECHO) == 1:
+            i = i + 1
+        time2 = time.time()
+        duration = time2 - time1
+        return duration
+
+    def testRange(self):
+        for i in range(4):
+            reading = self.measure()
+            print(reading)
+            time.sleep(0.25)
+
 def onHumiture(result):
     h = result.humidity
     t = result.temperature
@@ -193,7 +249,11 @@ def onHumiture(result):
 
 
 if __name__ == "__main__":
-    client = ClientSensorKit()
+    client = ClientHumiture()
     client.setHumitureCallback(onHumiture)
-    client.startHumiture(0.5)
-    time.sleep(5.0)
+    client.startHumiture(1.0)
+#    time.sleep(5.0)
+
+    client = ClientRange()
+    client.testRange()
+

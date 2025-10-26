@@ -3,11 +3,11 @@
 import RPi.GPIO as GPIO
 import time
 
-TRIG = 11
-ECHO = 12
+TRIG = 19
+ECHO = 20
 
 def setup():
-	GPIO.setmode(GPIO.BOARD)
+	GPIO.setmode(GPIO.BCM)
 	GPIO.setup(TRIG, GPIO.OUT)
 	GPIO.setup(ECHO, GPIO.IN)
 
@@ -17,24 +17,29 @@ def distance():
 
 	GPIO.output(TRIG, 1)
 	time.sleep(0.00001)
+#	time.sleep(5.0)
 	GPIO.output(TRIG, 0)
 
 	
 	while GPIO.input(ECHO) == 0:
 		a = 0
 	time1 = time.time()
+	i = 0
 	while GPIO.input(ECHO) == 1:
-		a = 1
+		i = i + 1
 	time2 = time.time()
 
 	during = time2 - time1
-	return during * 340 / 2 * 100
+	print(f"Count = {i:5,d} Duration = {during * 1000:6.3f} ms GPIO duration = {during * 1_000_000/ i:4.2f} us", end=" ")
+	# Vsound = 331.5 + T(C) * 0.59
+	# dMax ~ 4 meters
+	d = during * 344 / 2 * 100
+	return d
 
 def loop():
 	while True:
 		dis = distance()
-		print (dis, 'cm')
-		print ('')
+		print (f"Distance = {dis:5.1f} cm")
 		time.sleep(0.3)
 
 def destroy():
