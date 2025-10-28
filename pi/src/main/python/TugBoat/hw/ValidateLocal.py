@@ -14,9 +14,11 @@ from LocalWorld import LocalHardware
 from PimoroniClientServo2040 import ClientServo2040
 from PimoroniClientMotor2040 import ClientMotor2040
 from PimoroniClientYukon import ClientYukon
+from SensorKit import ClientHumiture
+from SensorKit import ClientRange
 
 hw = LocalHardware()
-print(hw)
+hw.showPortList()
 environ = os.environ
 
 servo = ClientServo2040()
@@ -31,3 +33,8 @@ motor.testMotor()
 yukon = ClientYukon()
 yukon.testBoard()
 yukon.testServo()
+
+sensor = ClientHumiture()
+sensor.testHumiture()
+range = ClientRange()
+range.testRange()

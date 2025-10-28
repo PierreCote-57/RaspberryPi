@@ -27,7 +27,7 @@ gc.collect()
 
 # Constants
 OUTPUT_NAMES = ("Small Fan", "Big Fan")     # The names to give the two outputs when printing
-VOLTAGE_LIMIT = 5.25                        # The voltage to not exceed, to protect the outputs
+VOLTAGE_LIMIT = 12.5                        # The voltage to not exceed, to protect the outputs
 
 SLOT_LIST = [SLOT1, SLOT2, SLOT3, SLOT4, SLOT5, SLOT5]
 MODULE_LIST = [
@@ -251,7 +251,6 @@ class PowerProcessor:
             module.disable()
         elif "Set" == command:
             value = float(lineParts[3])
-            print("Set")
             module.set_voltage(value)
         elif "Prop" == command:
             prop = {}

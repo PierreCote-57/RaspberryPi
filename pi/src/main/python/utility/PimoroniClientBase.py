@@ -18,7 +18,6 @@ class ClientBase:
         self.remote = serial.Serial(self.dev, 9600, timeout=1)  # Open Serial port
 
         x = self.remote.in_waiting
-        print("Waiting", x)
 
         return
 

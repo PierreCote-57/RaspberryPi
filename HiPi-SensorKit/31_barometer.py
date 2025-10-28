@@ -15,7 +15,7 @@
 #---------------------------------------------------------
 #!/usr/bin/env python3
 
-import Adafruit_BMP.BMP085 as BMP085
+#import Adafruit_Python_BMP.Adafruit_BMP.BMP085 as BMP085
 import time
 
 def setup():
