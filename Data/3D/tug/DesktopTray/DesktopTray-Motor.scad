@@ -13,7 +13,7 @@ difference()
 			cube(size=[54.000, 74.000, 10.000], center=true);
 			rotate(a=[0.000, 0.000, 90.000])
 			{
-				cylinder(h=0.010, r1=3.000, r2=3.000, center=false);
+				cylinder(0.010, 3.000, 3.000, false);
 			}
 		}
 	}
@@ -23,7 +23,7 @@ difference()
 		{
 			translate(v=[0.000, 0.000, 0.000])
 			{
-				cylinder(h=20.000, r1=16.000, r2=16.000, center=true);
+				cylinder(20.000, 16.000, 16.000, true);
 			}
 			translate(v=[16.000, 0.000, 0.000])
 			{
@@ -37,7 +37,7 @@ difference()
 		{
 			translate(v=[0.000, 0.000, 0.000])
 			{
-				cylinder(h=20.000, r1=16.000, r2=16.000, center=true);
+				cylinder(20.000, 16.000, 16.000, true);
 			}
 			translate(v=[16.000, 0.000, 0.000])
 			{
@@ -62,10 +62,10 @@ difference()
 }
 
 
-// ***** Module resources.name
+// ***** Module MyModules.scad
 use </Users/pierrecote/src/aws/LogicielCote.COM/RetiredServer/out/production/resources/scad/MyModules.scad>
 
-// ***** Module resources.name
+// ***** Module Thread_Library.scad
 use </Users/pierrecote/src/aws/LogicielCote.COM/RetiredServer/out/production/resources/scad/Screw_Library/Thread_Library.scad>
 
 

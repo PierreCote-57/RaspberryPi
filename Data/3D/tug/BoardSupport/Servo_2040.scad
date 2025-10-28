@@ -14,7 +14,7 @@ difference()
 		}
 		color(c=[1.000, 0.000, 0.000])
 		{
-			linear_extrude(height=2.650, center="false", scale=[1.000, 1.000])
+			linear_extrude(height=2.650, center=false, scale=[1.000, 1.000])
 			{
 				text(text="Servo 2040", size=9.000, , font="LiberationSans:style=Regular", , halign="center", , valign="center");
 			}
@@ -28,14 +28,14 @@ difference()
 			{
 				translate(v=[0.000, 0.000, 1.000])
 				{
-					cylinder(h=2.100, r1=3.000, r2=3.000, center=true, $fn=6);
+					cylinder(2.100, 3.000, 3.000, true, $fn=6);
 				}
 			}
 			translate(v=[0.000, 0.000, -2.000])
 			{
 				color(c=[1.000, 0.000, 0.000])
 				{
-					cylinder(h=6.000, r1=1.500, r2=1.500, center=true);
+					cylinder(6.000, 1.500, 1.500, true);
 				}
 			}
 		}
@@ -48,14 +48,14 @@ difference()
 			{
 				translate(v=[0.000, 0.000, 1.000])
 				{
-					cylinder(h=2.100, r1=3.000, r2=3.000, center=true, $fn=6);
+					cylinder(2.100, 3.000, 3.000, true, $fn=6);
 				}
 			}
 			translate(v=[0.000, 0.000, -2.000])
 			{
 				color(c=[1.000, 0.000, 0.000])
 				{
-					cylinder(h=6.000, r1=1.500, r2=1.500, center=true);
+					cylinder(6.000, 1.500, 1.500, true);
 				}
 			}
 		}
@@ -68,14 +68,14 @@ difference()
 			{
 				translate(v=[0.000, 0.000, 1.000])
 				{
-					cylinder(h=2.100, r1=3.000, r2=3.000, center=true, $fn=6);
+					cylinder(2.100, 3.000, 3.000, true, $fn=6);
 				}
 			}
 			translate(v=[0.000, 0.000, -2.000])
 			{
 				color(c=[1.000, 0.000, 0.000])
 				{
-					cylinder(h=6.000, r1=1.500, r2=1.500, center=true);
+					cylinder(6.000, 1.500, 1.500, true);
 				}
 			}
 		}
@@ -88,14 +88,14 @@ difference()
 			{
 				translate(v=[0.000, 0.000, 1.000])
 				{
-					cylinder(h=2.100, r1=3.000, r2=3.000, center=true, $fn=6);
+					cylinder(2.100, 3.000, 3.000, true, $fn=6);
 				}
 			}
 			translate(v=[0.000, 0.000, -2.000])
 			{
 				color(c=[1.000, 0.000, 0.000])
 				{
-					cylinder(h=6.000, r1=1.500, r2=1.500, center=true);
+					cylinder(6.000, 1.500, 1.500, true);
 				}
 			}
 		}
@@ -103,10 +103,10 @@ difference()
 }
 
 
-// ***** Module resources.name
+// ***** Module MyModules.scad
 use </Users/pierrecote/src/aws/LogicielCote.COM/RetiredServer/out/production/resources/scad/MyModules.scad>
 
-// ***** Module resources.name
+// ***** Module Thread_Library.scad
 use </Users/pierrecote/src/aws/LogicielCote.COM/RetiredServer/out/production/resources/scad/Screw_Library/Thread_Library.scad>
 
 

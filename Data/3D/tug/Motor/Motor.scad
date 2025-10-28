@@ -6,11 +6,11 @@ $fn=36.000;
 // Motor
 union()
 {
-	cylinder(h=80.000, r1=18.000, r2=18.000, center=true);
-	cylinder(h=40.000, r1=20.500, r2=20.500, center=true);
+	cylinder(80.000, 18.000, 18.000, true);
+	cylinder(40.000, 20.500, 20.500, true);
 	translate(v=[0.000, 0.000, 48.500])
 	{
-		cylinder(h=17.000, r1=5.000, r2=5.000, center=true);
+		cylinder(17.000, 5.000, 5.000, true);
 	}
 }
 

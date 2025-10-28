@@ -15,7 +15,7 @@ difference()
 				cube(size=[54.000, 74.000, 10.000], center=true);
 				rotate(a=[0.000, 0.000, 90.000])
 				{
-					cylinder(h=0.010, r1=3.000, r2=3.000, center=false);
+					cylinder(0.010, 3.000, 3.000, false);
 				}
 			}
 		}
@@ -25,7 +25,7 @@ difference()
 			{
 				color(c=[1.000, 0.000, 0.000])
 				{
-					linear_extrude(height=2.000, center="false", scale=[1.000, 1.000])
+					linear_extrude(height=2.000, center=false, scale=[1.000, 1.000])
 					{
 						text(text="8.4", size=7.000, , font="LiberationSans:style=Regular", , halign="center", , valign="center");
 					}
@@ -35,7 +35,7 @@ difference()
 			{
 				color(c=[1.000, 0.000, 0.000])
 				{
-					linear_extrude(height=2.000, center="false", scale=[1.000, 1.000])
+					linear_extrude(height=2.000, center=false, scale=[1.000, 1.000])
 					{
 						text(text="8.4", size=7.000, , font="LiberationSans:style=Regular", , halign="center", , valign="center");
 					}
@@ -45,7 +45,7 @@ difference()
 			{
 				color(c=[1.000, 0.000, 0.000])
 				{
-					linear_extrude(height=2.000, center="false", scale=[1.000, 1.000])
+					linear_extrude(height=2.000, center=false, scale=[1.000, 1.000])
 					{
 						text(text="8.4", size=7.000, , font="LiberationSans:style=Regular", , halign="center", , valign="center");
 					}
@@ -61,7 +61,7 @@ difference()
 			{
 				translate(v=[0.000, 0.000, 2.500])
 				{
-					cylinder(h=6.000, r1=4.200, r2=4.200, center=true);
+					cylinder(6.000, 4.200, 4.200, true);
 				}
 				translate(v=[4.200, 0.000, 2.500])
 				{
@@ -69,7 +69,7 @@ difference()
 				}
 				translate(v=[0.000, 0.000, 0.000])
 				{
-					cylinder(h=4.000, r1=1.400, r2=1.400, center=true);
+					cylinder(4.000, 1.400, 1.400, true);
 				}
 			}
 		}
@@ -79,7 +79,7 @@ difference()
 			{
 				translate(v=[0.000, 0.000, 2.500])
 				{
-					cylinder(h=6.000, r1=4.200, r2=4.200, center=true);
+					cylinder(6.000, 4.200, 4.200, true);
 				}
 				translate(v=[4.200, 0.000, 2.500])
 				{
@@ -87,7 +87,7 @@ difference()
 				}
 				translate(v=[0.000, 0.000, 0.000])
 				{
-					cylinder(h=4.000, r1=1.400, r2=1.400, center=true);
+					cylinder(4.000, 1.400, 1.400, true);
 				}
 			}
 		}
@@ -97,7 +97,7 @@ difference()
 			{
 				translate(v=[0.000, 0.000, 2.500])
 				{
-					cylinder(h=6.000, r1=4.200, r2=4.200, center=true);
+					cylinder(6.000, 4.200, 4.200, true);
 				}
 				translate(v=[4.200, 0.000, 2.500])
 				{
@@ -105,7 +105,7 @@ difference()
 				}
 				translate(v=[0.000, 0.000, 0.000])
 				{
-					cylinder(h=4.000, r1=1.400, r2=1.400, center=true);
+					cylinder(4.000, 1.400, 1.400, true);
 				}
 			}
 		}
@@ -113,10 +113,10 @@ difference()
 }
 
 
-// ***** Module resources.name
+// ***** Module MyModules.scad
 use </Users/pierrecote/src/aws/LogicielCote.COM/RetiredServer/out/production/resources/scad/MyModules.scad>
 
-// ***** Module resources.name
+// ***** Module Thread_Library.scad
 use </Users/pierrecote/src/aws/LogicielCote.COM/RetiredServer/out/production/resources/scad/Screw_Library/Thread_Library.scad>
 
 

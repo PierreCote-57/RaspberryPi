@@ -468,128 +468,176 @@ difference()
 			}
 		}
 	}
-	color(c=[0.000, 1.000, 0.000])
+	color(c=[1.000, 0.000, 0.000])
 	{
-		translate(v=[2.500, 0.000, 156.000])
+		rotate(a=[0.000, 90.000, 0.000])
 		{
-			cylinder(20.000, 1.300, 1.300, true);
+			translate(v=[2.500, 0.000, 156.000])
+			{
+				cylinder(20.000, 1.300, 1.300, true);
+			}
 		}
 	}
-	color(c=[0.000, 1.000, 0.000])
+	color(c=[1.000, 0.000, 0.000])
 	{
-		translate(v=[2.500, -0.000, 156.000])
+		rotate(a=[0.000, 90.000, 0.000])
 		{
-			cylinder(20.000, 1.300, 1.300, true);
+			translate(v=[2.500, -0.000, 156.000])
+			{
+				cylinder(20.000, 1.300, 1.300, true);
+			}
 		}
 	}
-	color(c=[0.000, 1.000, 0.000])
+	color(c=[1.000, 0.000, 0.000])
 	{
-		translate(v=[2.500, 47.750, 156.000])
+		rotate(a=[0.000, 90.000, 0.000])
 		{
-			cylinder(20.000, 1.300, 1.300, true);
+			translate(v=[2.500, 47.750, 156.000])
+			{
+				cylinder(20.000, 1.300, 1.300, true);
+			}
 		}
 	}
-	color(c=[0.000, 1.000, 0.000])
+	color(c=[1.000, 0.000, 0.000])
 	{
-		translate(v=[2.500, -47.750, 156.000])
+		rotate(a=[0.000, 90.000, 0.000])
 		{
-			cylinder(20.000, 1.300, 1.300, true);
+			translate(v=[2.500, -47.750, 156.000])
+			{
+				cylinder(20.000, 1.300, 1.300, true);
+			}
 		}
 	}
-	color(c=[0.000, 1.000, 0.000])
+	color(c=[1.000, 0.000, 0.000])
 	{
-		translate(v=[2.500, 85.950, 156.000])
+		rotate(a=[0.000, 90.000, 0.000])
 		{
-			cylinder(20.000, 1.300, 1.300, true);
+			translate(v=[2.500, 85.950, 156.000])
+			{
+				cylinder(20.000, 1.300, 1.300, true);
+			}
 		}
 	}
-	color(c=[0.000, 1.000, 0.000])
+	color(c=[1.000, 0.000, 0.000])
 	{
-		translate(v=[2.500, -85.950, 156.000])
+		rotate(a=[0.000, 90.000, 0.000])
 		{
-			cylinder(20.000, 1.300, 1.300, true);
+			translate(v=[2.500, -85.950, 156.000])
+			{
+				cylinder(20.000, 1.300, 1.300, true);
+			}
 		}
 	}
-	color(c=[0.000, 1.000, 0.000])
+	color(c=[1.000, 0.000, 0.000])
 	{
-		translate(v=[35.719, 93.000, 156.000])
+		rotate(a=[0.000, 90.000, 0.000])
 		{
-			cylinder(20.000, 1.300, 1.300, true);
+			translate(v=[35.719, 93.000, 156.000])
+			{
+				cylinder(20.000, 1.300, 1.300, true);
+			}
 		}
 	}
-	color(c=[0.000, 1.000, 0.000])
+	color(c=[1.000, 0.000, 0.000])
 	{
-		translate(v=[35.719, -93.000, 156.000])
+		rotate(a=[0.000, 90.000, 0.000])
 		{
-			cylinder(20.000, 1.300, 1.300, true);
+			translate(v=[35.719, -93.000, 156.000])
+			{
+				cylinder(20.000, 1.300, 1.300, true);
+			}
 		}
 	}
-	color(c=[0.000, 1.000, 0.000])
+	color(c=[1.000, 0.000, 0.000])
 	{
-		translate(v=[2.500, 0.000, 306.000])
+		rotate(a=[0.000, 90.000, 0.000])
 		{
-			cylinder(20.000, 1.300, 1.300, true);
+			translate(v=[2.500, 0.000, 306.000])
+			{
+				cylinder(20.000, 1.300, 1.300, true);
+			}
 		}
 	}
-	color(c=[0.000, 1.000, 0.000])
+	color(c=[1.000, 0.000, 0.000])
 	{
-		translate(v=[2.500, -0.000, 306.000])
+		rotate(a=[0.000, 90.000, 0.000])
 		{
-			cylinder(20.000, 1.300, 1.300, true);
+			translate(v=[2.500, -0.000, 306.000])
+			{
+				cylinder(20.000, 1.300, 1.300, true);
+			}
 		}
 	}
-	color(c=[0.000, 1.000, 0.000])
+	color(c=[1.000, 0.000, 0.000])
 	{
-		translate(v=[2.500, 47.750, 306.000])
+		rotate(a=[0.000, 90.000, 0.000])
 		{
-			cylinder(20.000, 1.300, 1.300, true);
+			translate(v=[2.500, 47.750, 306.000])
+			{
+				cylinder(20.000, 1.300, 1.300, true);
+			}
 		}
 	}
-	color(c=[0.000, 1.000, 0.000])
+	color(c=[1.000, 0.000, 0.000])
 	{
-		translate(v=[2.500, -47.750, 306.000])
+		rotate(a=[0.000, 90.000, 0.000])
 		{
-			cylinder(20.000, 1.300, 1.300, true);
+			translate(v=[2.500, -47.750, 306.000])
+			{
+				cylinder(20.000, 1.300, 1.300, true);
+			}
 		}
 	}
-	color(c=[0.000, 1.000, 0.000])
+	color(c=[1.000, 0.000, 0.000])
 	{
-		translate(v=[2.500, 85.950, 306.000])
+		rotate(a=[0.000, 90.000, 0.000])
 		{
-			cylinder(20.000, 1.300, 1.300, true);
+			translate(v=[2.500, 85.950, 306.000])
+			{
+				cylinder(20.000, 1.300, 1.300, true);
+			}
 		}
 	}
-	color(c=[0.000, 1.000, 0.000])
+	color(c=[1.000, 0.000, 0.000])
 	{
-		translate(v=[2.500, -85.950, 306.000])
+		rotate(a=[0.000, 90.000, 0.000])
 		{
-			cylinder(20.000, 1.300, 1.300, true);
+			translate(v=[2.500, -85.950, 306.000])
+			{
+				cylinder(20.000, 1.300, 1.300, true);
+			}
 		}
 	}
-	color(c=[0.000, 1.000, 0.000])
+	color(c=[1.000, 0.000, 0.000])
 	{
-		translate(v=[35.719, 93.000, 306.000])
+		rotate(a=[0.000, 90.000, 0.000])
 		{
-			cylinder(20.000, 1.300, 1.300, true);
+			translate(v=[35.719, 93.000, 306.000])
+			{
+				cylinder(20.000, 1.300, 1.300, true);
+			}
 		}
 	}
-	color(c=[0.000, 1.000, 0.000])
+	color(c=[1.000, 0.000, 0.000])
 	{
-		translate(v=[35.719, -93.000, 306.000])
+		rotate(a=[0.000, 90.000, 0.000])
 		{
-			cylinder(20.000, 1.300, 1.300, true);
+			translate(v=[35.719, -93.000, 306.000])
+			{
+				cylinder(20.000, 1.300, 1.300, true);
+			}
 		}
 	}
 }
 
 
-// ***** Module resources.name
+// ***** Module MyModules.scad
 use </Users/pierrecote/src/aws/LogicielCote.COM/RetiredServer/out/production/resources/scad/MyModules.scad>
 
-// ***** Module resources.name
+// ***** Module Thread_Library.scad
 use </Users/pierrecote/src/aws/LogicielCote.COM/RetiredServer/out/production/resources/scad/Screw_Library/Thread_Library.scad>
 
-// ***** Module resources.name
+// ***** Module TugBoat.scad
 use </Users/pierrecote/src/aws/LogicielCote.COM/RetiredServer/out/production/resources/scad/TugBoat.scad>
 
 

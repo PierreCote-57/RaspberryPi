@@ -15,7 +15,7 @@ difference()
 				cube(size=[39.000, 34.000, 10.000], center=true);
 				rotate(a=[0.000, 0.000, 90.000])
 				{
-					cylinder(h=0.010, r1=3.000, r2=3.000, center=false);
+					cylinder(0.010, 3.000, 3.000, false);
 				}
 			}
 		}
@@ -25,7 +25,7 @@ difference()
 			{
 				color(c=[1.000, 0.000, 0.000])
 				{
-					linear_extrude(height=2.000, center="false", scale=[1.000, 1.000])
+					linear_extrude(height=2.000, center=false, scale=[1.000, 1.000])
 					{
 						text(text="    VDC", size=6.000, , font="LiberationSans:style=Regular", , halign="center", , valign="center");
 					}
@@ -50,10 +50,10 @@ difference()
 }
 
 
-// ***** Module resources.name
+// ***** Module MyModules.scad
 use </Users/pierrecote/src/aws/LogicielCote.COM/RetiredServer/out/production/resources/scad/MyModules.scad>
 
-// ***** Module resources.name
+// ***** Module Thread_Library.scad
 use </Users/pierrecote/src/aws/LogicielCote.COM/RetiredServer/out/production/resources/scad/Screw_Library/Thread_Library.scad>
 
 
