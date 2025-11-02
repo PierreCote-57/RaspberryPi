@@ -19,7 +19,7 @@ difference()
 					{
 						translate(v=[0.000, 0.000, 2.500])
 						{
-							cube(size=[20.000, 40.000, 5.000], center=true);
+							cube(size=[10.000, 80.000, 5.000], center=true);
 						}
 						translate(v=[0.000, 0.000, 15.000])
 						{
@@ -32,16 +32,16 @@ difference()
 						{
 							difference()
 							{
-								cube(size=[20.000, 60.000, 10.000], center=true);
+								cube(size=[10.000, 60.000, 10.000], center=true);
 								translate(v=[0.000, 0.000, 5.000])
 								{
-									cube(size=[20.010, 40.000, 10.000], center=true);
+									cube(size=[10.010, 40.000, 10.000], center=true);
 								}
 							}
-							translate(v=[-6.667, 0.000, 0.000])
+							translate(v=[-2.500, 0.000, 0.000])
 							{
 // Triangle
-								scale(v=[6.667, 40.000, 5.000])
+								scale(v=[5.000, 40.000, 5.000])
 								{
 									translate(v=[0.000, 0.000, 0.500])
 									{
@@ -73,7 +73,7 @@ difference()
 						{
 							translate(v=[0.000, 0.000, 2.500])
 							{
-								cube(size=[20.000, 40.000, 5.000], center=true);
+								cube(size=[10.000, 80.000, 5.000], center=true);
 							}
 							translate(v=[0.000, 0.000, 15.000])
 							{
@@ -86,16 +86,16 @@ difference()
 							{
 								difference()
 								{
-									cube(size=[20.000, 60.000, 10.000], center=true);
+									cube(size=[10.000, 60.000, 10.000], center=true);
 									translate(v=[0.000, 0.000, 5.000])
 									{
-										cube(size=[20.010, 40.000, 10.000], center=true);
+										cube(size=[10.010, 40.000, 10.000], center=true);
 									}
 								}
-								translate(v=[-6.667, 0.000, 0.000])
+								translate(v=[-2.500, 0.000, 0.000])
 								{
 // Triangle
-									scale(v=[6.667, 40.000, 5.000])
+									scale(v=[5.000, 40.000, 5.000])
 									{
 										translate(v=[0.000, 0.000, 0.500])
 										{
