@@ -18,7 +18,7 @@ from SensorKit import ClientHumiture
 from SensorKit import ClientRange
 
 hw = LocalHardware()
-hw.showPortList()
+hw.showSerialPortList()
 environ = os.environ
 
 servo = ClientServo2040()

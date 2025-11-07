@@ -2,10 +2,13 @@
 # and finds specific ports as required.
 
 import sys
+import os
+import platform
 import serial
 import psutil
 import LCD1602
 import time
+
 from serial.tools import list_ports
 
 # See bluetoothctl/scan on /list /devices
@@ -35,20 +38,44 @@ from serial.tools import list_ports
 
 class LocalHardware:
 
-    # def defines a method/function
+    pinMap = {}
+    pinMap["Distance.trigger"] = 19
+    pinMap["Distance.echo"] = 20
+    pinMap["Tracker"] = 12
+    pinMap["Humiture"] = 17
+
+    i2cMap = {}
+    i2cMap["Display"] = 0x27
+    i2cMap["Gyro"] = 12
+    i2cMap["ADC"] = 12
+    
 
     @staticmethod
-    def getPlatform():
-        return sys.platform
+    def showPinMap():
+        for name, value in LocalHardware.i2cMap.items():
+            print(f"GPIO {value:2d} = {name}")
 
     @staticmethod
-    def showPortList():
+    def getGpioPin(name):
+        return LocalHardware.pinMap[name]
+
+    @staticmethod
+    def getI2CChannel(name):
+        return LocalHardware.i2cMap[name]
+
+    @staticmethod
+    def showI2CMap():
+        for name, value in LocalHardware.pinMap.items():
+            print(f"Channel {value:2d} = {name}")
+
+    @staticmethod
+    def showSerialPortList():
         ttyList = list(serial.tools.list_ports.comports())
         for port in ttyList:
-            LocalHardware.showPort(port);
+            LocalHardware.showSerialPort(port);
 
     @staticmethod
-    def showPort(port):
+    def showSerialPort(port):
         print("Name: ", port.name)
         print("\tProduct:", port.product)
         print("\tDescription:", port.description)
@@ -58,7 +85,7 @@ class LocalHardware:
         
 
     @staticmethod
-    def findPort(text):
+    def findSerialPort(text):
         ttyList = list(serial.tools.list_ports.comports())
         for dev in ttyList:
             if None != dev.serial_number and dev.serial_number == text:
@@ -73,25 +100,37 @@ class LocalHardware:
     
     @staticmethod
     def findGPS_USB():
-        return LocalHardware.findPort("u-blox 7 - GPS/GNSS")
+        return LocalHardware.findSerialPort("u-blox 7 - GPS/GNSS")
     
     @staticmethod
     def findGPS_Garmin():
-        return LocalHardware.findPort("rfcomm")
+        return LocalHardware.findSerialPort("rfcomm")
 
     @staticmethod
     def findMotor2040():
-        return LocalHardware.findPort("e661410403295833");
+        return LocalHardware.findSerialPort("e661410403295833");
 
     @staticmethod
     def findServo2040():
-        return LocalHardware.findPort("e6617c93e3514d2a");
+        return LocalHardware.findSerialPort("e6617c93e3514d2a");
 
     @staticmethod
     def findYukon():
-        return LocalHardware.findPort("e4612d169b135022");
+        return LocalHardware.findSerialPort("e4612d169b135022");
 
 class LocalSoftware:
+    @staticmethod
+    def getPlatform():
+        return sys.platform
+
+    @staticmethod
+    def clearScreen():
+        system_name = platform.system()
+        if system_name == "Windows":
+            os.system('cls')
+        else:  # Linux, macOS, and other Unix-like systems
+            os.system('clear')
+
     @staticmethod
     def listProcesses(text):
         pids = psutil.pids()
@@ -128,14 +167,19 @@ class LocalSoftware:
 
 
 if __name__ == "__main__":
-    print("Found platform: ", LocalHardware.getPlatform())
+    LocalSoftware.clearScreen()
+    print("Found platform: ", LocalSoftware.getPlatform())
+    print("Working directory", os.getcwd())
+    LocalHardware.showPinMap()
+    LocalHardware.showI2CMap()
 
-    LocalHardware.showPortList()
+    LocalHardware.showSerialPortList()
 
-    print("SerialGPS is on ", LocalHardware.findGPS_USB())
-    print("Motor2040 is on ", LocalHardware.findMotor2040())
-    print("Servo2040 is on ", LocalHardware.findServo2040())
-    print("Yukon     is on ", LocalHardware.findYukon())
+    print("SerialGPS  is on ", LocalHardware.findGPS_USB())
+    print("GarmingGPS is on ", LocalHardware.findGPS_Garmin())
+    print("Motor2040  is on ", LocalHardware.findMotor2040())
+    print("Servo2040  is on ", LocalHardware.findServo2040())
+    print("Yukon      is on ", LocalHardware.findYukon())
 
 #    print("Processes ", TugSoftware.listProcesses("rfcomm"))
     p_rfcomm = LocalSoftware.findProcesses("rfcomm");
@@ -146,7 +190,6 @@ if __name__ == "__main__":
     LCD1602.write(0, 0, 'Hello pi!')
     time.sleep(2.0)
     LCD1602.write(0, 1, '1234567890123456')
-    time.sleep(2)
 
 
     print("Done")

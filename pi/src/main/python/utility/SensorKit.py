@@ -2,10 +2,10 @@ import math
 import RPi.GPIO as GPIO
 import time
 import threading
-import LCD1602
 from datetime import datetime
 
-DHTPIN = 17
+import LCD1602
+from LocalWorld import LocalHardware
 
 GPIO.setmode(GPIO.BCM)
 
@@ -16,9 +16,6 @@ STATE_INIT_PULL_UP = 2
 STATE_DATA_FIRST_PULL_DOWN = 3
 STATE_DATA_PULL_UP = 4
 STATE_DATA_PULL_DOWN = 5
-
-TRIG = 19
-ECHO = 20
 
 class ReadingHumiture():
     def __init__(self, h, t):
@@ -53,7 +50,7 @@ class ClientHumiture():
     def __init__(self):
 
         # Humiture variables
-        self.dht11_pin = 17
+        self.dht11_pin = LocalHardware.getGpioPin("Humiture")
         self.humiturePeriodSec = 30.0
         self.fnHumitureCallback = None
         self.readingHumiture = None
@@ -69,11 +66,13 @@ class ClientHumiture():
         self.thread.name = "Hum iture"
         self.thread.daemon = True
         self.thread.start()
-        pass
         return
 
+    def stop(self):
+        self.thread = None
+
     def humitureThreadLoop(self):
-        while True:
+        while None != self.thread:
             self.readHumiture()
             time.sleep(self.humiturePeriodSec)
 
@@ -114,7 +113,7 @@ class ClientHumiture():
         last = -1
         data = []
         while True:
-            current = GPIO.input(DHTPIN)
+            current = GPIO.input(self.dht11_pin)
             data.append(current)
             if last != current:
                 unchanged_count = 0
@@ -194,12 +193,13 @@ class ClientHumiture():
 #        return the_bytes[0], the_bytes[2], the_bytes[3]
 
     def testHumiture(self):
-        while True:
+        count = 0
+        while count < 3:
             # Do this until one reading
             result = self.readHumiture()
             if result:
-                onHumiture(result)
-                break
+                print(result)
+                count = count + 1
             time.sleep(0.5)
 
 # Speed of sound: 334 m/s @ 20 deg C
@@ -207,10 +207,13 @@ class ClientHumiture():
 # 10 meters = 0.03 sec = 30 ms
 # One loop ~ 15us -> 10m = 2,000 loops
 class ClientRange():
+    pinTrigger = LocalHardware.getGpioPin("Distance.trigger") # 19
+    pinEcho = LocalHardware.getGpioPin("Distance.echo") # 20
+
     def __init__(self):
         GPIO.setmode(GPIO.BCM)
-        GPIO.setup(TRIG, GPIO.OUT)
-        GPIO.setup(ECHO, GPIO.IN)
+        GPIO.setup(ClientRange.pinTrigger, GPIO.OUT)
+        GPIO.setup(ClientRange.pinEcho, GPIO.IN)
 
     @staticmethod
     def getSpeedOfSound(temp = 20):
@@ -223,20 +226,20 @@ class ClientRange():
         reading = ReadingRange(count, duration, speed, distance)
         return reading;
     def measureDuration(self):
-        GPIO.output(TRIG, 0)
+        GPIO.output(ClientRange.pinTrigger, 0)
         time.sleep(0.000002)
 
-        GPIO.output(TRIG, 1)
+        GPIO.output(ClientRange.pinTrigger, 1)
         time.sleep(0.00001)
         #	time.sleep(5.0)
-        GPIO.output(TRIG, 0)
+        GPIO.output(ClientRange.pinTrigger, 0)
 
 
-        while GPIO.input(ECHO) == 0:
+        while GPIO.input(ClientRange.pinEcho) == 0:
             a = 0
         time1 = time.time()
         i = 0
-        while GPIO.input(ECHO) == 1 and i < 2_000:
+        while GPIO.input(ClientRange.pinEcho) == 1 and i < 2_000:
             i = i + 1
         time2 = time.time()
         duration = time2 - time1
@@ -248,10 +251,11 @@ class ClientRange():
             print(reading)
             time.sleep(1.0)
 
-# DIsplay is LCD1602
+# Display is LCD1602
 class ClientDisplay():
     def __init__(self):
-        LCD1602.init(0x27, 1)	# init(slave address, background light)
+        channel = LocalHardware.getI2CChannel("Display")
+        LCD1602.init(channel, 1)	# init(slave address, background light)
 
     def writeLeft(self, y, text):
         self.write(0, y, text)
@@ -268,7 +272,9 @@ class ClientDisplay():
         client.writeLeft(0, "L234")
         client.writeMiddle(0, "M234")
         client.writeRight(0, "R234")
-        client.write(0, 1, "0123456789012345")
+#        str = datetime.fromtimestamp(time.time()).strftime('%Y-%m-%d %H:%M:%S.%f')
+        str = datetime.fromtimestamp(time.time()).strftime('%H:%M:%S')
+        client.writeMiddle(1, str)
 
 # The MPU-6050
 class ClientGyroscope():
@@ -284,13 +290,12 @@ def onHumiture(result):
 
 
 if __name__ == "__main__":
-    client = ClientHumiture()
-    client.setHumitureCallback(onHumiture)
-    client.startHumiture(1.0)
-#    time.sleep(5.0)
-
-    client = ClientRange()
-#    client.testRange()
 
     client = ClientDisplay()
     client.test()
+
+    client = ClientHumiture()
+    client.testHumiture()
+
+    client = ClientRange()
+    client.testRange()
