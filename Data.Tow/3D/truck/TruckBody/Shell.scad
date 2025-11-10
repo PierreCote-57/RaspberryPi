@@ -4,112 +4,11 @@ $fn=36.000;
 
 
 // Shell
-difference()
+union()
 {
-	union()
+	translate(v=[90.000, 0.000, 0.000])
 	{
-		translate(v=[-45.000, 0.000, 0.000])
-		{
-			cube(size=[360.000, 150.000, 1.500], center=true);
-		}
-		translate(v=[90.000, 0.000, 0.000])
-		{
 // Hood
-			difference()
-			{
-				translate(v=[-45.000, 0.000, 0.000])
-				{
-					intersection()
-					{
-						intersection()
-						{
-							intersection()
-							{
-								translate(v=[0.000, 0.000, 0.000])
-								{
-									minkowski()
-									{
-										cube(size=[160.000, 130.000, 100.000], center=true);
-										rotate(a=[0.000, 0.000, 90.000])
-										{
-											cylinder(0.010, 10.000, 10.000, false);
-										}
-									}
-								}
-								translate(v=[0.000, 0.000, 0.000])
-								{
-									minkowski()
-									{
-										cube(size=[160.000, 150.000, 80.000], center=true);
-										rotate(a=[90.000, 0.000, 0.000])
-										{
-											cylinder(0.010, 10.000, 10.000, false);
-										}
-									}
-								}
-							}
-							translate(v=[49.500, 0.000, 0.000])
-							{
-								cube(size=[99.000, 2000.000, 2000.000], center=true);
-							}
-						}
-						translate(v=[0.000, 0.000, 27.500])
-						{
-							cube(size=[2000.000, 2000.000, 55.000], center=true);
-						}
-					}
-				}
-				translate(v=[0.000, 0.000, -2.000])
-				{
-					scale(v=[0.950, 0.950, 1.000])
-					{
-						translate(v=[-45.000, 0.000, 0.000])
-						{
-							intersection()
-							{
-								intersection()
-								{
-									intersection()
-									{
-										translate(v=[0.000, 0.000, 0.000])
-										{
-											minkowski()
-											{
-												cube(size=[160.000, 130.000, 100.000], center=true);
-												rotate(a=[0.000, 0.000, 90.000])
-												{
-													cylinder(0.010, 10.000, 10.000, false);
-												}
-											}
-										}
-										translate(v=[0.000, 0.000, 0.000])
-										{
-											minkowski()
-											{
-												cube(size=[160.000, 150.000, 80.000], center=true);
-												rotate(a=[90.000, 0.000, 0.000])
-												{
-													cylinder(0.010, 10.000, 10.000, false);
-												}
-											}
-										}
-									}
-									translate(v=[49.500, 0.000, 0.000])
-									{
-										cube(size=[99.000, 2000.000, 2000.000], center=true);
-									}
-								}
-								translate(v=[0.000, 0.000, 27.500])
-								{
-									cube(size=[2000.000, 2000.000, 55.000], center=true);
-								}
-							}
-						}
-					}
-				}
-			}
-		}
-// Cab
 		difference()
 		{
 			translate(v=[-45.000, 0.000, 0.000])
@@ -124,7 +23,7 @@ difference()
 							{
 								minkowski()
 								{
-									cube(size=[160.000, 130.000, 200.000], center=true);
+									cube(size=[160.000, 130.000, 100.000], center=true);
 									rotate(a=[0.000, 0.000, 90.000])
 									{
 										cylinder(0.010, 10.000, 10.000, false);
@@ -135,7 +34,7 @@ difference()
 							{
 								minkowski()
 								{
-									cube(size=[160.000, 150.000, 180.000], center=true);
+									cube(size=[160.000, 150.000, 80.000], center=true);
 									rotate(a=[90.000, 0.000, 0.000])
 									{
 										cylinder(0.010, 10.000, 10.000, false);
@@ -148,9 +47,9 @@ difference()
 							cube(size=[99.000, 2000.000, 2000.000], center=true);
 						}
 					}
-					translate(v=[0.000, 0.000, 55.000])
+					translate(v=[0.000, 0.000, 27.500])
 					{
-						cube(size=[2000.000, 2000.000, 110.000], center=true);
+						cube(size=[2000.000, 2000.000, 55.000], center=true);
 					}
 				}
 			}
@@ -170,7 +69,7 @@ difference()
 									{
 										minkowski()
 										{
-											cube(size=[160.000, 130.000, 200.000], center=true);
+											cube(size=[160.000, 130.000, 100.000], center=true);
 											rotate(a=[0.000, 0.000, 90.000])
 											{
 												cylinder(0.010, 10.000, 10.000, false);
@@ -181,7 +80,7 @@ difference()
 									{
 										minkowski()
 										{
-											cube(size=[160.000, 150.000, 180.000], center=true);
+											cube(size=[160.000, 150.000, 80.000], center=true);
 											rotate(a=[90.000, 0.000, 0.000])
 											{
 												cylinder(0.010, 10.000, 10.000, false);
@@ -194,34 +93,117 @@ difference()
 									cube(size=[99.000, 2000.000, 2000.000], center=true);
 								}
 							}
-							translate(v=[0.000, 0.000, 55.000])
+							translate(v=[0.000, 0.000, 27.500])
 							{
-								cube(size=[2000.000, 2000.000, 110.000], center=true);
+								cube(size=[2000.000, 2000.000, 55.000], center=true);
 							}
 						}
 					}
 				}
 			}
 		}
-		translate(v=[-135.000, 0.000, 0.000])
+	}
+// Cab
+	difference()
+	{
+		translate(v=[-45.000, 0.000, 0.000])
 		{
-// Bed
-			union()
+			intersection()
 			{
-				translate(v=[0.000, 0.000, 1.500])
+				intersection()
 				{
-					cube(size=[180.000, 150.000, 3.000], center=true);
+					intersection()
+					{
+						translate(v=[0.000, 0.000, 0.000])
+						{
+							minkowski()
+							{
+								cube(size=[160.000, 130.000, 200.000], center=true);
+								rotate(a=[0.000, 0.000, 90.000])
+								{
+									cylinder(0.010, 10.000, 10.000, false);
+								}
+							}
+						}
+						translate(v=[0.000, 0.000, 0.000])
+						{
+							minkowski()
+							{
+								cube(size=[160.000, 150.000, 180.000], center=true);
+								rotate(a=[90.000, 0.000, 0.000])
+								{
+									cylinder(0.010, 10.000, 10.000, false);
+								}
+							}
+						}
+					}
+					translate(v=[49.500, 0.000, 0.000])
+					{
+						cube(size=[99.000, 2000.000, 2000.000], center=true);
+					}
 				}
-				translate(v=[80.000, 0.000, 10.000])
+				translate(v=[0.000, 0.000, 55.000])
 				{
-					cube(size=[20.000, 135.000, 20.000], center=true);
+					cube(size=[2000.000, 2000.000, 110.000], center=true);
+				}
+			}
+		}
+		translate(v=[0.000, 0.000, -2.000])
+		{
+			scale(v=[0.950, 0.950, 1.000])
+			{
+				translate(v=[-45.000, 0.000, 0.000])
+				{
+					intersection()
+					{
+						intersection()
+						{
+							intersection()
+							{
+								translate(v=[0.000, 0.000, 0.000])
+								{
+									minkowski()
+									{
+										cube(size=[160.000, 130.000, 200.000], center=true);
+										rotate(a=[0.000, 0.000, 90.000])
+										{
+											cylinder(0.010, 10.000, 10.000, false);
+										}
+									}
+								}
+								translate(v=[0.000, 0.000, 0.000])
+								{
+									minkowski()
+									{
+										cube(size=[160.000, 150.000, 180.000], center=true);
+										rotate(a=[90.000, 0.000, 0.000])
+										{
+											cylinder(0.010, 10.000, 10.000, false);
+										}
+									}
+								}
+							}
+							translate(v=[49.500, 0.000, 0.000])
+							{
+								cube(size=[99.000, 2000.000, 2000.000], center=true);
+							}
+						}
+						translate(v=[0.000, 0.000, 55.000])
+						{
+							cube(size=[2000.000, 2000.000, 110.000], center=true);
+						}
+					}
 				}
 			}
 		}
 	}
-	color(c=[1.000, 0.000, 0.000])
+	translate(v=[-135.000, 0.000, 0.000])
 	{
-		cube(size=[85.000, 145.000, 4.000], center=true);
+// Bed
+		translate(v=[0.000, 0.000, 1.500])
+		{
+			cube(size=[180.000, 150.000, 3.000], center=true);
+		}
 	}
 }
 

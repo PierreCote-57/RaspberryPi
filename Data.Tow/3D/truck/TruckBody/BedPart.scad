@@ -6,17 +6,14 @@ $fn=36.000;
 // BedPart
 intersection()
 {
+// ShellPart
 	difference()
 	{
-// Shell
-		difference()
+		union()
 		{
+// Shell
 			union()
 			{
-				translate(v=[-45.000, 0.000, 0.000])
-				{
-					cube(size=[360.000, 150.000, 1.500], center=true);
-				}
 				translate(v=[90.000, 0.000, 0.000])
 				{
 // Hood
@@ -211,61 +208,64 @@ intersection()
 				translate(v=[-135.000, 0.000, 0.000])
 				{
 // Bed
-					union()
+					translate(v=[0.000, 0.000, 1.500])
 					{
-						translate(v=[0.000, 0.000, 1.500])
-						{
-							cube(size=[180.000, 150.000, 3.000], center=true);
-						}
-						translate(v=[80.000, 0.000, 10.000])
-						{
-							cube(size=[20.000, 135.000, 20.000], center=true);
-						}
+						cube(size=[180.000, 150.000, 3.000], center=true);
 					}
 				}
 			}
-			color(c=[1.000, 0.000, 0.000])
+			translate(v=[-45.000, 0.000, 0.000])
 			{
-				cube(size=[85.000, 145.000, 4.000], center=true);
-			}
-		}
-		color(c=[1.000, 0.000, 0.000])
-		{
-			translate(v=[45.000, 37.500, 10.000])
-			{
-				rotate(a=[0.000, 90.000, 0.000])
+				translate(v=[0.000, 0.000, 3.900])
 				{
-					cylinder(20.000, 1.300, 1.300, true);
+					cube(size=[25.000, 135.000, 7.800], center=true);
+				}
+			}
+			translate(v=[45.000, 0.000, 0.000])
+			{
+				translate(v=[0.000, 0.000, 3.900])
+				{
+					cube(size=[25.000, 135.000, 7.800], center=true);
 				}
 			}
 		}
 		color(c=[1.000, 0.000, 0.000])
 		{
-			translate(v=[45.000, -37.500, 10.000])
+			translate(v=[-45.000, -37.500, 3.900])
 			{
 				rotate(a=[0.000, 90.000, 0.000])
 				{
-					cylinder(20.000, 1.300, 1.300, true);
+					cylinder(15.000, 1.300, 1.300, true);
 				}
 			}
 		}
 		color(c=[1.000, 0.000, 0.000])
 		{
-			translate(v=[-45.000, 37.500, 10.000])
+			translate(v=[-45.000, 37.500, 3.900])
 			{
 				rotate(a=[0.000, 90.000, 0.000])
 				{
-					cylinder(20.000, 1.300, 1.300, true);
+					cylinder(15.000, 1.300, 1.300, true);
 				}
 			}
 		}
 		color(c=[1.000, 0.000, 0.000])
 		{
-			translate(v=[-45.000, -37.500, 10.000])
+			translate(v=[45.000, -37.500, 3.900])
 			{
 				rotate(a=[0.000, 90.000, 0.000])
 				{
-					cylinder(20.000, 1.300, 1.300, true);
+					cylinder(15.000, 1.300, 1.300, true);
+				}
+			}
+		}
+		color(c=[1.000, 0.000, 0.000])
+		{
+			translate(v=[45.000, 37.500, 3.900])
+			{
+				rotate(a=[0.000, 90.000, 0.000])
+				{
+					cylinder(15.000, 1.300, 1.300, true);
 				}
 			}
 		}

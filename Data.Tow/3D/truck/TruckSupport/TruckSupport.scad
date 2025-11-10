@@ -4,149 +4,63 @@ $fn=36.000;
 
 
 // TruckSupport
-difference()
+union()
 {
-	intersection()
+	translate(v=[0.000, 0.000, 2.500])
 	{
-// TruckSupport
-		union()
+		cube(size=[50.000, 100.000, 5.000], center=true);
+	}
+	translate(v=[0.000, -30.000, 0.000])
+	{
+		rotate(a=[0.000, 0.000, 90.000])
 		{
-			translate(v=[-25.000, 0.000, 0.000])
+			difference()
 			{
-// TruckSupport
-				union()
+				translate(v=[0.000, 0.000, 27.500])
 				{
-					union()
+					cube(size=[5.000, 40.000, 55.000], center=true);
+				}
+				translate(v=[0.000, -12.500, 0.000])
+				{
+					translate(v=[0.000, 0.000, 52.500])
 					{
-						translate(v=[2.500, 0.000, 2.500])
-						{
-							cube(size=[10.000, 80.000, 5.000], center=true);
-						}
-						translate(v=[0.000, 0.000, 15.000])
-						{
-							cube(size=[5.000, 20.000, 30.000], center=true);
-						}
+						cube(size=[5.500, 7.700, 5.500], center=true);
 					}
-					translate(v=[2.500, 0.000, 30.000])
+				}
+				translate(v=[0.000, 12.500, 0.000])
+				{
+					translate(v=[0.000, 0.000, 52.500])
 					{
-						union()
-						{
-							difference()
-							{
-								cube(size=[10.000, 60.000, 10.000], center=true);
-								translate(v=[0.000, 0.000, 5.000])
-								{
-									cube(size=[10.010, 40.000, 10.000], center=true);
-								}
-							}
-							translate(v=[-2.500, 0.000, 0.000])
-							{
-// Triangle
-								scale(v=[5.000, 40.000, 5.000])
-								{
-									translate(v=[0.000, 0.000, 0.500])
-									{
-										difference()
-										{
-											cube(size=[1.000, 1.000, 1.000], center=true);
-											rotate(a=[0.000, 45.000, 0.000])
-											{
-												translate(v=[0.000, 0.000, 2.500])
-												{
-													cube(size=[5.000, 5.000, 5.000], center=true);
-												}
-											}
-										}
-									}
-								}
-							}
-						}
+						cube(size=[5.500, 7.700, 5.500], center=true);
 					}
 				}
 			}
-			translate(v=[25.000, 0.000, 0.000])
+		}
+	}
+	translate(v=[0.000, 30.000, 0.000])
+	{
+		rotate(a=[0.000, 0.000, 90.000])
+		{
+			difference()
 			{
-				rotate(a=[0.000, 0.000, 180.000])
+				translate(v=[0.000, 0.000, 27.500])
 				{
-// TruckSupport
-					union()
+					cube(size=[5.000, 40.000, 55.000], center=true);
+				}
+				translate(v=[0.000, -12.500, 0.000])
+				{
+					translate(v=[0.000, 0.000, 52.500])
 					{
-						union()
-						{
-							translate(v=[2.500, 0.000, 2.500])
-							{
-								cube(size=[10.000, 80.000, 5.000], center=true);
-							}
-							translate(v=[0.000, 0.000, 15.000])
-							{
-								cube(size=[5.000, 20.000, 30.000], center=true);
-							}
-						}
-						translate(v=[2.500, 0.000, 30.000])
-						{
-							union()
-							{
-								difference()
-								{
-									cube(size=[10.000, 60.000, 10.000], center=true);
-									translate(v=[0.000, 0.000, 5.000])
-									{
-										cube(size=[10.010, 40.000, 10.000], center=true);
-									}
-								}
-								translate(v=[-2.500, 0.000, 0.000])
-								{
-// Triangle
-									scale(v=[5.000, 40.000, 5.000])
-									{
-										translate(v=[0.000, 0.000, 0.500])
-										{
-											difference()
-											{
-												cube(size=[1.000, 1.000, 1.000], center=true);
-												rotate(a=[0.000, 45.000, 0.000])
-												{
-													translate(v=[0.000, 0.000, 2.500])
-													{
-														cube(size=[5.000, 5.000, 5.000], center=true);
-													}
-												}
-											}
-										}
-									}
-								}
-							}
-						}
+						cube(size=[5.500, 7.700, 5.500], center=true);
 					}
 				}
-			}
-			translate(v=[0.000, 0.000, 2.500])
-			{
-				cube(size=[50.000, 10.000, 5.000], center=true);
-			}
-		}
-		translate(v=[500.000, 0.000, 0.000])
-		{
-			cube(size=[1000.000, 2000.000, 2000.000], center=true);
-		}
-	}
-	color(c=[1.000, 0.000, 0.000])
-	{
-		translate(v=[0.000, -2.500, 2.500])
-		{
-			rotate(a=[0.000, 90.000, 0.000])
-			{
-				cylinder(20.000, 1.300, 1.300, true);
-			}
-		}
-	}
-	color(c=[1.000, 0.000, 0.000])
-	{
-		translate(v=[0.000, 2.500, 2.500])
-		{
-			rotate(a=[0.000, 90.000, 0.000])
-			{
-				cylinder(20.000, 1.300, 1.300, true);
+				translate(v=[0.000, 12.500, 0.000])
+				{
+					translate(v=[0.000, 0.000, 52.500])
+					{
+						cube(size=[5.500, 7.700, 5.500], center=true);
+					}
+				}
 			}
 		}
 	}
