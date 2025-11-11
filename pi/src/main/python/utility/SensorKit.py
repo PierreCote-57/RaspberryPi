@@ -282,15 +282,45 @@ class ClientTracker():
     def __init__(self):
         GPIO.setmode(GPIO.BCM)
         GPIO.setup(ClientTracker.pin, GPIO.IN)
-        self.counter = 0;
+        self.counterRising = 0;
+        self.counterFalling = 0;
+
+        self.timeCount = 10
+        self.timeNext = 0
+        self.timeList = []
+
+#        GPIO.add_event_detect(ClientTracker.pin, GPIO.RISING, callback=self.callbackRising)
+        GPIO.add_event_detect(ClientTracker.pin, GPIO.FALLING, callback=self.callbackFalling)
+
+    # 0 == black; 1 = white
+    # rising = to Black
+    def callbackRising(self, channel):
+        self.counterRising += 1
+        self.mark()
+
+    # Falling = to White
+    def callbackFalling(self, channel):
+        self.counterFalling += 1
+        self.mark()
+
+    def mark(self):
+        timeNow = time.time()
+        if len(self.timeList) < self.timeCount:
+            self.timeList.append(timeNow)
+        else:
+            self.timeList[self.timeNext] = timeNow
+            self.timeNext += 1
+            if self.timeNext >= self.timeCount:
+                self.timeNext = 0
+        print(self.timeList)
 
     def read(self):
         return GPIO.input(self.pin)
         
     def test(self):
-        for i in range(30):
+        for i in range(10):
             value = self.read()
-            print(f"Value  = {value}")
+            print(f"Value  = {value}; Rising {self.counterRising:3d}; Falling {self.counterFalling:3d}")
             time.sleep(1.0)
 
 # The MPU-6050
@@ -322,3 +352,8 @@ if __name__ == "__main__":
     if 1 == 1:
         client = ClientTracker()
         client.test()
+
+    for i in range(len(client.timeList) - 2):
+        delta = client.timeList[i + 1] - client.timeList[i]
+        print(f"Delta = {delta:6.3f}")
+    print("Done")
