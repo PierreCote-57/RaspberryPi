@@ -3,7 +3,7 @@ $fa=1.000;
 $fn=36.000;
 
 
-// TruckPlatform-Front
+// TruckPlatform-Rear
 intersection()
 {
 // TruckPlatform
@@ -442,9 +442,9 @@ intersection()
 			}
 		}
 	}
-	translate(v=[590.000, 0.000, 0.000])
+	translate(v=[-410.000, 0.000, 0.000])
 	{
-		cube(size=[820.000, 2000.000, 2000.000], center=true);
+		cube(size=[1180.000, 2000.000, 2000.000], center=true);
 	}
 }
 
