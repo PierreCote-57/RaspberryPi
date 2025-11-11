@@ -14,6 +14,8 @@ from serial.tools import list_ports
 # See bluetoothctl/scan on /list /devices
 #   May need "sudo rfcomm connect GarminGPS 0C:7E:24:39:EA:8E"
 
+# To See USB:
+# To see TTY:
 # USB GPS (Typically /dev/ttyACM0):
 #   Description:    'u-blox 7 - GPS/GNSS Receiver'
 #   Manufacturer:   'u-blox AG - www.u-blox.com'
@@ -33,40 +35,71 @@ from serial.tools import list_ports
 #       sudo rfcomm connect GarminGPS 0C:7E:24:39:EA:8E
 #   See https://forums.raspberrypi.com/viewtopic.php?t=199308
 #
-#   ttyAMA10 appeart to be the keyboard (both)
+#   ttyAMA10 appeara to be the keyboard (both)
 #   ttyUSB0 also keyboard (both)
+#
+# To see I2C:
+#   
 
 class LocalHardware:
 
     pinMap = {}
-    pinMap["Distance.trigger"] = 19
-    pinMap["Distance.echo"] = 20
-    pinMap["Tracker"] = 12
-    pinMap["Humiture"] = 17
+    pinMap[ 1] = "NA"
+    pinMap[ 2] = "SDA1, I2C"
+    pinMap[ 3] = "SCL1, I2C"
+    pinMap[ 4] = "GPIO_GCLK"
+    pinMap[ 5] = "Free"
+    pinMap[ 6] = "Free"
+    pinMap[ 7] = "SPI_CE1_N"
+    pinMap[ 8] = "SPI_CE0_N"
+    pinMap[ 9] = "SPI_MISO"
+    pinMap[10] = "SPI_MOSI"
+    pinMap[11] = "SPI_CLK"
+    pinMap[12] = "Free"
+    pinMap[13] = "Free"
+    pinMap[14] = "TXD0"
+    pinMap[15] = "RXD0"
+    pinMap[16] = "Free"
+    pinMap[17] = "Humiture"
+    pinMap[18] = "Free"
+    pinMap[19] = "Distance.trigger"
+    pinMap[20] = "Distance.echo"
+    pinMap[21] = "Tracker"
+    pinMap[22] = "Free"
+    pinMap[23] = "Free"
+    pinMap[24] = "Free"
+    pinMap[25] = "Free"
+    pinMap[26] = "Free"
+    pinMap[27] = "Free"
 
     i2cMap = {}
-    i2cMap["Display"] = 0x27
-    i2cMap["Gyro"] = 12
-    i2cMap["ADC"] = 12
-    
+    i2cMap[0x68] = "Gyro"
+    i2cMap[0x48] = "ADC"
+    i2cMap[0x27] = "Display"
 
     @staticmethod
     def showPinMap():
-        for name, value in LocalHardware.i2cMap.items():
-            print(f"GPIO {value:2d} = {name}")
+        for pinNo, pinName in LocalHardware.pinMap.items():
+            print(f"GPIO {pinNo:2d} = {pinName}")
 
     @staticmethod
     def getGpioPin(name):
-        return LocalHardware.pinMap[name]
-
-    @staticmethod
-    def getI2CChannel(name):
-        return LocalHardware.i2cMap[name]
+        for pinName, pinNo in LocalHardware.pinMap.items():
+            if (name == pinName):
+                return pinNo
+        return None
 
     @staticmethod
     def showI2CMap():
-        for name, value in LocalHardware.pinMap.items():
+        for name, value in LocalHardware.i2cMap.items():
             print(f"Channel {value:2d} = {name}")
+
+    @staticmethod
+    def getI2CChannel(name):
+        for pinName, pinNo in LocalHardware.pinMap.items():
+            if (name == pinName):
+                return pinNo
+        return None
 
     @staticmethod
     def showSerialPortList():
