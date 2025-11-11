@@ -63,7 +63,7 @@ class ClientHumiture():
         self.humiturePeriodSec = periodSec
         # Start on a background thread
         self.thread = threading.Thread(target=ClientHumiture.humitureThreadLoop, args=(self,), daemon=True)
-        self.thread.name = "Hum iture"
+        self.thread.name = "Humiture"
         self.thread.daemon = True
         self.thread.start()
         return
@@ -276,6 +276,23 @@ class ClientDisplay():
         str = datetime.fromtimestamp(time.time()).strftime('%H:%M:%S')
         client.writeMiddle(1, str)
 
+class ClientTracker():
+    pin = LocalHardware.getGpioPin("Tracker") # 19
+
+    def __init__(self):
+        GPIO.setmode(GPIO.BCM)
+        GPIO.setup(ClientTracker.pin, GPIO.IN)
+        self.counter = 0;
+
+    def read(self):
+        return GPIO.input(self.pin)
+        
+    def test(self):
+        for i in range(30):
+            value = self.read()
+            print(f"Value  = {value}")
+            time.sleep(1.0)
+
 # The MPU-6050
 class ClientGyroscope():
     def __init__(self):
@@ -290,12 +307,18 @@ def onHumiture(result):
 
 
 if __name__ == "__main__":
+    if 1 == 2:
+        client = ClientDisplay()
+        client.test()
 
-    client = ClientDisplay()
-    client.test()
+    if 1 == 2:
+        client = ClientHumiture()
+        client.testHumiture()
 
-    client = ClientHumiture()
-    client.testHumiture()
+    if 1 == 2:
+        client = ClientRange()
+        client.testRange()
 
-    client = ClientRange()
-    client.testRange()
+    if 1 == 1:
+        client = ClientTracker()
+        client.test()

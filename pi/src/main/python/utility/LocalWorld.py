@@ -39,7 +39,7 @@ from serial.tools import list_ports
 #   ttyUSB0 also keyboard (both)
 #
 # To see I2C:
-#   
+#   i2cdetect -y 1
 
 class LocalHardware:
 
@@ -49,7 +49,7 @@ class LocalHardware:
     pinMap[ 3] = "SCL1, I2C"
     pinMap[ 4] = "GPIO_GCLK"
     pinMap[ 5] = "Free"
-    pinMap[ 6] = "Free"
+    pinMap[ 6] = "Tracker"
     pinMap[ 7] = "SPI_CE1_N"
     pinMap[ 8] = "SPI_CE0_N"
     pinMap[ 9] = "SPI_MISO"
@@ -64,7 +64,7 @@ class LocalHardware:
     pinMap[18] = "Free"
     pinMap[19] = "Distance.trigger"
     pinMap[20] = "Distance.echo"
-    pinMap[21] = "Tracker"
+    pinMap[21] = "Tracker (Reserved)"
     pinMap[22] = "Free"
     pinMap[23] = "Free"
     pinMap[24] = "Free"
@@ -73,9 +73,9 @@ class LocalHardware:
     pinMap[27] = "Free"
 
     i2cMap = {}
-    i2cMap[0x68] = "Gyro"
-    i2cMap[0x48] = "ADC"
     i2cMap[0x27] = "Display"
+    i2cMap[0x48] = "ADC"
+    i2cMap[0x68] = "Gyro"
 
     @staticmethod
     def showPinMap():
@@ -84,21 +84,21 @@ class LocalHardware:
 
     @staticmethod
     def getGpioPin(name):
-        for pinName, pinNo in LocalHardware.pinMap.items():
+        for pinNo, pinName in LocalHardware.pinMap.items():
             if (name == pinName):
                 return pinNo
         return None
 
     @staticmethod
     def showI2CMap():
-        for name, value in LocalHardware.i2cMap.items():
+        for value, name in LocalHardware.i2cMap.items():
             print(f"Channel {value:2d} = {name}")
 
     @staticmethod
     def getI2CChannel(name):
-        for pinName, pinNo in LocalHardware.pinMap.items():
+        for value, pinName in LocalHardware.i2cMap.items():
             if (name == pinName):
-                return pinNo
+                return value
         return None
 
     @staticmethod
