@@ -4,9 +4,98 @@ $fn=36.000;
 
 
 // Bed
-translate(v=[0.000, 0.000, 1.500])
+difference()
 {
-	cube(size=[180.000, 150.000, 3.000], center=true);
+	translate(v=[-82.500, 0.000, 0.000])
+	{
+		intersection()
+		{
+			intersection()
+			{
+				intersection()
+				{
+					translate(v=[0.000, 0.000, 0.000])
+					{
+						minkowski()
+						{
+							cube(size=[310.000, 110.000, 40.000], center=true);
+							rotate(a=[0.000, 0.000, 90.000])
+							{
+								cylinder(0.010, 10.000, 10.000, false);
+							}
+						}
+					}
+					translate(v=[0.000, 0.000, 0.000])
+					{
+						minkowski()
+						{
+							cube(size=[310.000, 130.000, 20.000], center=true);
+							rotate(a=[90.000, 0.000, 0.000])
+							{
+								cylinder(0.010, 10.000, 10.000, false);
+							}
+						}
+					}
+				}
+				translate(v=[90.750, 0.000, 0.000])
+				{
+					cube(size=[181.500, 2000.000, 2000.000], center=true);
+				}
+			}
+			translate(v=[0.000, 0.000, 11.000])
+			{
+				cube(size=[2000.000, 2000.000, 22.000], center=true);
+			}
+		}
+	}
+	translate(v=[0.000, 0.000, -2.000])
+	{
+		scale(v=[0.950, 0.950, 1.000])
+		{
+			translate(v=[-82.500, 0.000, 0.000])
+			{
+				intersection()
+				{
+					intersection()
+					{
+						intersection()
+						{
+							translate(v=[0.000, 0.000, 0.000])
+							{
+								minkowski()
+								{
+									cube(size=[310.000, 110.000, 40.000], center=true);
+									rotate(a=[0.000, 0.000, 90.000])
+									{
+										cylinder(0.010, 10.000, 10.000, false);
+									}
+								}
+							}
+							translate(v=[0.000, 0.000, 0.000])
+							{
+								minkowski()
+								{
+									cube(size=[310.000, 130.000, 20.000], center=true);
+									rotate(a=[90.000, 0.000, 0.000])
+									{
+										cylinder(0.010, 10.000, 10.000, false);
+									}
+								}
+							}
+						}
+						translate(v=[90.750, 0.000, 0.000])
+						{
+							cube(size=[181.500, 2000.000, 2000.000], center=true);
+						}
+					}
+					translate(v=[0.000, 0.000, 11.000])
+					{
+						cube(size=[2000.000, 2000.000, 22.000], center=true);
+					}
+				}
+			}
+		}
+	}
 }
 
 

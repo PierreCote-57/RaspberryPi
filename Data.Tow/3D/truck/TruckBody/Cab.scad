@@ -6,7 +6,7 @@ $fn=36.000;
 // Cab
 difference()
 {
-	translate(v=[-45.000, 0.000, 0.000])
+	translate(v=[-50.000, 0.000, 0.000])
 	{
 		intersection()
 		{
@@ -18,7 +18,7 @@ difference()
 					{
 						minkowski()
 						{
-							cube(size=[160.000, 130.000, 200.000], center=true);
+							cube(size=[180.000, 130.000, 200.000], center=true);
 							rotate(a=[0.000, 0.000, 90.000])
 							{
 								cylinder(0.010, 10.000, 10.000, false);
@@ -29,7 +29,7 @@ difference()
 					{
 						minkowski()
 						{
-							cube(size=[160.000, 150.000, 180.000], center=true);
+							cube(size=[180.000, 150.000, 180.000], center=true);
 							rotate(a=[90.000, 0.000, 0.000])
 							{
 								cylinder(0.010, 10.000, 10.000, false);
@@ -37,9 +37,9 @@ difference()
 						}
 					}
 				}
-				translate(v=[49.500, 0.000, 0.000])
+				translate(v=[55.000, 0.000, 0.000])
 				{
-					cube(size=[99.000, 2000.000, 2000.000], center=true);
+					cube(size=[110.000, 2000.000, 2000.000], center=true);
 				}
 			}
 			translate(v=[0.000, 0.000, 55.000])
@@ -52,7 +52,7 @@ difference()
 	{
 		scale(v=[0.950, 0.950, 1.000])
 		{
-			translate(v=[-45.000, 0.000, 0.000])
+			translate(v=[-50.000, 0.000, 0.000])
 			{
 				intersection()
 				{
@@ -64,7 +64,7 @@ difference()
 							{
 								minkowski()
 								{
-									cube(size=[160.000, 130.000, 200.000], center=true);
+									cube(size=[180.000, 130.000, 200.000], center=true);
 									rotate(a=[0.000, 0.000, 90.000])
 									{
 										cylinder(0.010, 10.000, 10.000, false);
@@ -75,7 +75,7 @@ difference()
 							{
 								minkowski()
 								{
-									cube(size=[160.000, 150.000, 180.000], center=true);
+									cube(size=[180.000, 150.000, 180.000], center=true);
 									rotate(a=[90.000, 0.000, 0.000])
 									{
 										cylinder(0.010, 10.000, 10.000, false);
@@ -83,9 +83,9 @@ difference()
 								}
 							}
 						}
-						translate(v=[49.500, 0.000, 0.000])
+						translate(v=[55.000, 0.000, 0.000])
 						{
-							cube(size=[99.000, 2000.000, 2000.000], center=true);
+							cube(size=[110.000, 2000.000, 2000.000], center=true);
 						}
 					}
 					translate(v=[0.000, 0.000, 55.000])
