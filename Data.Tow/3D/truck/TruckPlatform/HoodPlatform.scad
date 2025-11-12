@@ -20,27 +20,27 @@ difference()
 				{
 					translate(v=[0.000, 0.000, -10.000])
 					{
-						cylinder(28.000, 8.000, 8.000, true);
+						cylinder(28.000, 6.000, 6.000, true);
 					}
 				}
 			}
-			translate(v=[38.000, 43.000, 0.000])
+			translate(v=[41.000, 46.000, 0.000])
 			{
 				color(c=[0.000, 1.000, 0.000])
 				{
 					translate(v=[0.000, 0.000, -10.000])
 					{
-						cylinder(28.000, 8.000, 8.000, true);
+						cylinder(28.000, 6.000, 6.000, true);
 					}
 				}
 			}
-			translate(v=[38.000, -43.000, 0.000])
+			translate(v=[41.000, -46.000, 0.000])
 			{
 				color(c=[0.000, 1.000, 0.000])
 				{
 					translate(v=[0.000, 0.000, -10.000])
 					{
-						cylinder(28.000, 8.000, 8.000, true);
+						cylinder(28.000, 6.000, 6.000, true);
 					}
 				}
 			}
@@ -220,7 +220,7 @@ difference()
 							{
 								translate(v=[0.000, 0.000, -36.000])
 								{
-									cylinder(72.100, 1.750, 1.750, true);
+									cylinder(72.100, 1.500, 1.500, true);
 								}
 							}
 						}
@@ -229,7 +229,7 @@ difference()
 					{
 						translate(v=[0.000, 0.000, -7.900])
 						{
-							cylinder(24.000, 6.000, 6.000, true);
+							cylinder(24.000, 3.000, 3.000, true);
 						}
 					}
 					color(c=[0.000, 0.000, 0.000])
@@ -240,14 +240,14 @@ difference()
 							{
 								translate(v=[0.000, 0.000, 5.000])
 								{
-									cylinder(10.100, 4.000, 4.000, true, $fn=6);
+									cylinder(10.100, 3.000, 3.000, true, $fn=6);
 								}
 							}
 						}
 					}
 				}
 			}
-			translate(v=[38.000, 43.000, 0.000])
+			translate(v=[41.000, 46.000, 0.000])
 			{
 				union()
 				{
@@ -259,7 +259,7 @@ difference()
 							{
 								translate(v=[0.000, 0.000, -36.000])
 								{
-									cylinder(72.100, 1.750, 1.750, true);
+									cylinder(72.100, 1.500, 1.500, true);
 								}
 							}
 						}
@@ -268,7 +268,7 @@ difference()
 					{
 						translate(v=[0.000, 0.000, -7.900])
 						{
-							cylinder(24.000, 6.000, 6.000, true);
+							cylinder(24.000, 3.000, 3.000, true);
 						}
 					}
 					color(c=[0.000, 0.000, 0.000])
@@ -279,14 +279,14 @@ difference()
 							{
 								translate(v=[0.000, 0.000, 5.000])
 								{
-									cylinder(10.100, 4.000, 4.000, true, $fn=6);
+									cylinder(10.100, 3.000, 3.000, true, $fn=6);
 								}
 							}
 						}
 					}
 				}
 			}
-			translate(v=[38.000, -43.000, 0.000])
+			translate(v=[41.000, -46.000, 0.000])
 			{
 				union()
 				{
@@ -298,7 +298,7 @@ difference()
 							{
 								translate(v=[0.000, 0.000, -36.000])
 								{
-									cylinder(72.100, 1.750, 1.750, true);
+									cylinder(72.100, 1.500, 1.500, true);
 								}
 							}
 						}
@@ -307,7 +307,7 @@ difference()
 					{
 						translate(v=[0.000, 0.000, -7.900])
 						{
-							cylinder(24.000, 6.000, 6.000, true);
+							cylinder(24.000, 3.000, 3.000, true);
 						}
 					}
 					color(c=[0.000, 0.000, 0.000])
@@ -318,7 +318,7 @@ difference()
 							{
 								translate(v=[0.000, 0.000, 5.000])
 								{
-									cylinder(10.100, 4.000, 4.000, true, $fn=6);
+									cylinder(10.100, 3.000, 3.000, true, $fn=6);
 								}
 							}
 						}
