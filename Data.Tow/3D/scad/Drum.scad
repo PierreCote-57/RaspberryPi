@@ -6,7 +6,7 @@ radius = 7.5;
 lip = 5;
 lip_thick = 2;
 
-lenShaftOut = 3;
+lenShaftOut = 2.5;
 radiusShaftOut = 4.75 / 2;
 // L Too long, gets 15, reduce to 10
 lenShaftIn = 10;
