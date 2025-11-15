@@ -60,17 +60,17 @@ class LocalHardware:
     pinMap[14] = "TXD0"
     pinMap[15] = "RXD0"
     pinMap[16] = "Free"
-    pinMap[17] = "Humiture"
+    pinMap[17] = "Free"
     pinMap[18] = "Free"
-    pinMap[19] = "Distance.trigger"
-    pinMap[20] = "Distance.echo"
-    pinMap[21] = "Tracker (Reserved)"
-    pinMap[22] = "Free"
-    pinMap[23] = "Free"
-    pinMap[24] = "Free"
+    pinMap[19] = "Free"
+    pinMap[20] = "Free"
+    pinMap[21] = "Humiture Signal"
+    pinMap[22] = "Tracker (Reserved)"
+    pinMap[23] = "Distance.trigger"
+    pinMap[24] = "Distance.echo"
     pinMap[25] = "Free"
     pinMap[26] = "Free"
-    pinMap[27] = "Free"
+    pinMap[27] = "Humiture Power"
 
     i2cMap = {}
     i2cMap[0x27] = "Display"
@@ -219,10 +219,11 @@ if __name__ == "__main__":
     if None != p_rfcomm:
         LocalSoftware.showProcess(p_rfcomm)
 
-    LCD1602.init(0x27, 1)	# init(slave address, background light)
-    LCD1602.write(0, 0, 'Hello pi!')
-    time.sleep(2.0)
-    LCD1602.write(0, 1, '1234567890123456')
+    if 1 == 2:
+        LCD1602.init(0x27, 1)	# init(slave address, background light)
+        LCD1602.write(0, 0, 'Hello pi!')
+        time.sleep(2.0)
+        LCD1602.write(0, 1, '1234567890123456')
 
 
     print("Done")

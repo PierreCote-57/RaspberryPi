@@ -71,22 +71,22 @@ class ClientServo2040(ClientBase):
             for item in prop.value.items():
                 print("\t", item[0], " = ", item[1])
 
-        for i in range(10):
+        for i in range(100):
             voltage = self.readVoltage()
             current = self.readCurrent()
             print(datetime.fromtimestamp(time.time()).strftime('%Y-%m-%d %H:%M:%S.%f'), end=" ")
             print(f"Voltage {voltage.value:.3f} volts Current {current.value:.3f} amps", end="")
             
-            for i in range(6):
+            for i in [0, 4, 5]:
                 sensor = self.readSensor(i)
-                print(f" Sensor-{i} = {sensor.value:.3f}", end = "")
+                print(f" Sensor-{i} = {sensor.value:.2f}", end = "")
             print("")
             time.sleep(1.0)
 
 
     def testServo(self):
         angleList =  [0, -45, -90, -45, 0, 45, 90, 45, 0]
-        angleList =  [0, 45, 0]
+        angleList =  [0, 15, 30, 35, 0, -15, -30, -35, 0]
         channelList = [0]
 
         for channel in channelList:
@@ -96,7 +96,7 @@ class ClientServo2040(ClientBase):
                 for item in prop.value.items():
                     print("\t", item[0], " = ", item[1])
 
-        delay180 = 0.25
+        delay180 = 1
         for angle in angleList:
             print("Moving to ", angle)
             for channel in channelList:
@@ -104,16 +104,22 @@ class ClientServo2040(ClientBase):
                 back = self.getServo(channel);
                 if (angle != back.value or angle != front.value):
                     print("Error")
-                time.sleep(0.25)
+                time.sleep(delay180)
 
-        delay360 = 1.0
-        for channel in [12, 17]:
-            self.setServo(channel, 10)
-            time.sleep(delay360)
-            self.setServo(channel, -10)
-            time.sleep(delay360)
-    #        servo.setServo(channel, 0)
-            self.closeServo(channel)
+    def testSteering(self):
+        for angle in [0, -15, -35, 0, 15, 35, 15, 0]:
+            self.setServo(0, angle)
+            time.sleep(1.0)
+    def testThrottle(self):
+        self.setServo(1, 5)
+        time.sleep(2.0)
+        self.setServo(1, 0)
+    def setupESC(self):
+        self.setServo(1, 0)
+        self.setServo(1, 90)
+        self.setServo(1, -90)
+        self.setServo(1, 0)
+
 
 def calibrateServo360(client):
     noList = [12, 17]
@@ -152,12 +158,15 @@ if __name__ == "__main__":
     timer.checkpoint("Writing ")
 
     client = ClientServo2040()
-    client.testRGB()
+#    client.testRGB()
 #    client.calibrateRGB(servo)
 
-    client.testSensor()
+#    client.testSensor()
 
-    client.testServo()
+#    client.testServo()
+    client.testSteering()
+    client.testThrottle()
+#    client.setupESC()
 #    calibrateServo360(client)
 #    testPerformance(client)
 
