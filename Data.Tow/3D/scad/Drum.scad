@@ -6,10 +6,12 @@ radius = 7.5;
 lip = 5;
 lip_thick = 2;
 
-lenShaftOut = 3;
+lenShaftOut = 2.5;
 radiusShaftOut = 4.75 / 2;
-lenShaftIn = 15;
-radiusShaftIn = 3.5 / 2;
+// L Too long, gets 15, reduce to 10
+lenShaftIn = 10;
+// R: 3.5 is a hair too big, slides too easily
+radiusShaftIn = 3.4 / 2;
 barOffset = 0.6;
 
 radiusCable = 1;

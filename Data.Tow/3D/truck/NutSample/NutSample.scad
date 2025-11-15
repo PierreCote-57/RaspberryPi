@@ -16,7 +16,7 @@ difference()
 		{
 			linear_extrude(height=0.500, center=false, scale=[1.000, 1.000])
 			{
-				text(text="M3_5", size=6.000, , font="LiberationSans:style=Regular", , halign="left", , valign="center");
+				text(text="M2_5", size=6.000, , font="LiberationSans:style=Regular", , halign="left", , valign="center");
 			}
 		}
 		translate(v=[25.000, 15.000, 2.000])
@@ -52,7 +52,7 @@ difference()
 			{
 				translate(v=[0.000, 0.000, -1.500])
 				{
-					cylinder(3.100, 1.750, 1.750, true);
+					cylinder(3.100, 1.500, 1.500, true);
 				}
 			}
 		}
@@ -72,7 +72,7 @@ difference()
 			{
 				translate(v=[0.000, 0.000, -1.500])
 				{
-					cylinder(3.100, 1.500, 1.500, true);
+					cylinder(3.100, 1.750, 1.750, true);
 				}
 			}
 		}
@@ -82,7 +82,7 @@ difference()
 			{
 				translate(v=[0.000, 0.000, 1.500])
 				{
-					cylinder(3.100, 5.000, 5.000, true, $fn=6);
+					cylinder(3.100, 4.800, 4.800, true, $fn=6);
 				}
 			}
 		}
