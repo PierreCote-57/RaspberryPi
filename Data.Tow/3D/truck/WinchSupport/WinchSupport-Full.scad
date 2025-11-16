@@ -32,29 +32,32 @@ union()
 					cube(size=[2000.000, 2000.000, 66.500], center=true);
 				}
 			}
-			union()
+			translate(v=[-5.000, 0.000, 0.000])
 			{
-				translate(v=[43.000, 0.000, 4.750])
+				union()
 				{
-					cube(size=[5.000, 11.800, 9.500], center=true);
-				}
-				translate(v=[0.000, 6.500, 0.000])
-				{
-					color(c=[0.000, 0.000, 1.000])
+					translate(v=[45.500, 0.000, 4.750])
 					{
-						translate(v=[43.000, 0.000, 9.250])
+						cube(size=[10.000, 11.800, 9.500], center=true);
+					}
+					translate(v=[0.000, 8.400, 0.000])
+					{
+						color(c=[0.000, 0.000, 1.000])
 						{
-							cube(size=[5.000, 1.200, 18.500], center=true);
+							translate(v=[45.500, 0.000, 9.250])
+							{
+								cube(size=[10.000, 5.000, 18.500], center=true);
+							}
 						}
 					}
-				}
-				translate(v=[0.000, -6.500, 0.000])
-				{
-					color(c=[0.000, 0.000, 1.000])
+					translate(v=[0.000, -8.400, 0.000])
 					{
-						translate(v=[43.000, 0.000, 9.250])
+						color(c=[0.000, 0.000, 1.000])
 						{
-							cube(size=[5.000, 1.200, 18.500], center=true);
+							translate(v=[45.500, 0.000, 9.250])
+							{
+								cube(size=[10.000, 5.000, 18.500], center=true);
+							}
 						}
 					}
 				}
@@ -71,17 +74,17 @@ union()
 // WinchHat
 	color(c=[1.000, 0.000, 0.000])
 	{
-		translate(v=[43.000, 0.000, 0.000])
+		translate(v=[30.500, 0.000, 0.000])
 		{
 			difference()
 			{
-				translate(v=[0.000, 0.000, 10.350])
+				translate(v=[0.000, 0.000, 12.250])
 				{
-					cube(size=[18.000, 16.600, 20.700], center=true);
+					cube(size=[20.000, 31.800, 24.500], center=true);
 				}
 				translate(v=[0.000, 0.000, 9.750])
 				{
-					cube(size=[36.000, 14.400, 19.600], center=true);
+					cube(size=[40.000, 21.800, 19.600], center=true);
 				}
 			}
 		}
