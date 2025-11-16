@@ -50,10 +50,12 @@ class ClientHumiture():
     def __init__(self):
 
         # Humiture variables
-        self.dht11_pin = LocalHardware.getGpioPin("Humiture")
-        self.humiturePeriodSec = 30.0
+        self.pinPower = LocalHardware.getGpioPin("Humiture Power")
+        self.pinSignal = LocalHardware.getGpioPin("Humiture Signal")
+        self.humiturePeriodSec = None
         self.fnHumitureCallback = None
         self.readingHumiture = None
+        GPIO.setup(self.pinPower, GPIO.OUT, initial=GPIO.LOW)
 
     # toString
     def __str__(self):
@@ -79,7 +81,10 @@ class ClientHumiture():
     def setHumitureCallback(self, fn, ):
         self.fnHumitureCallback = fn
     def readHumiture(self):
-        result = self.read_dht11_dat()
+        GPIO.output(self.pinPower, GPIO.HIGH)
+        time.sleep(2.0)
+        result = self.readData()
+        GPIO.output(self.pinPower, GPIO.LOW)
         if result:
             # Success reading the bit stream
             h = int(result[0]) + int(result[1]) / 10.0
@@ -90,30 +95,30 @@ class ClientHumiture():
             return self.readingHumiture
         return None
 
-    def read_dht11_dat(self):
+    def readData(self):
         # Begin start sequence
 
         # First HIGH
         # We "setup" the GPIO pin as output, and we specify the level at the same time.
         # This avoids a delay between setting up the pin and setting the level
-        GPIO.setup(self.dht11_pin, GPIO.OUT, initial=GPIO.HIGH)
+        GPIO.setup(self.pinSignal, GPIO.OUT, initial=GPIO.HIGH)
         time.sleep(0.05)
      
         # Then, LOW for at least 18ms (we use 0.02s which is 20ms)
-        GPIO.output(self.dht11_pin, GPIO.LOW)
+        GPIO.output(self.pinSignal, GPIO.LOW)
         time.sleep(0.02)
 
         # Wait for the response from DHT11.
         # (No pull-up needed, they are already installed on the sensor board)
         #GPIO.setup(self.dht11_pin, GPIO.IN)
         # The following line does the same but activates the pull-up some DHT11 board need (not ours!)
-        GPIO.setup(self.dht11_pin, GPIO.IN, pull_up_down=GPIO.PUD_UP)
+        GPIO.setup(self.pinSignal, GPIO.IN, pull_up_down=GPIO.PUD_UP)
 
         unchanged_count = 0
         last = -1
         data = []
         while True:
-            current = GPIO.input(self.dht11_pin)
+            current = GPIO.input(self.pinSignal)
             data.append(current)
             if last != current:
                 unchanged_count = 0
@@ -159,7 +164,7 @@ class ClientHumiture():
                 else:
                     continue
         if len(lengths) != 40:
-#            print ("Data not good, skip")
+            print (f"Not enough bits at {len(lengths)}")
             return False
 
         shortest_pull_up = min(lengths)
@@ -187,7 +192,7 @@ class ClientHumiture():
         #print (the_bytes)
         checksum = (the_bytes[0] + the_bytes[1] + the_bytes[2] + the_bytes[3]) & 0xFF
         if the_bytes[4] != checksum:
-#            print ("Data not good, skip")
+            print (f"Invalid checksum: Expected {the_bytes[4]}, but got {checksum}")
             return False
         return the_bytes
 #        return the_bytes[0], the_bytes[2], the_bytes[3]
@@ -201,6 +206,12 @@ class ClientHumiture():
                 print(result)
                 count = count + 1
             time.sleep(0.5)
+
+    def testHumitureThread(self):
+        self.setHumitureCallback(onHumiture)
+        self.startHumiture(5)
+        time.sleep(30)
+        self.stop()
 
 # Speed of sound: 334 m/s @ 20 deg C
 # Theoretical max range: 4 meters
@@ -277,7 +288,7 @@ class ClientDisplay():
         client.writeMiddle(1, str)
 
 class ClientTracker():
-    pin = LocalHardware.getGpioPin("Tracker") # 19
+    pin = LocalHardware.getGpioPin("Tracker")
 
     def __init__(self):
         GPIO.setmode(GPIO.BCM)
@@ -312,16 +323,20 @@ class ClientTracker():
             self.timeNext += 1
             if self.timeNext >= self.timeCount:
                 self.timeNext = 0
-        print(self.timeList)
+#        print(self.timeList)
 
     def read(self):
         return GPIO.input(self.pin)
         
     def test(self):
-        for i in range(10):
+        for i in range(100):
             value = self.read()
             print(f"Value  = {value}; Rising {self.counterRising:3d}; Falling {self.counterFalling:3d}")
             time.sleep(1.0)
+
+#        for i in range(len(self.timeList) - 2):
+#            delta = self.timeList[i + 1] - self.timeList[i]
+#            print(f"Delta = {delta:6.3f}")
 
 # The MPU-6050
 class ClientGyroscope():
@@ -337,23 +352,21 @@ def onHumiture(result):
 
 
 if __name__ == "__main__":
-    if 1 == 2:
+    if 1 == 1:
         client = ClientDisplay()
         client.test()
 
     if 1 == 2:
         client = ClientHumiture()
         client.testHumiture()
+#        client.testHumitureThread()
 
     if 1 == 2:
         client = ClientRange()
         client.testRange()
 
-    if 1 == 1:
+    if 1 == 2:
         client = ClientTracker()
         client.test()
 
-    for i in range(len(client.timeList) - 2):
-        delta = client.timeList[i + 1] - client.timeList[i]
-        print(f"Delta = {delta:6.3f}")
     print("Done")

@@ -79,7 +79,7 @@ while True:
     textA = f"gX = {aX:4.1f}; aY = {aY:4.1f}; aZ = {aZ:4.1f}; Xrot = {rX:4.1f}; Yrot = {rY:4.1f}"
     textR = f"rX = {rX:4.1f}; rY = {rY:4.1f}"
     print(textA, textR, textG)
-    LCD1602.write(0, 0, f"rX = {rX:4.1f}")
-    LCD1602.write(0, 1, f"rY = {rY:4.1f}")
+ #   LCD1602.write(0, 0, f"rX = {rX:4.1f}")
+ #   LCD1602.write(0, 1, f"rY = {rY:4.1f}")
 
     time.sleep(0.5)

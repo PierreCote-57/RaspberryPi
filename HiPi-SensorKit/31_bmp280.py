@@ -94,11 +94,14 @@ class BMP280:
 	BMP280_REGISTER_PRESSDATA_XLSB = 0xF9
 
 	_BUS_0_TYPES = ['Pi 1 Model B']
-	_BUS_1_TYPES = ['Pi 3 Model B',
-					'Pi 3 Model B',
-					'Pi 2 Model B',
-					'Pi2 Model B',
-					'Model B+']
+	_BUS_1_TYPES = [
+		'Pi 5 Model B',
+		'Pi 3 Model B',
+		'Pi 3 Model B',
+		'Pi 2 Model B',
+		'Pi2 Model B',
+		'Model B+'
+		]
 
 	_DEBUG = False
 	_DEBUG_INFO = 'DEBUG "BMP280.py":'
@@ -134,35 +137,35 @@ class BMP280:
 			raise ValueError('Reading Pi type error, Your Pi "{0}"" is not in the list.\n  Please post an Issus at our Github Page or contract us\n    Github page: https://github.com/sunfounder/Sunfounder_Smart_Video_Car_Kit_for_RaspberryPi/issues\n    Email: support@sunfounder.com\n    SunFounder'.format(pi_type))
 
 		if self._DEBUG:
-			print self._DEBUG_INFO, 'Get i2c bus number %d' % bus_number
+			print(self._DEBUG_INFO, 'Get i2c bus number %d' % bus_number)
 		return bus_number
 
 	def _write_byte_data(self, reg, value):
 		if self._DEBUG:
-			print self._DEBUG_INFO, 'Writing value %2X to %2X' % (value, reg)
+			print(self._DEBUG_INFO, 'Writing value %2X to %2X' % (value, reg))
 		self.bus.write_byte_data(self.address, reg, value)
 
 	def _read_byte_data(self, reg):
 		if self._DEBUG:
-			print self._DEBUG_INFO, 'Reading value from %2X' % reg
+			print(self._DEBUG_INFO, 'Reading value from %2X' % reg)
 		results = self.bus.read_byte_data(self.address, reg)
 		return results
 
 	def _read_i2c_block_data(self, reg, length):
 		if self._DEBUG:
-			print self._DEBUG_INFO, 'Reading value from %2X' % reg
+			print(self._DEBUG_INFO, 'Reading value from %2X' % reg)
 		results = self.bus.read_i2c_block_data(self.address, reg, length)
 		return results
 
 	def _read_word_data_unsigned(self, reg):
 		if self._DEBUG:
-			print self._DEBUG_INFO, 'Reading value from %2X' % reg
+			print(self._DEBUG_INFO, 'Reading value from %2X' % reg)
 		results = self.bus.read_word_data(self.address, reg)
 		return results
 
 	def _read_word_data_signed(self, reg):
 		if self._DEBUG:
-			print self._DEBUG_INFO, 'Reading value from %2X' % reg
+			print(self._DEBUG_INFO, 'Reading value from %2X' % reg)
 		results = self.bus.read_word_data(self.address, reg)
 		if results > 32767:
 			results -= 65536
@@ -232,13 +235,13 @@ def main():
 	bmp = BMP280()
 	chip_id, chip_version = bmp.read_id()
 
-	if chip_id == 88:
+	if chip_id == 85:
 		bmp.reg_check()
 
 		temperature, pressure = bmp.read()
 		print("Temperature : %2.2f `C" % temperature)
 		print("Pressure    : %5.4f mbar" % pressure)
-		print ""
+		print("")
 	else:
 		print("Error")
 		print("Chip ID     : %d" % chip_id)
