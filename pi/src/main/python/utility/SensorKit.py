@@ -288,7 +288,7 @@ class ClientDisplay():
         client.writeMiddle(1, str)
 
 class ClientTracker():
-    pin = LocalHardware.getGpioPin("Tracker") # 19
+    pin = LocalHardware.getGpioPin("Tracker")
 
     def __init__(self):
         GPIO.setmode(GPIO.BCM)
@@ -323,19 +323,20 @@ class ClientTracker():
             self.timeNext += 1
             if self.timeNext >= self.timeCount:
                 self.timeNext = 0
-        print(self.timeList)
+#        print(self.timeList)
 
     def read(self):
         return GPIO.input(self.pin)
         
     def test(self):
-        for i in range(10):
+        for i in range(100):
             value = self.read()
             print(f"Value  = {value}; Rising {self.counterRising:3d}; Falling {self.counterFalling:3d}")
             time.sleep(1.0)
-        for i in range(len(self.timeList) - 2):
-            delta = self.timeList[i + 1] - self.timeList[i]
-            print(f"Delta = {delta:6.3f}")
+
+#        for i in range(len(self.timeList) - 2):
+#            delta = self.timeList[i + 1] - self.timeList[i]
+#            print(f"Delta = {delta:6.3f}")
 
 # The MPU-6050
 class ClientGyroscope():
@@ -351,14 +352,14 @@ def onHumiture(result):
 
 
 if __name__ == "__main__":
-    if 1 == 2:
+    if 1 == 1:
         client = ClientDisplay()
         client.test()
 
-    if 1 == 1:
+    if 1 == 2:
         client = ClientHumiture()
-#        client.testHumiture()
-        client.testHumitureThread()
+        client.testHumiture()
+#        client.testHumitureThread()
 
     if 1 == 2:
         client = ClientRange()

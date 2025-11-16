@@ -158,7 +158,7 @@ if __name__ == "__main__":
     timer.checkpoint("Writing ")
 
     client = ClientServo2040()
-#    client.testRGB()
+    client.testRGB()
 #    client.calibrateRGB(servo)
 
 #    client.testSensor()
