@@ -12,11 +12,11 @@ color(c=[1.000, 0.000, 0.000])
 		{
 			translate(v=[0.000, 0.000, 12.250])
 			{
-				cube(size=[20.000, 31.800, 24.500], center=true);
+				cube(size=[20.000, 32.500, 24.500], center=true);
 			}
 			translate(v=[0.000, 0.000, 9.750])
 			{
-				cube(size=[40.000, 21.800, 19.600], center=true);
+				cube(size=[40.000, 22.000, 19.600], center=true);
 			}
 		}
 	}

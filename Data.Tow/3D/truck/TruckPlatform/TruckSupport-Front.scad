@@ -6,7 +6,7 @@ $fn=36.000;
 // TruckSupport-Front
 difference()
 {
-	cube(size=[9.000, 35.000, 10.000], center=true);
+	cube(size=[9.200, 35.000, 10.000], center=true);
 	union()
 	{
 		translate(v=[0.000, 12.500, 0.000])
@@ -17,14 +17,14 @@ difference()
 				{
 					translate(v=[0.000, 0.000, 7.500])
 					{
-						cylinder(15.100, 3.000, 3.000, true, $fn=6);
+						cylinder(15.100, 3.100, 3.100, true, $fn=6);
 					}
 				}
 				color(c=[1.000, 0.000, 0.000])
 				{
 					translate(v=[0.000, 0.000, -7.500])
 					{
-						cylinder(15.100, 1.500, 1.500, true);
+						cylinder(15.100, 1.600, 1.600, true);
 					}
 				}
 			}
@@ -37,14 +37,14 @@ difference()
 				{
 					translate(v=[0.000, 0.000, 7.500])
 					{
-						cylinder(15.100, 3.000, 3.000, true, $fn=6);
+						cylinder(15.100, 3.100, 3.100, true, $fn=6);
 					}
 				}
 				color(c=[1.000, 0.000, 0.000])
 				{
 					translate(v=[0.000, 0.000, -7.500])
 					{
-						cylinder(15.100, 1.500, 1.500, true);
+						cylinder(15.100, 1.600, 1.600, true);
 					}
 				}
 			}
@@ -57,14 +57,14 @@ difference()
 				{
 					translate(v=[0.000, 0.000, 7.500])
 					{
-						cylinder(15.100, 3.000, 3.000, true, $fn=6);
+						cylinder(15.100, 3.100, 3.100, true, $fn=6);
 					}
 				}
 				color(c=[1.000, 0.000, 0.000])
 				{
 					translate(v=[0.000, 0.000, -7.500])
 					{
-						cylinder(15.100, 1.500, 1.500, true);
+						cylinder(15.100, 1.600, 1.600, true);
 					}
 				}
 			}
