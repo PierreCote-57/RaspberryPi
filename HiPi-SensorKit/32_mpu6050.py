@@ -82,4 +82,4 @@ while True:
  #   LCD1602.write(0, 0, f"rX = {rX:4.1f}")
  #   LCD1602.write(0, 1, f"rY = {rY:4.1f}")
 
-    time.sleep(0.5)
+    time.sleep(1.0)

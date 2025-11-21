@@ -1,4 +1,5 @@
 import smbus
+from datetime import datetime
 import time
 import os
 
@@ -8,6 +9,7 @@ LOW_VOL = 3150 #mV
 low = 0
 bus = smbus.SMBus(1)
 while True:
+    print(datetime.now())
     data = bus.read_i2c_block_data(ADDR, 0x02, 0x01)
     if(data[0] & 0x40):
         print("Fast Charging state")
@@ -17,7 +19,7 @@ while True:
         print("Discharge state")
     else:
         print("Idle state")
-        
+
     data = bus.read_i2c_block_data(ADDR, 0x10, 0x06)
     print("VBUS Voltage %5dmV"%(data[0] | data[1] << 8))
     print("VBUS Current %5dmA"%(data[2] | data[3] << 8))
@@ -64,4 +66,4 @@ while True:
         low = 0
         
     print("")
-    time.sleep(2)
+    time.sleep(1)

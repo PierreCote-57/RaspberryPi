@@ -5,6 +5,7 @@ import threading
 from datetime import datetime
 
 import LCD1602
+import LCD2004
 from LocalWorld import LocalHardware
 
 GPIO.setmode(GPIO.BCM)
@@ -263,21 +264,24 @@ class ClientRange():
             time.sleep(1.0)
 
 # Display is LCD1602
+# Display is LCD2004
+DISPLAY = LCD2004
 class ClientDisplay():
+    cch = 20
     def __init__(self):
         channel = LocalHardware.getI2CChannel("Display")
-        LCD1602.init(channel, 1)	# init(slave address, background light)
+        DISPLAY.init(channel, 1)	# init(slave address, background light)
 
     def writeLeft(self, y, text):
         self.write(0, y, text)
 
     def writeRight(self, y, text):
-        self.write(16 - len(text), y, text)
+        self.write(self.cch - len(text), y, text)
     def writeMiddle(self, y, text):
-        self.write(8 - int(len(text) / 2), y, text)
+        self.write(int(self.cch / 2) - int(len(text) / 2), y, text)
 
     def write(self, x, y, text):
-        LCD1602.write(x, y, text)
+        DISPLAY.write(x, y, text)
 
     def test(self):
         client.writeLeft(0, "L234")
@@ -286,6 +290,8 @@ class ClientDisplay():
 #        str = datetime.fromtimestamp(time.time()).strftime('%Y-%m-%d %H:%M:%S.%f')
         str = datetime.fromtimestamp(time.time()).strftime('%H:%M:%S')
         client.writeMiddle(1, str)
+        client.write(0, 2, "12345678901234567890")
+        client.write(0, 3, "abcdefghijklmnopqrst")
 
 class ClientTracker():
     pin = LocalHardware.getGpioPin("Tracker")
