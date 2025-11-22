@@ -284,14 +284,23 @@ class ClientDisplay():
         DISPLAY.write(x, y, text)
 
     def test(self):
-        client.writeLeft(0, "L234")
-        client.writeMiddle(0, "M234")
-        client.writeRight(0, "R234")
 #        str = datetime.fromtimestamp(time.time()).strftime('%Y-%m-%d %H:%M:%S.%f')
-        str = datetime.fromtimestamp(time.time()).strftime('%H:%M:%S')
-        client.writeMiddle(1, str)
-        client.write(0, 2, "12345678901234567890")
-        client.write(0, 3, "abcdefghijklmnopqrst")
+#        str = datetime.fromtimestamp(time.time()).strftime('%H:%M:%S')
+        str = datetime.fromtimestamp(time.time()).strftime('%H%M%S')
+        client.writeMiddle(0, str)
+
+        charBegin1 = 0x60
+        charBegin2 = 0xF0
+        i = 2
+        client.writeLeft (0, f"1={hex(charBegin1)}");
+        client.writeRight(0, f"2={hex(charBegin2)}");
+        for charOffset in range(16):
+            client.write(i, 1, hex(i - 2)[2])
+            client.write(i, 2, chr(charBegin1 + charOffset))
+            client.write(i, 3, chr(charBegin2 + charOffset))
+            i += 1
+
+#        client.write(0, 3, "abcdefghijklmnopqrst")
 
 class ClientTracker():
     pin = LocalHardware.getGpioPin("Tracker")
