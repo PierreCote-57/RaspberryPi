@@ -8,7 +8,7 @@ color(c=[1.000, 0.000, 0.000])
 {
 	translate(v=[0.000, 0.000, 0.500])
 	{
-		cube(size=[7.500, 10.500, 1.100], center=true);
+		cube(size=[8.000, 11.000, 1.100], center=true);
 	}
 }
 

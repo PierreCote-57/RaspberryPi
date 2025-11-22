@@ -12,7 +12,7 @@ difference()
 		{
 			translate(v=[0.000, 0.000, 2.000])
 			{
-				cube(size=[90.000, 99.000, 4.000], center=true);
+				cube(size=[90.000, 130.000, 4.000], center=true);
 			}
 			translate(v=[-10.000, 0.000, 0.000])
 			{
@@ -24,7 +24,7 @@ difference()
 					}
 				}
 			}
-			translate(v=[35.700, 40.200, 0.000])
+			translate(v=[35.700, 45.000, 0.000])
 			{
 				color(c=[0.000, 1.000, 0.000])
 				{
@@ -34,7 +34,7 @@ difference()
 					}
 				}
 			}
-			translate(v=[35.700, -40.200, 0.000])
+			translate(v=[35.700, -45.000, 0.000])
 			{
 				color(c=[0.000, 1.000, 0.000])
 				{
@@ -53,7 +53,7 @@ difference()
 		{
 			union()
 			{
-				translate(v=[-42.500, 5.000, 0.000])
+				translate(v=[-42.500, 15.000, 0.000])
 				{
 // Servo_2040
 					union()
@@ -128,7 +128,7 @@ difference()
 						}
 					}
 				}
-				translate(v=[-37.500, -44.500, 0.000])
+				translate(v=[-37.500, -60.000, 0.000])
 				{
 // Motor_2040
 					union()
@@ -249,7 +249,7 @@ difference()
 					}
 				}
 			}
-			translate(v=[35.700, 40.200, 0.000])
+			translate(v=[35.700, 45.000, 0.000])
 			{
 				union()
 				{
@@ -288,7 +288,7 @@ difference()
 					}
 				}
 			}
-			translate(v=[35.700, -40.200, 0.000])
+			translate(v=[35.700, -45.000, 0.000])
 			{
 				union()
 				{

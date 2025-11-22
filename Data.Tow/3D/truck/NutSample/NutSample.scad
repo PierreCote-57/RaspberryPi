@@ -42,7 +42,7 @@ difference()
 			{
 				translate(v=[0.000, 0.000, 1.000])
 				{
-					cylinder(2.100, 3.000, 3.000, true, $fn=6);
+					cylinder(2.100, 3.100, 3.100, true, $fn=6);
 				}
 			}
 		}
@@ -52,7 +52,7 @@ difference()
 			{
 				translate(v=[0.000, 0.000, -1.500])
 				{
-					cylinder(3.100, 1.500, 1.500, true);
+					cylinder(3.100, 1.600, 1.600, true);
 				}
 			}
 		}

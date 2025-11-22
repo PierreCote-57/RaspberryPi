@@ -175,7 +175,7 @@ difference()
 								{
 									minkowski()
 									{
-										cube(size=[310.000, 110.000, 70.000], center=true);
+										cube(size=[310.000, 130.000, 70.000], center=true);
 										rotate(a=[0.000, 0.000, 90.000])
 										{
 											cylinder(0.010, 10.000, 10.000, false);
@@ -186,7 +186,7 @@ difference()
 								{
 									minkowski()
 									{
-										cube(size=[310.000, 130.000, 50.000], center=true);
+										cube(size=[310.000, 150.000, 50.000], center=true);
 										rotate(a=[90.000, 0.000, 0.000])
 										{
 											cylinder(0.010, 10.000, 10.000, false);
@@ -225,7 +225,7 @@ difference()
 							{
 								minkowski()
 								{
-									cube(size=[180.000, 90.000, 100.000], center=true);
+									cube(size=[180.000, 130.000, 100.000], center=true);
 									rotate(a=[0.000, 0.000, 90.000])
 									{
 										cylinder(0.010, 10.000, 10.000, false);
@@ -236,7 +236,7 @@ difference()
 							{
 								minkowski()
 								{
-									cube(size=[180.000, 110.000, 80.000], center=true);
+									cube(size=[180.000, 150.000, 80.000], center=true);
 									rotate(a=[90.000, 0.000, 0.000])
 									{
 										cylinder(0.010, 10.000, 10.000, false);

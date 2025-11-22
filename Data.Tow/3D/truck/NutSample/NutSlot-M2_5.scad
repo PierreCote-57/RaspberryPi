@@ -8,7 +8,7 @@ union()
 {
 	color(c=[0.000, 0.000, 1.000])
 	{
-		cube(size=[20.000, 3.000, 5.000], center=true);
+		cube(size=[20.000, 3.200, 5.000], center=true);
 	}
 	translate(v=[10.000, 0.000, 2.500])
 	{
@@ -18,7 +18,7 @@ union()
 			{
 				translate(v=[0.000, 0.000, -2.500])
 				{
-					cylinder(5.100, 1.500, 1.500, true);
+					cylinder(5.100, 1.600, 1.600, true);
 				}
 			}
 		}
@@ -31,7 +31,7 @@ union()
 			{
 				translate(v=[0.000, 0.000, -2.500])
 				{
-					cylinder(5.100, 1.500, 1.500, true);
+					cylinder(5.100, 1.600, 1.600, true);
 				}
 			}
 		}
