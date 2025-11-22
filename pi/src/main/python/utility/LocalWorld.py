@@ -77,6 +77,7 @@ class LocalHardware:
     i2cMap[0x2d] = "UPS"
     i2cMap[0x48] = "ADC"
     i2cMap[0x68] = "Gyro"
+    i2cMap[0x77] = "Barometer"
 
     @staticmethod
     def showPinMap():

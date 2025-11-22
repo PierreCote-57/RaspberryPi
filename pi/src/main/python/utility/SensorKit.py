@@ -1,5 +1,6 @@
 import math
 import RPi.GPIO as GPIO
+import smbus
 import time
 import threading
 from datetime import datetime
@@ -9,14 +10,6 @@ import LCD2004
 from LocalWorld import LocalHardware
 
 GPIO.setmode(GPIO.BCM)
-
-MAX_UNCHANGE_COUNT = 100
-
-STATE_INIT_PULL_DOWN = 1
-STATE_INIT_PULL_UP = 2
-STATE_DATA_FIRST_PULL_DOWN = 3
-STATE_DATA_PULL_UP = 4
-STATE_DATA_PULL_DOWN = 5
 
 class ReadingHumiture():
     def __init__(self, h, t):
@@ -46,10 +39,16 @@ class ReadingRange():
 # Upon trigger (Low -> High, ),
 # returns a series of 5 * 8 bits (inc. checksum)
 class ClientHumiture():
+    STATE_INIT_PULL_DOWN = 1
+    STATE_INIT_PULL_UP = 2
+    STATE_DATA_FIRST_PULL_DOWN = 3
+    STATE_DATA_PULL_UP = 4
+    STATE_DATA_PULL_DOWN = 5
+
+    MAX_UNCHANGE_COUNT = 100
 
     # Constructor
     def __init__(self):
-
         # Humiture variables
         self.pinPower = LocalHardware.getGpioPin("Humiture Power")
         self.pinSignal = LocalHardware.getGpioPin("Humiture Signal")
@@ -126,10 +125,10 @@ class ClientHumiture():
                 last = current
             else:
                 unchanged_count += 1
-                if unchanged_count > MAX_UNCHANGE_COUNT:
+                if unchanged_count > ClientHumiture.MAX_UNCHANGE_COUNT:
                     break
 
-        state = STATE_INIT_PULL_DOWN
+        state = ClientHumiture.STATE_INIT_PULL_DOWN
 
         lengths = []
         current_length = 0
@@ -137,31 +136,31 @@ class ClientHumiture():
         for current in data:
             current_length += 1
 
-            if state == STATE_INIT_PULL_DOWN:
+            if state == ClientHumiture.STATE_INIT_PULL_DOWN:
                 if current == GPIO.LOW:
-                    state = STATE_INIT_PULL_UP
+                    state = ClientHumiture.STATE_INIT_PULL_UP
                 else:
                     continue
-            if state == STATE_INIT_PULL_UP:
+            if state == ClientHumiture.STATE_INIT_PULL_UP:
                 if current == GPIO.HIGH:
-                    state = STATE_DATA_FIRST_PULL_DOWN
+                    state = ClientHumiture.STATE_DATA_FIRST_PULL_DOWN
                 else:
                     continue
-            if state == STATE_DATA_FIRST_PULL_DOWN:
+            if state == ClientHumiture.STATE_DATA_FIRST_PULL_DOWN:
                 if current == GPIO.LOW:
-                    state = STATE_DATA_PULL_UP
+                    state = ClientHumiture.STATE_DATA_PULL_UP
                 else:
                     continue
-            if state == STATE_DATA_PULL_UP:
+            if state == ClientHumiture.STATE_DATA_PULL_UP:
                 if current == GPIO.HIGH:
                     current_length = 0
-                    state = STATE_DATA_PULL_DOWN
+                    state = ClientHumiture.STATE_DATA_PULL_DOWN
                 else:
                     continue
-            if state == STATE_DATA_PULL_DOWN:
+            if state == ClientHumiture.STATE_DATA_PULL_DOWN:
                 if current == GPIO.LOW:
                     lengths.append(current_length)
-                    state = STATE_DATA_PULL_UP
+                    state = ClientHumiture.STATE_DATA_PULL_UP
                 else:
                     continue
         if len(lengths) != 40:
@@ -198,7 +197,7 @@ class ClientHumiture():
         return the_bytes
 #        return the_bytes[0], the_bytes[2], the_bytes[3]
 
-    def testHumiture(self):
+    def test(self):
         count = 0
         while count < 3:
             # Do this until one reading
@@ -257,7 +256,7 @@ class ClientRange():
         duration = time2 - time1
         return duration, i
 
-    def testRange(self):
+    def test(self):
         for i in range(4):
             reading = self.measure()
             print(reading)
@@ -307,7 +306,7 @@ class ClientTracker():
 
     def __init__(self):
         GPIO.setmode(GPIO.BCM)
-        GPIO.setup(ClientTracker.pin, GPIO.IN)
+        GPIO.setup(ClientTracker.pin, GPIO.IN, pull_up_down=GPIO.PUD_UP)
         self.counterRising = 0;
         self.counterFalling = 0;
 
@@ -316,7 +315,7 @@ class ClientTracker():
         self.timeList = []
 
 #        GPIO.add_event_detect(ClientTracker.pin, GPIO.RISING, callback=self.callbackRising)
-        GPIO.add_event_detect(ClientTracker.pin, GPIO.FALLING, callback=self.callbackFalling)
+        GPIO.add_event_detect(ClientTracker.pin, GPIO.FALLING, callback=self.callbackFalling, bouncetime=50)
 
     # 0 == black; 1 = white
     # rising = to Black
@@ -355,9 +354,78 @@ class ClientTracker():
 
 # The MPU-6050
 class ClientGyroscope():
+    # Power management registers
+    power_mgmt_1 = 0x6b
+    power_mgmt_2 = 0x6c
+
     def __init__(self):
+        self.bus = smbus.SMBus(1) # or bus = smbus.SMBus(1) for Revision 2 boards
+        self.address = LocalHardware.getI2CChannel("Gyro")
+
+        # Now wake the 6050 up as it starts in sleep mode
+        self.bus.write_byte_data(self.address, ClientGyroscope.power_mgmt_1, 0)
         pass
 
+    def read_byte(self, adr):
+        return self.bus.read_byte_data(self.address, adr)
+
+    def read_word(self, adr):
+        high = self.bus.read_byte_data(self.address, adr)
+        low = self.bus.read_byte_data(self.address, adr+1)
+        val = (high << 8) + low
+        return val
+
+    def read_word_2c(self, adr):
+        val = self.read_word(adr)
+        if (val >= 0x8000):
+            return -((65535 - val) + 1)
+        else:
+            return val
+        
+    def readGyro(self):
+        gyro_xout = self.read_word_2c(0x43)
+        gyro_yout = self.read_word_2c(0x45)
+        gyro_zout = self.read_word_2c(0x47)
+        self.gX = gyro_xout / 131
+        self.gY = gyro_yout / 131
+        self.gZ = gyro_zout / 131
+
+    def readAccel(self):
+        accel_xout = self.read_word_2c(0x3b)
+        accel_yout = self.read_word_2c(0x3d)
+        accel_zout = self.read_word_2c(0x3f)
+
+        self.aX = accel_xout / 16384.0
+        self.aY = accel_yout / 16384.0
+        self.aZ = accel_zout / 16384.0
+
+        self.rX =  self.get_x_rotation(self.aX, self.aY, self.aZ)
+        self.rY =  self.get_y_rotation(self.aX, self.aY, self.aZ)
+
+
+    @staticmethod
+    def dist(a,b):
+        return math.sqrt((a*a)+(b*b))
+
+    @staticmethod
+    def get_y_rotation(x,y,z):
+        radians = math.atan2(x, ClientGyroscope.dist(y,z))
+        return -math.degrees(radians)
+
+    @staticmethod
+    def get_x_rotation(x,y,z):
+        radians = math.atan2(y, ClientGyroscope.dist(x,z))
+        return math.degrees(radians)
+    
+    def test(self):
+        for i in range(3):
+            self.readGyro()
+            self.readAccel()
+            textG = f"gX = {self.gX:4.0f}; gY = {self.gY:4.0f}; gZ = {self.gZ:4.0f};"
+            textA = f"aX = {self.aX:4.1f}; aY = {self.aY:4.1f}; aZ = {self.aZ:4.1f};"
+            textR = f"rX = {self.rX:4.1f}; rY = {self.rY:4.1f}"
+            print(textG, textA, textR)
+            time.sleep(1)
 
 
 def onHumiture(result):
@@ -367,21 +435,25 @@ def onHumiture(result):
 
 
 if __name__ == "__main__":
-    if 1 == 1:
+    if 1 == 2:
         client = ClientDisplay()
         client.test()
 
     if 1 == 2:
         client = ClientHumiture()
-        client.testHumiture()
+        client.test()
 #        client.testHumitureThread()
 
     if 1 == 2:
         client = ClientRange()
-        client.testRange()
+        client.test()
 
     if 1 == 2:
         client = ClientTracker()
+        client.test()
+
+    if 1 == 1:
+        client = ClientGyroscope()
         client.test()
 
     print("Done")
