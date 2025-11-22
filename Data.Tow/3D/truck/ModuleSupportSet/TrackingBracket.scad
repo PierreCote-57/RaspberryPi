@@ -24,14 +24,14 @@ union()
 						{
 							translate(v=[0.000, 0.000, 2.000])
 							{
-								cylinder(4.100, 3.000, 3.000, true, $fn=6);
+								cylinder(4.100, 3.100, 3.100, true, $fn=6);
 							}
 						}
 						color(c=[1.000, 0.000, 0.000])
 						{
 							translate(v=[0.000, 0.000, -2.000])
 							{
-								cylinder(4.100, 1.500, 1.500, true);
+								cylinder(4.100, 1.600, 1.600, true);
 							}
 						}
 					}
@@ -47,14 +47,14 @@ union()
 						{
 							translate(v=[0.000, 0.000, 2.000])
 							{
-								cylinder(4.100, 3.000, 3.000, true, $fn=6);
+								cylinder(4.100, 3.100, 3.100, true, $fn=6);
 							}
 						}
 						color(c=[1.000, 0.000, 0.000])
 						{
 							translate(v=[0.000, 0.000, -2.000])
 							{
-								cylinder(4.100, 1.500, 1.500, true);
+								cylinder(4.100, 1.600, 1.600, true);
 							}
 						}
 					}
@@ -62,9 +62,9 @@ union()
 			}
 		}
 	}
-	translate(v=[45.000, 2.000, 0.000])
+	translate(v=[45.000, 2.000, 1.000])
 	{
-		cube(size=[90.000, 4.000, 4.000], center=true);
+		cube(size=[90.000, 4.000, 2.000], center=true);
 	}
 }
 

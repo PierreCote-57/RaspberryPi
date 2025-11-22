@@ -3,10 +3,10 @@ $fa=1.000;
 $fn=36.000;
 
 
-// Servo_2040
+// Pressure
 union()
 {
-	translate(v=[2.700, 2.700, 0.000])
+	translate(v=[2.500, 2.500, 0.000])
 	{
 		union()
 		{
@@ -23,7 +23,7 @@ union()
 			}
 		}
 	}
-	translate(v=[2.700, 39.300, 0.000])
+	translate(v=[2.500, 19.500, 0.000])
 	{
 		union()
 		{
@@ -40,7 +40,7 @@ union()
 			}
 		}
 	}
-	translate(v=[59.300, 2.700, 0.000])
+	translate(v=[19.500, 2.500, 0.000])
 	{
 		union()
 		{
@@ -57,7 +57,7 @@ union()
 			}
 		}
 	}
-	translate(v=[59.300, 39.300, 0.000])
+	translate(v=[19.500, 19.500, 0.000])
 	{
 		union()
 		{
