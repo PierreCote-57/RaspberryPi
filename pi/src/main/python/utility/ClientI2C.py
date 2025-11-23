@@ -265,6 +265,7 @@ class ClientBarometer(AbstractClientI2C):
         return m
 
     def test(self):
+        print(f"Mode = {client.precisionMode}")
         print(f"Raw temp    = {self.readTempRaw()}")
         print(f"Temperature = {self.readTempC()} C")
         print(f"Raw pressure = {self.readPressureRaw()}")
@@ -274,18 +275,13 @@ class ClientBarometer(AbstractClientI2C):
 
 
 if __name__ == "__main__":
-    if 1 == 2:
+    if 1 == 1:
         client = ClientDisplay()
         client.test()
 
     if 1 == 1:
         client = ClientBarometer()
-        print(f"Mode(Default) = {client.precisionMode}")
         client.test()
-        for mode in range(4):
-            client.precisionMode = mode
-            print(f"Mode = {client.precisionMode}")
-            client.test()
 
     if 1 == 2:
         client = ClientGyroscope()
