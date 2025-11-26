@@ -29,9 +29,9 @@ def setup():
 	p_G = GPIO.PWM(Gpin, 2000)
 	p_B = GPIO.PWM(Bpin, 2000)
 
-	p_R.start(100)
-	p_G.start(100)
-	p_B.start(100)
+	p_R.start(10)
+	p_G.start(10)
+	p_B.start(10)
 	err = pylirc.init("ircontrol", "./lircrc", blocking)
 	print(err)
 	if (err == 0):

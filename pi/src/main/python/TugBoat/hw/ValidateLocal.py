@@ -35,6 +35,6 @@ yukon.testBoard()
 yukon.testServo()
 
 sensor = ClientHumiture()
-sensor.testHumiture()
+sensor.test()
 range = ClientRange()
-range.testRange()
+range.test()

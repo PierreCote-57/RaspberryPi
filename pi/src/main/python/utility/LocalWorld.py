@@ -59,24 +59,25 @@ class LocalHardware:
     pinMap[13] = "Free"
     pinMap[14] = "TXD0"
     pinMap[15] = "RXD0"
-    pinMap[16] = "Free"
-    pinMap[17] = "Free"
-    pinMap[18] = "Free"
+    pinMap[16] = "RGB_Power"
+    pinMap[17] = "RGB_R"
+    pinMap[18] = "RGB_G"
     pinMap[19] = "Free"
-    pinMap[20] = "Free"
+    pinMap[20] = "Humiture Power"
     pinMap[21] = "Humiture Signal"
     pinMap[22] = "Tracker"
     pinMap[23] = "Distance.trigger"
     pinMap[24] = "Distance.echo"
     pinMap[25] = "Free"
     pinMap[26] = "Free"
-    pinMap[27] = "Humiture Power"
+    pinMap[27] = "RGB_B"
 
     i2cMap = {}
     i2cMap[0x27] = "Display"
     i2cMap[0x2d] = "UPS"
     i2cMap[0x48] = "ADC"
     i2cMap[0x68] = "Gyro"
+    i2cMap[0x77] = "Barometer"
 
     @staticmethod
     def showPinMap():

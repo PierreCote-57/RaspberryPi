@@ -1,15 +1,12 @@
-import math
 import RPi.GPIO as GPIO
-import smbus
 import time
-import threading
 from datetime import datetime
+import threading
 
-import LCD1602
-import LCD2004
 from LocalWorld import LocalHardware
 
 GPIO.setmode(GPIO.BCM)
+
 
 class ReadingHumiture():
     def __init__(self, h, t):
@@ -34,6 +31,8 @@ class ReadingRange():
         str = datetime.fromtimestamp(time.time()).strftime('%Y-%m-%d %H:%M:%S.%f')
         str += f" t = {self.duration * 1000:6,.3f} ms; v = {self.speed:4.1f} m/s; d = {self.distance:5.3f} m"
         return str
+
+
 
 # Humiture uses the DHT-11 sensor
 # Upon trigger (Low -> High, ),
@@ -213,6 +212,7 @@ class ClientHumiture():
         time.sleep(30)
         self.stop()
 
+
 # Speed of sound: 334 m/s @ 20 deg C
 # Theoretical max range: 4 meters
 # 10 meters = 0.03 sec = 30 ms
@@ -262,45 +262,6 @@ class ClientRange():
             print(reading)
             time.sleep(1.0)
 
-# Display is LCD1602
-# Display is LCD2004
-DISPLAY = LCD2004
-class ClientDisplay():
-    cch = 20
-    def __init__(self):
-        channel = LocalHardware.getI2CChannel("Display")
-        DISPLAY.init(channel, 1)	# init(slave address, background light)
-
-    def writeLeft(self, y, text):
-        self.write(0, y, text)
-
-    def writeRight(self, y, text):
-        self.write(self.cch - len(text), y, text)
-    def writeMiddle(self, y, text):
-        self.write(int(self.cch / 2) - int(len(text) / 2), y, text)
-
-    def write(self, x, y, text):
-        DISPLAY.write(x, y, text)
-
-    def test(self):
-#        str = datetime.fromtimestamp(time.time()).strftime('%Y-%m-%d %H:%M:%S.%f')
-#        str = datetime.fromtimestamp(time.time()).strftime('%H:%M:%S')
-        str = datetime.fromtimestamp(time.time()).strftime('%H%M%S')
-        client.writeMiddle(0, str)
-
-        charBegin1 = 0x60
-        charBegin2 = 0xF0
-        i = 2
-        client.writeLeft (0, f"1={hex(charBegin1)}");
-        client.writeRight(0, f"2={hex(charBegin2)}");
-        for charOffset in range(16):
-            client.write(i, 1, hex(i - 2)[2])
-            client.write(i, 2, chr(charBegin1 + charOffset))
-            client.write(i, 3, chr(charBegin2 + charOffset))
-            i += 1
-
-#        client.write(0, 3, "abcdefghijklmnopqrst")
-
 class ClientTracker():
     pin = LocalHardware.getGpioPin("Tracker")
 
@@ -348,96 +309,47 @@ class ClientTracker():
             print(f"Value  = {value}; Rising {self.counterRising:3d}; Falling {self.counterFalling:3d}")
             time.sleep(1.0)
 
-#        for i in range(len(self.timeList) - 2):
-#            delta = self.timeList[i + 1] - self.timeList[i]
-#            print(f"Delta = {delta:6.3f}")
-
-# The MPU-6050
-class ClientGyroscope():
-    # Power management registers
-    power_mgmt_1 = 0x6b
-    power_mgmt_2 = 0x6c
-
+class ClientRGB():
     def __init__(self):
-        self.bus = smbus.SMBus(1) # or bus = smbus.SMBus(1) for Revision 2 boards
-        self.address = LocalHardware.getI2CChannel("Gyro")
+        GPIO.setmode(GPIO.BCM)
+        self.pinP = LocalHardware.getGpioPin("RGB_Power")
+        self.pinR = LocalHardware.getGpioPin("RGB_R")
+        self.pinG = LocalHardware.getGpioPin("RGB_G")
+        self.pinB = LocalHardware.getGpioPin("RGB_B")
+        GPIO.setup(self.pinP, GPIO.OUT)
+        GPIO.setup(self.pinR, GPIO.OUT)
+        GPIO.setup(self.pinG, GPIO.OUT)
+        GPIO.setup(self.pinB, GPIO.OUT)
 
-        # Now wake the 6050 up as it starts in sleep mode
-        self.bus.write_byte_data(self.address, ClientGyroscope.power_mgmt_1, 0)
-        pass
+        GPIO.output(self.pinP, 0)
 
-    def read_byte(self, adr):
-        return self.bus.read_byte_data(self.address, adr)
+        self.pulseR = GPIO.PWM(self.pinR, 2000) # Set Frequece to 2KHz
+        self.pulseG = GPIO.PWM(self.pinG, 2000)
+        self.pulseB = GPIO.PWM(self.pinB, 2000)
+        self.pulseR.start(100)
+        self.pulseG.start(100)
+        self.pulseB.start(100)
 
-    def read_word(self, adr):
-        high = self.bus.read_byte_data(self.address, adr)
-        low = self.bus.read_byte_data(self.address, adr+1)
-        val = (high << 8) + low
-        return val
+    def setColor(self, r, g, b):
+        level = 1 if r + g + b > 0 else 0
+        GPIO.output(self.pinP, level)
 
-    def read_word_2c(self, adr):
-        val = self.read_word(adr)
-        if (val >= 0x8000):
-            return -((65535 - val) + 1)
-        else:
-            return val
-        
-    def readGyro(self):
-        gyro_xout = self.read_word_2c(0x43)
-        gyro_yout = self.read_word_2c(0x45)
-        gyro_zout = self.read_word_2c(0x47)
-        self.gX = gyro_xout / 131
-        self.gY = gyro_yout / 131
-        self.gZ = gyro_zout / 131
+        self.pulseR.ChangeDutyCycle(100 - r)
+        self.pulseG.ChangeDutyCycle(100 - g)
+        self.pulseB.ChangeDutyCycle(100 - b)
 
-    def readAccel(self):
-        accel_xout = self.read_word_2c(0x3b)
-        accel_yout = self.read_word_2c(0x3d)
-        accel_zout = self.read_word_2c(0x3f)
-
-        self.aX = accel_xout / 16384.0
-        self.aY = accel_yout / 16384.0
-        self.aZ = accel_zout / 16384.0
-
-        self.rX =  self.get_x_rotation(self.aX, self.aY, self.aZ)
-        self.rY =  self.get_y_rotation(self.aX, self.aY, self.aZ)
-
-
-    @staticmethod
-    def dist(a,b):
-        return math.sqrt((a*a)+(b*b))
-
-    @staticmethod
-    def get_y_rotation(x,y,z):
-        radians = math.atan2(x, ClientGyroscope.dist(y,z))
-        return -math.degrees(radians)
-
-    @staticmethod
-    def get_x_rotation(x,y,z):
-        radians = math.atan2(y, ClientGyroscope.dist(x,z))
-        return math.degrees(radians)
-    
     def test(self):
-        for i in range(3):
-            self.readGyro()
-            self.readAccel()
-            textG = f"gX = {self.gX:4.0f}; gY = {self.gY:4.0f}; gZ = {self.gZ:4.0f};"
-            textA = f"aX = {self.aX:4.1f}; aY = {self.aY:4.1f}; aZ = {self.aZ:4.1f};"
-            textR = f"rX = {self.rX:4.1f}; rY = {self.rY:4.1f}"
-            print(textG, textA, textR)
-            time.sleep(1)
-
-
-def onHumiture(result):
-    h = result.humidity
-    t = result.temperature
-    print(result)
+        delay = 2.0
+        self.setColor(50, 0, 0)
+        time.sleep(delay)
+        self.setColor(0, 50, 0)
+        time.sleep(delay)
+        self.setColor(0, 0, 50)
+        time.sleep(delay)
+        self.setColor(0, 0, 0)
 
 
 if __name__ == "__main__":
-    if 1 == 2:
-        client = ClientDisplay()
-        client.test()
 
     if 1 == 2:
         client = ClientHumiture()
@@ -453,7 +365,5 @@ if __name__ == "__main__":
         client.test()
 
     if 1 == 1:
-        client = ClientGyroscope()
+        client = ClientRGB()
         client.test()
-
-    print("Done")
