@@ -62,9 +62,9 @@ union()
 			}
 		}
 	}
-	translate(v=[45.000, 2.000, 1.000])
+	translate(v=[50.000, 2.000, 1.000])
 	{
-		cube(size=[90.000, 4.000, 2.000], center=true);
+		cube(size=[100.000, 4.000, 2.000], center=true);
 	}
 }
 
