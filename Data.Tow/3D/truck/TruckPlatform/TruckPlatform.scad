@@ -381,6 +381,74 @@ difference()
 				}
 			}
 		}
+		union()
+		{
+			translate(v=[350.000, 15.000, 0.000])
+			{
+				color(c=[0.000, 0.000, 0.000])
+				{
+					translate(v=[0.000, 0.000, 4.000])
+					{
+						linear_extrude(height=0.400, center=false, scale=[1.000, 1.000])
+						{
+							text(text="Sound", size=6.000, , font="LiberationSans:style=Regular", , halign="center", , valign="center");
+						}
+					}
+				}
+			}
+			translate(v=[350.000, -15.000, 0.000])
+			{
+				color(c=[0.000, 0.000, 0.000])
+				{
+					translate(v=[0.000, 0.000, 4.000])
+					{
+						linear_extrude(height=0.400, center=false, scale=[1.000, 1.000])
+						{
+							text(text="Gyro", size=6.000, , font="LiberationSans:style=Regular", , halign="center", , valign="center");
+						}
+					}
+				}
+			}
+			translate(v=[20.000, 35.000, 0.000])
+			{
+				color(c=[0.000, 0.000, 0.000])
+				{
+					translate(v=[0.000, 0.000, 4.000])
+					{
+						linear_extrude(height=0.400, center=false, scale=[1.000, 1.000])
+						{
+							text(text="Humi", size=6.000, , font="LiberationSans:style=Regular", , halign="center", , valign="center");
+						}
+					}
+				}
+			}
+			translate(v=[20.000, 0.000, 0.000])
+			{
+				color(c=[0.000, 0.000, 0.000])
+				{
+					translate(v=[0.000, 0.000, 4.000])
+					{
+						linear_extrude(height=0.400, center=false, scale=[1.000, 1.000])
+						{
+							text(text="IR", size=6.000, , font="LiberationSans:style=Regular", , halign="center", , valign="center");
+						}
+					}
+				}
+			}
+			translate(v=[20.000, -35.000, 0.000])
+			{
+				color(c=[0.000, 0.000, 0.000])
+				{
+					translate(v=[0.000, 0.000, 4.000])
+					{
+						linear_extrude(height=0.400, center=false, scale=[1.000, 1.000])
+						{
+							text(text="Baro", size=6.000, , font="LiberationSans:style=Regular", , halign="center", , valign="center");
+						}
+					}
+				}
+			}
+		}
 	}
 	translate(v=[25.000, -60.000, 2.000])
 	{
@@ -657,7 +725,7 @@ difference()
 					}
 				}
 			}
-			translate(v=[35.700, 40.000, 0.000])
+			translate(v=[35.700, 41.000, 0.000])
 			{
 				union()
 				{
@@ -696,7 +764,7 @@ difference()
 					}
 				}
 			}
-			translate(v=[35.700, -40.000, 0.000])
+			translate(v=[35.700, -41.000, 0.000])
 			{
 				union()
 				{
@@ -1058,7 +1126,7 @@ difference()
 				}
 			}
 		}
-		translate(v=[20.000, -35.000, 0.000])
+		translate(v=[20.000, 35.000, 0.000])
 		{
 			translate(v=[-10.000, -10.000, 0.000])
 			{
@@ -1286,7 +1354,7 @@ difference()
 				}
 			}
 		}
-		translate(v=[20.000, 35.000, 0.000])
+		translate(v=[20.000, -35.000, 0.000])
 		{
 			translate(v=[-11.000, -11.000, 0.000])
 			{
