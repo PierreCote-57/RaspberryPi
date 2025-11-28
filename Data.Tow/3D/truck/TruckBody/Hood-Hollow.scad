@@ -4,107 +4,304 @@ $fn=36.000;
 
 
 // Hood-Hollow
-difference()
+union()
 {
 	difference()
 	{
-		color(c=[1.000, 0.784, 0.000])
+		difference()
 		{
-			scale(v=[1.000, 1.000, 2.000])
+			color(c=[1.000, 0.784, 0.000])
 			{
-				translate(v=[-50.000, 0.000, 0.000])
+				scale(v=[1.000, 1.000, 2.000])
 				{
-					intersection()
+					translate(v=[-50.000, 0.000, 0.000])
 					{
 						intersection()
 						{
 							intersection()
 							{
-								translate(v=[0.000, 0.000, 0.000])
+								intersection()
 								{
-									minkowski()
+									translate(v=[0.000, 0.000, 0.000])
 									{
-										cube(size=[180.000, 132.000, 55.000], center=true);
-										rotate(a=[0.000, 0.000, 90.000])
+										minkowski()
 										{
-											cylinder(0.010, 10.000, 10.000, false);
+											cube(size=[180.000, 132.000, 75.000], center=true);
+											rotate(a=[0.000, 0.000, 90.000])
+											{
+												cylinder(0.010, 10.000, 10.000, false);
+											}
+										}
+									}
+									translate(v=[0.000, 0.000, 0.000])
+									{
+										minkowski()
+										{
+											cube(size=[180.000, 152.000, 55.000], center=true);
+											rotate(a=[90.000, 0.000, 0.000])
+											{
+												cylinder(0.010, 10.000, 10.000, false);
+											}
 										}
 									}
 								}
-								translate(v=[0.000, 0.000, 0.000])
+								translate(v=[55.000, 0.000, 0.000])
 								{
-									minkowski()
-									{
-										cube(size=[180.000, 152.000, 35.000], center=true);
-										rotate(a=[90.000, 0.000, 0.000])
-										{
-											cylinder(0.010, 10.000, 10.000, false);
-										}
-									}
+									cube(size=[110.000, 2000.000, 2000.000], center=true);
 								}
 							}
-							translate(v=[55.000, 0.000, 0.000])
+							translate(v=[0.000, 0.000, 41.250])
 							{
-								cube(size=[110.000, 2000.000, 2000.000], center=true);
+								cube(size=[2000.000, 2000.000, 82.500], center=true);
 							}
-						}
-						translate(v=[0.000, 0.000, 30.250])
-						{
-							cube(size=[2000.000, 2000.000, 60.500], center=true);
 						}
 					}
 				}
 			}
-		}
-		color(c=[1.000, 0.000, 0.000])
-		{
-			translate(v=[-2.000, 0.000, -2.000])
+			color(c=[1.000, 0.000, 0.000])
 			{
-				scale(v=[1.000, 0.974, 1.000])
+				translate(v=[-2.000, 0.000, -2.000])
 				{
-					color(c=[1.000, 0.784, 0.000])
+					scale(v=[1.000, 0.974, 1.000])
 					{
-						scale(v=[1.000, 1.000, 2.000])
+						color(c=[1.000, 0.784, 0.000])
 						{
-							translate(v=[-50.000, 0.000, 0.000])
+							scale(v=[1.000, 1.000, 2.000])
 							{
-								intersection()
+								translate(v=[-50.000, 0.000, 0.000])
 								{
 									intersection()
 									{
 										intersection()
 										{
-											translate(v=[0.000, 0.000, 0.000])
+											intersection()
 											{
-												minkowski()
+												translate(v=[0.000, 0.000, 0.000])
 												{
-													cube(size=[180.000, 132.000, 55.000], center=true);
-													rotate(a=[0.000, 0.000, 90.000])
+													minkowski()
 													{
-														cylinder(0.010, 10.000, 10.000, false);
+														cube(size=[180.000, 132.000, 75.000], center=true);
+														rotate(a=[0.000, 0.000, 90.000])
+														{
+															cylinder(0.010, 10.000, 10.000, false);
+														}
+													}
+												}
+												translate(v=[0.000, 0.000, 0.000])
+												{
+													minkowski()
+													{
+														cube(size=[180.000, 152.000, 55.000], center=true);
+														rotate(a=[90.000, 0.000, 0.000])
+														{
+															cylinder(0.010, 10.000, 10.000, false);
+														}
 													}
 												}
 											}
-											translate(v=[0.000, 0.000, 0.000])
+											translate(v=[55.000, 0.000, 0.000])
 											{
-												minkowski()
-												{
-													cube(size=[180.000, 152.000, 35.000], center=true);
-													rotate(a=[90.000, 0.000, 0.000])
-													{
-														cylinder(0.010, 10.000, 10.000, false);
-													}
-												}
+												cube(size=[110.000, 2000.000, 2000.000], center=true);
 											}
 										}
-										translate(v=[55.000, 0.000, 0.000])
+										translate(v=[0.000, 0.000, 41.250])
 										{
-											cube(size=[110.000, 2000.000, 2000.000], center=true);
+											cube(size=[2000.000, 2000.000, 82.500], center=true);
 										}
 									}
-									translate(v=[0.000, 0.000, 30.250])
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+		translate(v=[-10.000, 0.000, 0.000])
+		{
+			translate(v=[0.000, 0.000, -37.500])
+			{
+				rotate(a=[90.000, 0.000, 0.000])
+				{
+					cylinder(162.000, 50.000, 50.000, true);
+				}
+			}
+		}
+	}
+	translate(v=[0.000, 0.000, 24.000])
+	{
+		color(c=[0.000, 0.000, 0.000])
+		{
+			translate(v=[38.000, 0.000, 6.000])
+			{
+				union()
+				{
+					translate(v=[0.000, 75.000, 0.000])
+					{
+						rotate(a=[0.000, 0.000, -90.000])
+						{
+// ClickTabFull
+							union()
+							{
+								translate(v=[6.750, 0.000, 10.000])
+								{
+									rotate(a=[180.000, 0.000, 0.000])
 									{
-										cube(size=[2000.000, 2000.000, 60.500], center=true);
+// Wedge
+										scale(v=[13.500, 10.000, 20.000])
+										{
+											rotate(a=[0.000, -45.000, 0.000])
+											{
+												intersection()
+												{
+													rotate(a=[0.000, 45.000, 0.000])
+													{
+														cube(size=[1.000, 1.000, 1.000], center=true);
+													}
+													translate(v=[0.000, 0.000, 5.000])
+													{
+														cube(size=[2000.000, 2000.000, 10.000], center=true);
+													}
+												}
+											}
+										}
+									}
+								}
+								translate(v=[10.000, 0.000, 0.000])
+								{
+// ClickTab
+									translate(v=[1.500, 0.000, 0.000])
+									{
+										union()
+										{
+											color(c=[0.000, 0.000, 1.000])
+											{
+												translate(v=[2.000, 0.000, -15.000])
+												{
+// Wedge
+													scale(v=[4.000, 10.000, 10.000])
+													{
+														rotate(a=[0.000, -45.000, 0.000])
+														{
+															intersection()
+															{
+																rotate(a=[0.000, 45.000, 0.000])
+																{
+																	cube(size=[1.000, 1.000, 1.000], center=true);
+																}
+																translate(v=[0.000, 0.000, 5.000])
+																{
+																	cube(size=[2000.000, 2000.000, 10.000], center=true);
+																}
+															}
+														}
+													}
+												}
+											}
+											color(c=[0.000, 1.000, 0.000])
+											{
+												translate(v=[1.000, 0.000, -5.000])
+												{
+													cube(size=[2.000, 10.000, 10.000], center=true);
+												}
+											}
+											color(c=[0.000, 1.000, 0.000])
+											{
+												translate(v=[-4.000, 0.000, -10.000])
+												{
+													cube(size=[2.000, 10.000, 20.000], center=true);
+												}
+											}
+											translate(v=[-1.500, 0.000, -1.000])
+											{
+												cube(size=[7.000, 10.000, 2.000], center=true);
+											}
+										}
+									}
+								}
+							}
+						}
+					}
+					translate(v=[0.000, -75.000, 0.000])
+					{
+						rotate(a=[0.000, 0.000, 90.000])
+						{
+// ClickTabFull
+							union()
+							{
+								translate(v=[6.750, 0.000, 10.000])
+								{
+									rotate(a=[180.000, 0.000, 0.000])
+									{
+// Wedge
+										scale(v=[13.500, 10.000, 20.000])
+										{
+											rotate(a=[0.000, -45.000, 0.000])
+											{
+												intersection()
+												{
+													rotate(a=[0.000, 45.000, 0.000])
+													{
+														cube(size=[1.000, 1.000, 1.000], center=true);
+													}
+													translate(v=[0.000, 0.000, 5.000])
+													{
+														cube(size=[2000.000, 2000.000, 10.000], center=true);
+													}
+												}
+											}
+										}
+									}
+								}
+								translate(v=[10.000, 0.000, 0.000])
+								{
+// ClickTab
+									translate(v=[1.500, 0.000, 0.000])
+									{
+										union()
+										{
+											color(c=[0.000, 0.000, 1.000])
+											{
+												translate(v=[2.000, 0.000, -15.000])
+												{
+// Wedge
+													scale(v=[4.000, 10.000, 10.000])
+													{
+														rotate(a=[0.000, -45.000, 0.000])
+														{
+															intersection()
+															{
+																rotate(a=[0.000, 45.000, 0.000])
+																{
+																	cube(size=[1.000, 1.000, 1.000], center=true);
+																}
+																translate(v=[0.000, 0.000, 5.000])
+																{
+																	cube(size=[2000.000, 2000.000, 10.000], center=true);
+																}
+															}
+														}
+													}
+												}
+											}
+											color(c=[0.000, 1.000, 0.000])
+											{
+												translate(v=[1.000, 0.000, -5.000])
+												{
+													cube(size=[2.000, 10.000, 10.000], center=true);
+												}
+											}
+											color(c=[0.000, 1.000, 0.000])
+											{
+												translate(v=[-4.000, 0.000, -10.000])
+												{
+													cube(size=[2.000, 10.000, 20.000], center=true);
+												}
+											}
+											translate(v=[-1.500, 0.000, -1.000])
+											{
+												cube(size=[7.000, 10.000, 2.000], center=true);
+											}
+										}
 									}
 								}
 							}
@@ -114,13 +311,109 @@ difference()
 			}
 		}
 	}
-	translate(v=[-10.000, 0.000, 0.000])
+	translate(v=[50.000, 0.000, 24.000])
 	{
-		translate(v=[0.000, 0.000, -27.500])
+		rotate(a=[0.000, 0.000, 180.000])
 		{
-			rotate(a=[90.000, 0.000, 0.000])
+			color(c=[0.000, 0.000, 1.000])
 			{
-				cylinder(162.000, 50.000, 50.000, true);
+				translate(v=[3.000, 0.000, 12.000])
+				{
+					rotate(a=[180.000, 0.000, 0.000])
+					{
+// Wedge
+						scale(v=[6.000, 100.000, 12.000])
+						{
+							rotate(a=[0.000, -45.000, 0.000])
+							{
+								intersection()
+								{
+									rotate(a=[0.000, 45.000, 0.000])
+									{
+										cube(size=[1.000, 1.000, 1.000], center=true);
+									}
+									translate(v=[0.000, 0.000, 5.000])
+									{
+										cube(size=[2000.000, 2000.000, 10.000], center=true);
+									}
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+	translate(v=[0.000, -76.000, 0.000])
+	{
+		rotate(a=[0.000, 0.000, 90.000])
+		{
+			translate(v=[0.000, 0.000, 24.000])
+			{
+				color(c=[0.000, 0.000, 1.000])
+				{
+					translate(v=[3.000, 0.000, 12.000])
+					{
+						rotate(a=[180.000, 0.000, 0.000])
+						{
+// Wedge
+							scale(v=[6.000, 50.000, 12.000])
+							{
+								rotate(a=[0.000, -45.000, 0.000])
+								{
+									intersection()
+									{
+										rotate(a=[0.000, 45.000, 0.000])
+										{
+											cube(size=[1.000, 1.000, 1.000], center=true);
+										}
+										translate(v=[0.000, 0.000, 5.000])
+										{
+											cube(size=[2000.000, 2000.000, 10.000], center=true);
+										}
+									}
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+// SupportSide2
+	translate(v=[0.000, 76.000, 0.000])
+	{
+		rotate(a=[0.000, 0.000, -90.000])
+		{
+			translate(v=[0.000, 0.000, 24.000])
+			{
+				color(c=[0.000, 0.000, 1.000])
+				{
+					translate(v=[3.000, 0.000, 12.000])
+					{
+						rotate(a=[180.000, 0.000, 0.000])
+						{
+// Wedge
+							scale(v=[6.000, 50.000, 12.000])
+							{
+								rotate(a=[0.000, -45.000, 0.000])
+								{
+									intersection()
+									{
+										rotate(a=[0.000, 45.000, 0.000])
+										{
+											cube(size=[1.000, 1.000, 1.000], center=true);
+										}
+										translate(v=[0.000, 0.000, 5.000])
+										{
+											cube(size=[2000.000, 2000.000, 10.000], center=true);
+										}
+									}
+								}
+							}
+						}
+					}
+				}
 			}
 		}
 	}

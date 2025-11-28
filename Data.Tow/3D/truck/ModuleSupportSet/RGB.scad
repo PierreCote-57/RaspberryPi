@@ -3,10 +3,10 @@ $fa=1.000;
 $fn=36.000;
 
 
-// Humiture
+// RGB
 translate(v=[-10.000, -10.000, -2.000])
 {
-// Humiture
+// RGB
 	union()
 	{
 		translate(v=[2.500, 2.500, 0.000])
