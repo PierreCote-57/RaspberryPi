@@ -1,0 +1,59 @@
+$fs = 1.000;
+$fa=1.000;
+$fn=36.000;
+
+
+// Display/Display-Green
+color([0.000, 1.000, 0.000])
+{
+	translate(v=[0.000, 0.000, 2.600])
+	{
+		union()
+		{
+			difference()
+			{
+				translate(v=[0.000, 0.000, 0.000])
+				{
+					minkowski()
+					{
+						cube(size=[95.000, 44.000, 0.200], center=true);
+						rotate(a=[0.000, 0.000, 90.000])
+						{
+							cylinder(0.010, 3.000, 3.000, false);
+						}
+					}
+				}
+				translate(v=[0.000, 0.000, 0.000])
+				{
+					minkowski()
+					{
+						cube(size=[93.500, 42.500, 0.300], center=true);
+						rotate(a=[0.000, 0.000, 90.000])
+						{
+							cylinder(0.010, 3.000, 3.000, false);
+						}
+					}
+				}
+			}
+			translate(v=[0.000, 27.500, 0.000])
+			{
+				translate(v=[0.000, 0.000, -0.100])
+				{
+					linear_extrude(height=0.200, center=false, scale=[1.000, 1.000])
+					{
+						text(text="Display", size=8.000, , font="LiberationSans:style=Bold", , halign="center", , valign="center");
+					}
+				}
+			}
+		}
+	}
+}
+
+
+// ***** Module MyModules.scad
+use </Users/pierrecote/src/aws/LogicielCote.COM/RetiredServer/out/production/resources/scad/MyModules.scad>
+
+// ***** Module Thread_Library.scad
+use </Users/pierrecote/src/aws/LogicielCote.COM/RetiredServer/out/production/resources/scad/Screw_Library/Thread_Library.scad>
+
+
