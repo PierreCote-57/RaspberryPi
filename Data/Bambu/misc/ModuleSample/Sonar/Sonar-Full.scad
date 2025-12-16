@@ -27,7 +27,7 @@ union()
 								{
 									translate(v=[0.000, 0.000, 2.500])
 									{
-										cylinder(5.100, 3.100, 3.100, true, $fn=6);
+										cylinder(5.100, 2.950, 2.950, true, $fn=6);
 									}
 								}
 								color([1.000, 0.000, 0.000])
@@ -50,7 +50,7 @@ union()
 								{
 									translate(v=[0.000, 0.000, 2.500])
 									{
-										cylinder(5.100, 3.100, 3.100, true, $fn=6);
+										cylinder(5.100, 2.950, 2.950, true, $fn=6);
 									}
 								}
 								color([1.000, 0.000, 0.000])
@@ -73,7 +73,7 @@ union()
 								{
 									translate(v=[0.000, 0.000, 2.500])
 									{
-										cylinder(5.100, 3.100, 3.100, true, $fn=6);
+										cylinder(5.100, 2.950, 2.950, true, $fn=6);
 									}
 								}
 								color([1.000, 0.000, 0.000])
@@ -96,7 +96,7 @@ union()
 								{
 									translate(v=[0.000, 0.000, 2.500])
 									{
-										cylinder(5.100, 3.100, 3.100, true, $fn=6);
+										cylinder(5.100, 2.950, 2.950, true, $fn=6);
 									}
 								}
 								color([1.000, 0.000, 0.000])
@@ -112,6 +112,85 @@ union()
 				}
 			}
 			translate(v=[0.000, 0.000, 2.600])
+			{
+				union()
+				{
+					union()
+					{
+						difference()
+						{
+							translate(v=[0.000, 0.000, 0.000])
+							{
+								minkowski()
+								{
+									cube(size=[42.000, 17.000, 0.200], center=true);
+									rotate(a=[0.000, 0.000, 90.000])
+									{
+										cylinder(0.010, 3.000, 3.000, false);
+									}
+								}
+							}
+							translate(v=[0.000, 0.000, 0.000])
+							{
+								minkowski()
+								{
+									cube(size=[40.500, 15.500, 0.300], center=true);
+									rotate(a=[0.000, 0.000, 90.000])
+									{
+										cylinder(0.010, 3.000, 3.000, false);
+									}
+								}
+							}
+						}
+						translate(v=[23.500, 0.000, 10.000])
+						{
+							rotate(a=[0.000, 0.000, 180.000])
+							{
+								difference()
+								{
+									translate(v=[0.250, 0.000, 0.000])
+									{
+										cube(size=[4.500, 8.000, 20.000], center=true);
+									}
+									translate(v=[1.350, 0.000, 0.000])
+									{
+										cube(size=[2.500, 4.000, 40.000], center=true);
+									}
+								}
+							}
+						}
+						translate(v=[-23.500, 0.000, 10.000])
+						{
+							difference()
+							{
+								translate(v=[0.250, 0.000, 0.000])
+								{
+									cube(size=[4.500, 6.000, 20.000], center=true);
+								}
+								translate(v=[1.350, 0.000, 0.000])
+								{
+									cube(size=[2.500, 2.000, 40.000], center=true);
+								}
+							}
+						}
+					}
+					translate(v=[0.000, 0.000, -0.100])
+					{
+						linear_extrude(height=0.200, center=false, scale=[1.000, 1.000])
+						{
+							text(text="Sonar", size=8.000, , font="LiberationSans:style=Bold", , halign="center", , valign="center");
+						}
+					}
+				}
+			}
+		}
+	}
+// Sonar/Sonar-Green
+	color([0.000, 1.000, 0.000])
+	{
+		translate(v=[0.000, 0.000, 2.600])
+		{
+			union()
 			{
 				union()
 				{
@@ -172,70 +251,11 @@ union()
 						}
 					}
 				}
-			}
-		}
-	}
-// Sonar/Sonar-Green
-	color([0.000, 1.000, 0.000])
-	{
-		translate(v=[0.000, 0.000, 2.600])
-		{
-			union()
-			{
-				difference()
+				translate(v=[0.000, 0.000, -0.100])
 				{
-					translate(v=[0.000, 0.000, 0.000])
+					linear_extrude(height=0.200, center=false, scale=[1.000, 1.000])
 					{
-						minkowski()
-						{
-							cube(size=[42.000, 17.000, 0.200], center=true);
-							rotate(a=[0.000, 0.000, 90.000])
-							{
-								cylinder(0.010, 3.000, 3.000, false);
-							}
-						}
-					}
-					translate(v=[0.000, 0.000, 0.000])
-					{
-						minkowski()
-						{
-							cube(size=[40.500, 15.500, 0.300], center=true);
-							rotate(a=[0.000, 0.000, 90.000])
-							{
-								cylinder(0.010, 3.000, 3.000, false);
-							}
-						}
-					}
-				}
-				translate(v=[23.500, 0.000, 10.000])
-				{
-					rotate(a=[0.000, 0.000, 180.000])
-					{
-						difference()
-						{
-							translate(v=[0.250, 0.000, 0.000])
-							{
-								cube(size=[4.500, 8.000, 20.000], center=true);
-							}
-							translate(v=[1.350, 0.000, 0.000])
-							{
-								cube(size=[2.500, 4.000, 40.000], center=true);
-							}
-						}
-					}
-				}
-				translate(v=[-23.500, 0.000, 10.000])
-				{
-					difference()
-					{
-						translate(v=[0.250, 0.000, 0.000])
-						{
-							cube(size=[4.500, 6.000, 20.000], center=true);
-						}
-						translate(v=[1.350, 0.000, 0.000])
-						{
-							cube(size=[2.500, 2.000, 40.000], center=true);
-						}
+						text(text="Sonar", size=8.000, , font="LiberationSans:style=Bold", , halign="center", , valign="center");
 					}
 				}
 			}
@@ -247,7 +267,13 @@ union()
 // ***** Module MyModules.scad
 use </Users/pierrecote/src/aws/LogicielCote.COM/RetiredServer/out/production/resources/scad/MyModules.scad>
 
-// ***** Module Thread_Library.scad
-use </Users/pierrecote/src/aws/LogicielCote.COM/RetiredServer/out/production/resources/scad/Screw_Library/Thread_Library.scad>
+// ***** Module OpenScad.BOSL2/gears
+use <BOSL2/gears.scad>
+
+// ***** Module OpenScad.BOSL2/std
+use <BOSL2/std.scad>
+
+// ***** Module OpenScad.BOSL2/thread
+use <BOSL2/thread.scad>
 
 

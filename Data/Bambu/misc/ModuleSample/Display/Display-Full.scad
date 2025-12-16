@@ -27,7 +27,7 @@ union()
 								{
 									translate(v=[0.000, 0.000, 2.500])
 									{
-										cylinder(5.100, 3.100, 3.100, true, $fn=6);
+										cylinder(5.100, 2.950, 2.950, true, $fn=6);
 									}
 								}
 								color([1.000, 0.000, 0.000])
@@ -50,7 +50,7 @@ union()
 								{
 									translate(v=[0.000, 0.000, 2.500])
 									{
-										cylinder(5.100, 3.100, 3.100, true, $fn=6);
+										cylinder(5.100, 2.950, 2.950, true, $fn=6);
 									}
 								}
 								color([1.000, 0.000, 0.000])
@@ -73,7 +73,7 @@ union()
 								{
 									translate(v=[0.000, 0.000, 2.500])
 									{
-										cylinder(5.100, 3.100, 3.100, true, $fn=6);
+										cylinder(5.100, 2.950, 2.950, true, $fn=6);
 									}
 								}
 								color([1.000, 0.000, 0.000])
@@ -96,7 +96,7 @@ union()
 								{
 									translate(v=[0.000, 0.000, 2.500])
 									{
-										cylinder(5.100, 3.100, 3.100, true, $fn=6);
+										cylinder(5.100, 2.950, 2.950, true, $fn=6);
 									}
 								}
 								color([1.000, 0.000, 0.000])
@@ -206,7 +206,13 @@ union()
 // ***** Module MyModules.scad
 use </Users/pierrecote/src/aws/LogicielCote.COM/RetiredServer/out/production/resources/scad/MyModules.scad>
 
-// ***** Module Thread_Library.scad
-use </Users/pierrecote/src/aws/LogicielCote.COM/RetiredServer/out/production/resources/scad/Screw_Library/Thread_Library.scad>
+// ***** Module OpenScad.BOSL2/gears
+use <BOSL2/gears.scad>
+
+// ***** Module OpenScad.BOSL2/std
+use <BOSL2/std.scad>
+
+// ***** Module OpenScad.BOSL2/thread
+use <BOSL2/thread.scad>
 
 

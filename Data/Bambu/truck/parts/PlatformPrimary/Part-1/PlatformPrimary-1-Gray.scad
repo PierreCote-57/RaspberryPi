@@ -848,7 +848,7 @@ intersection()
 							{
 								union()
 								{
-									translate(v=[-20.000, 0.000, 0.000])
+									translate(v=[-15.000, 0.000, 0.000])
 									{
 // Post
 										union()
@@ -947,7 +947,7 @@ intersection()
 											}
 										}
 									}
-									translate(v=[30.000, -30.000, 0.000])
+									translate(v=[24.000, -40.000, 0.000])
 									{
 // Post
 										union()
@@ -1046,7 +1046,7 @@ intersection()
 											}
 										}
 									}
-									translate(v=[30.000, 30.000, 0.000])
+									translate(v=[23.000, 40.000, 0.000])
 									{
 // Post
 										union()
@@ -2445,7 +2445,7 @@ intersection()
 							{
 								union()
 								{
-									translate(v=[-20.000, 0.000, 0.000])
+									translate(v=[-15.000, 0.000, 0.000])
 									{
 // Post
 										union()
@@ -2544,7 +2544,7 @@ intersection()
 											}
 										}
 									}
-									translate(v=[30.000, -30.000, 0.000])
+									translate(v=[24.000, -40.000, 0.000])
 									{
 // Post
 										union()
@@ -2643,7 +2643,7 @@ intersection()
 											}
 										}
 									}
-									translate(v=[30.000, 30.000, 0.000])
+									translate(v=[23.000, 40.000, 0.000])
 									{
 // Post
 										union()
@@ -3354,6 +3354,12 @@ intersection()
 
 // ***** Module MyModules.scad
 use </Users/pierrecote/src/aws/LogicielCote.COM/RetiredServer/out/production/resources/scad/MyModules.scad>
+
+// ***** Module OpenScad.BOSL2/gears
+use <BOSL2/gears.scad>
+
+// ***** Module OpenScad.BOSL2/std
+use <BOSL2/std.scad>
 
 // ***** Module Thread_Library.scad
 use </Users/pierrecote/src/aws/LogicielCote.COM/RetiredServer/out/production/resources/scad/Screw_Library/Thread_Library.scad>
